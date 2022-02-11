@@ -44,16 +44,21 @@ def cli(d):
 
 the = cli(about)
 
-#-------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 anywhere = lambda a: random.randint(0, len(a)-1)
 big      = sys.maxsize
 first    = lambda a: a[0]
 r        = random.random
 second   = lambda a: a[1]
 
-#-------------------------------------------------------------------------------
+def file(f):
+  with open(f) as fp:
+    for line in fp: 
+      line = re.sub(r'([\n\t\r"\' ]|#.*)', '', line)
+      if line:
+        yield [atom(cell.strip()) for cell in line.split(",")]
 
-class Range(o):
+class Range(o):
   def __init__(i,col,lo,hi,b,B,r,R):
     i.col, i.lo, i.hi, i.b, i.B, i.r, i.R = col, lo, hi, b, B, r, B
 
@@ -149,10 +154,10 @@ class Sym(Col):
   def div(i): return sum( -v/i.n*math.log(v/i.n,2) for v in i.has.values() )
 
   def ranges(i,j, all):
-    for x,b in i.has.items(): all += [Range(i, x, x, b, i.n, j.has.get(x,0), j.n)]
-    for x,b in j.has.items(): all += [Range(j, x, x, b, j.n, i.has.get(x,0), i.n)]
+    for x,b in i.has.items(): all += [Range(i,x,x, b,i.n, j.has.get(x,0), j.n)]
+    for x,b in j.has.items(): all += [Range(j,x,x, b,j.n, i.has.get(x,0), i.n)]
   
-class Sample(Col):
+class Sample(Col):
   def __init__(i,inits=[]): 
     i.rows, i.cols, i.x, i.y = [], [], [], []
     if str ==type(inits): [i + row for row in file(inits)]
@@ -198,19 +203,12 @@ class Sample(Col):
     _,x  = top.far(w, some)
     c,y  = top.far(x, some)
     left, right = i.clone(), i.clone()
-    for n,(_,r) in enumerate(sorted([top.proj(r,x,y,c) for r in i.rows],key=first)):
+    for n,(_,r) in enumerate(
+                     sorted([top.proj(r,x,y,c) for r in i.rows],key=first)):
       (left if n <= len(i.rows)//2 else right).__add__(r) 
     return left,right
 
-#-------------------------------------------------------------------------------
-def file(f):
-  with open(f) as fp:
-    for line in fp: 
-      line = re.sub(r'([\n\t\r"\' ]|#.*)', '', line)
-      if line:
-        yield [atom(cell.strip()) for cell in line.split(",")]
-
-def eg(x): 
+def eg(x): 
   if (not the.todo or (the.todo and x.startswith(the.todo))):
     random.seed(the.seed)
     Egs.__dict__[x]()
