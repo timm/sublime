@@ -2,65 +2,130 @@
 # vim: ts=2 sw=2 sts=2 et :
 # python3 sublime.py
 # (c) 2022, Tim Menzies, unlicense.org",
+"""
+./sublime.py [OPTIONS]
+(c)2022 Tim Menzies unlicense.org
 
+OPTIONS:
+  -Max     max numbers to keep            = 512
+  -Some    find `far` in this many egs    = 512
+  -data    data file                      = ../data/auto93.csv
+  -help    show help                      = False
+  -far     ihow far to look within `Some` = .9
+  -p       distance function coefficient  = 2
+  -seed    random number seed             = 10019
+  -todo    start up task                  = nothing
+  -xsmall  Cohen's small effect           = .35
+"""
 import re,sys,random
 
-about = dict(
-    Max        = 64,
-    Xchop      = .5,
-    best       = 0.5,
-    data       = "../data/auto93.csv",
-    far        = .9,
-    k          = 1,
-    lives      = 128,
-    m          = 2,
-    p          = 2,
-    rowsamples = 64,
-    seed       = 10013,
-    Some       = 512,
-    todo       = "nothing",
-    verbose    = False,
-    xsmall     = .35
-)
+# This is free and unencumbered software released into the public domain.
+#
+# Anyone is free to copy, modify, publish, use, compile, sell, or
+# distribute this software, either in source code form or as a compiled
+# binary, for any purpose, commercial or non-commercial, and by any
+# means.
+#
+# In jurisdictions that recognize copyright laws, the author or authors
+# of this software dedicate any and all copyright interest in the
+# software to the public domain. We make this dedication for the benefit
+# of the public at large and to the detriment of our heirs and
+# successors. We intend this dedication to be an overt act of
+# relinquishment in perpetuity of all present and future rights to this
+# software under copyright law.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+# IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+# OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+# ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+# OTHER DEALINGS IN THE SOFTWARE.
+#
+# For more information, please refer to <http://unlicense.org/>
 
-class o(object):
-  def __init__(i, **d): i.__dict__.update(**d)
-  def __repr__(i): return i.__class__.__name__+str(
-      {k: v for k, v in sorted(i.__dict__.items()) if str(k)[0] != "_"})
-
-def atom(x):
-  try: return int(x)
-  except:
-    try: return float(x)
-    except: return x.strip()
-  
-def cli(d):
-  for pos,flag in enumerate(sys.argv):
-    if flag and flag[0]=="-":
-      for k,x in d.items():
-        if k.startswith(flag[1:]):
-          d[k]= 0 if x==1 else (1 if x==0 else atom(sys.argv[pos+1]))
-  return o(**d)
-
-the = cli(about)
-
-#-------------------------------------------------------------------------------
-anywhere = lambda a: random.randint(0, len(a)-1)
-big      = sys.maxsize
-first    = lambda a: a[0]
+#  ___              __        
+# /\_ \      __    /\ \       
+# \//\ \    /\_\   \ \ \____  
+#   \ \ \   \/\ \   \ \ '__`\ 
+#    \_\ \_  \ \ \   \ \ \L\ \
+#    /\____\  \ \_\   \ \_,__/
+#    \/____/   \/_/    \/___/ 
+#------------------------------------------------------------------------------  
+                            
+# randoms stuff
 r        = random.random
+anywhere = lambda a: random.randint(0, len(a)-1)
+
+# useful constants
+big      = sys.maxsize
+
+# list membership
+first    = lambda a: a[0]
 second   = lambda a: a[1]
 
+def atom(x):
+  "Return a number or trimmed string."
+  x=x.strip()
+  if   x=="True" : return True
+  elif x=="False": return False
+  else: 
+    try: return int(x)
+    except:
+      try: return float(x)
+      except: return x.strip()
+  
+def options(doc):
+  d={}
+  for line in doc.splitlines():
+    if line and line.startswith("  -"):
+       key, *_, x = line[3:].split(" ")
+       for j,flag in enumerate(sys.argv):
+         if flag and flag[0]=="-" and key.startswith(flag[1:]):
+           x= "True" if x=="False" else("False" if x=="True" else sys.argv[j+1])
+       d[key] = atom(x)
+  if d["help"]: exit(print(doc))
+  return o(**d)
+
+def demo(want,one,all): 
+  "Maybe run a demo, if we want it, resetting random seed first."
+  if (not want or (want and one.startswith(want))):
+    random.seed(the.seed)
+    all.__dict__[one]()
+
 def file(f):
+  "Iterator. Returns one row at a time, as cells."
   with open(f) as fp:
     for line in fp: 
       line = re.sub(r'([\n\t\r"\' ]|#.*)', '', line)
       if line:
         yield [atom(cell.strip()) for cell in line.split(",")]
 
-class Range(o):
-  def __init__(i,col,lo,hi,b,B,r,R):
-    i.col, i.lo, i.hi, i.b, i.B, i.r, i.R = col, lo, hi, b, B, r, B
+class o(object):
+  "Class that can pretty print its slots, with fast init."
+  def __init__(i, **d): i.__dict__.update(**d)
+  def __repr__(i): return i.__class__.__name__+str(
+      {k: v for k, v in sorted(i.__dict__.items()) if str(k)[0] != "_"})
+
+the = options(__doc__)
+#          ___                                                
+#         /\_ \                                               
+#   ___   \//\ \       __       ____    ____     __     ____  
+#  /'___\   \ \ \    /'__`\    /',__\  /',__\  /'__`\  /',__\ 
+# /\ \__/    \_\ \_ /\ \L\.\_ /\__, `\/\__, `\/\  __/ /\__, `\
+# \ \____\   /\____\\ \__/.\_\\/\____/\/\____/\ \____\\/\____/
+#  \/____/   \/____/ \/__/\/_/ \/___/  \/___/  \/____/ \/___/ 
+#-------------------------------------------------------------------------------
+class Range(o):
+  def __init__(i,col=None,lo=None,hi=None):
+    i.col, i.xlo, i.xhi, i.yhas = col, lo, hi, Sym()
+
+  def __add__(i,x,y):
+    if x != "?":
+      i.lo = min(x,i.lo)
+      i.hi = max(x,i.hi)
+      i.yhas + y
+    return x
 
   def merge(i,j):
     lo  = math.min(i.lo, j.lo)   
@@ -151,13 +216,23 @@ class Sym(Col):
   def dist(i,x,y): return 0 if x==y else 1
 
   def mid(i): return i.mode
-  def div(i): return sum( -v/i.n*math.log(v/i.n,2) for v in i.has.values() )
+  def div(i): 
+    p=lambda x: x/i.n
+    return sum( -p(x)*math.log(p(x),2) for x in i.has.values() )
 
   def ranges(i,j, all):
     for x,b in i.has.items(): all += [Range(i,x,x, b,i.n, j.has.get(x,0), j.n)]
     for x,b in j.has.items(): all += [Range(j,x,x, b,j.n, i.has.get(x,0), i.n)]
-  
-class Sample(Col):
+
+
+
+
+
+
+
+
+#-------------------------------------------------------------------------------
+class Sample(Col):
   def __init__(i,inits=[]): 
     i.rows, i.cols, i.x, i.y = [], [], [], []
     if str ==type(inits): [i + row for row in file(inits)]
@@ -207,13 +282,15 @@ class Sym(Col):
                      sorted([top.proj(r,x,y,c) for r in i.rows],key=first)):
       (left if n <= len(i.rows)//2 else right).__add__(r) 
     return left,right
-
-def eg(x): 
-  if (not the.todo or (the.todo and x.startswith(the.todo))):
-    random.seed(the.seed)
-    Egs.__dict__[x]()
-
-class Egs:
+#   _
+#  /\ \                                         
+#  \_\ \      __     ___ ___      ___     ____  
+#  /'_` \   /'__`\ /' __` __`\   / __`\  /',__\ 
+# /\ \L\ \ /\  __/ /\ \/\ \/\ \ /\ \L\ \/\__, `\
+# \ \___,_\\ \____\\ \_\ \_\ \_\\ \____/\/\____/
+#  \/__,_ / \/____/ \/_/\/_/\/_/ \/___/  \/___/ 
+#------------------------------------------------------------------------------
+class Demos:
   def num(): 
     n=Num()
     for i in range(10000): n + i
@@ -249,4 +326,5 @@ class Egs:
     print(s1.mid(s1.y))
     print(s2.mid(s2.y))
 
-if __name__ == "__main__": [eg(m) for m in dir(Egs)]
+if __name__ == "__main__": 
+  for one in dir(Demos): demo(the.todo,one,Demos)
