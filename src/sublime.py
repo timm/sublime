@@ -40,6 +40,7 @@ OPTIONS:
     -Max    max numbers to keep         : 512  
     -Some   find `far` in this many egs : 512  
     -data   data file                   : ../data/auto93.csv   
+    -enough min leaf size               : .5
     -help   show help                   : False  
     -far    how far to look in `Some`   : .9  
     -p      distance coefficient        : 2  
@@ -121,6 +122,18 @@ def file(f):
       if line:
         yield [atom(cell.strip()) for cell in line.split(",")]
 
+def merge(b4):
+  j,n,tmp = -1,len(b4),[]
+  while j < n-1:
+    j += 1
+    a = b4[j]
+    if j < n-2:
+      if b := a.merge(b4[j+1]):
+        a = b
+        j += 1
+    tmp += [a]
+  return b4 if len(b4)==len(all) else merge(tmp)  
+
 class o(object):
   "Class that can pretty print its slots, with fast init."
   def __init__(i, **d): i.__dict__.update(**d)
@@ -152,37 +165,31 @@ the = options(__doc__)
 #  \/____/   \/____/ \/__/\/_/ \/___/  \/___/  \/____/ \/___/ 
 #-------------------------------------------------------------------------------
 
-class Range(o):
+class Span(o):
   "Track the `y` symbols seen in the range `lo` to `hi`."
-  def __init__(i,col=None,lo=None,hi=None):
-    i.col, i.xlo, i.xhi, i.yhas = col, lo, hi, Sym()
+  def __init__(i,col, lo, hi, ys=None,):
+    i.col, i.lo, i.hi, i.B, i.R, i.ys = col, lo, hi,  ys or Sym()
 
-  def __add__(i,x,y):
-    if x != "?":
-      i.lo = min(x,i.lo)
-      i.hi = max(x,i.hi)
-      i.yhas + y
-    return x
+  def add(i,x,y, inc=1):
+    i.lo = min(x,i.lo)
+    i.hi = max(x,i.hi)
+    i.ys.add(y,inc)
 
-  def merge(i,j):
-    lo  = math.min(i.lo, j.lo)   
-    hi  = math.max(i.hi, j.hi)
-    z   = 1E-31
-    B,R = i.B+z, i.R+z
-    k   = Range(i.col, lo, hi, i.b+j.b, i.B, i.r+j.r, j.R)   
-    if k.b/B < .01 or k.r/R < .01             : return k
-    if k.val() > i.val() and k.val() > j.val(): return k
+  def __lt__(i,j):
+    s1, e1 = i.ys.n / i.col.n, i.ys.div()
+    s2, s2 = j.ys.n / j.col.n, j.ys.div()
+    return ((1 - s1)**2 + e1**2)**.5 < ((1 - s2)**2 + e2**2)**.5
 
-  def __lt__(i,j): return i.val() < j.val() 
+  def merge(i,j): 
+    a, b, c = i.ys, j.ys, i.ys.merge(j.ys)
+    if c.div()*.99 <= (a.n*a.div() + b.n*b.div())/(a.n + b.n): 
+      return Span(i.col, min(i.lo,j.lo),max(i.hi,j.hi), ys=c) 
 
   def __repr__(i):
     if i.lo == i.hi: return f"{i.col.txt} == {i.lo}"
     if i.lo == -big: return f"{i.col.txt} == {i.hi}"
     if i.hi ==  big: return f"{i.col.txt} >= {i.lo}"
     return f"{i.lo} <= {i.col.txt} < {i.hi}"
-
-  def val(i):
-    z=1E-31; B,R = i.B+z, i.R+z; return (i.b/B)**2/( i.b/B + i.r/R) 
 
   def selects(i,row):
     x = row[col.at]; return x=="?" or i.lo<=x and x<i.hi 
@@ -192,10 +199,8 @@ class Col(o):
   def __init__(i,at=0,txt=""): 
     i.n,i.at,i.txt,i.w=0,at,txt,(-1 if "<" in txt else 1)
 
-  def __add__(i,x,inc=1): 
-    if x !="?": i.n += inc; i.add(x,inc)
-    return x
-  def dist(i,x,y): return 1 if x=="?" and y=="?" else i.dist1(x,y)
+  def dist(i,x,y): 
+    return 1 if x=="?" and y=="?" else i.dist1(x,y)
     
 class Num(Col):
   "Summarize numeric columns."
@@ -204,10 +209,13 @@ class Num(Col):
     i._all, i.lo, i.hi, i.max, i.ok = [], 1E32, -1E32, the.Max, False
 
   def add(i,x,_):
-    i.lo = min(x,i.lo)
-    i.hi = max(x,i.hi)
-    if len(i._all) < i.max    : i.ok=False; i._all += [x]
-    elif r()       < i.max/i.n: i.ok=False; i._all[anywhere(i._all)] = x 
+    if x != "?":
+      i.n += 1
+      i.lo = min(x,i.lo)
+      i.hi = max(x,i.hi)
+      if len(i._all) < i.max    : i.ok=False; i._all += [x]
+      elif r()       < i.max/i.n: i.ok=False; i._all[anywhere(i._all)] = x 
+    return x
 
   def all(i):
     if not i.ok: i.ok=True; i._all.sort()
@@ -219,6 +227,12 @@ class Num(Col):
   def mid(i): return i.per(.5)
   def div(i): return (i.per(.9) - i.per(.1)) / 2.56
 
+  def merge(i,j):
+    k = Num(at=i.at, txt=i.txt)
+    for x in i._all: k.add(x)
+    for x in j._all: k.add(x)
+    return k
+
   def norm(i,x):
     return 0 if i.hi-i.lo < 1E-9 else (x-i.lo)/(i.hi-i.lo)
 
@@ -228,22 +242,20 @@ class Num(Col):
     else       : x,y = i.norm(x), i.norm(y)
     return abs(x-y)
 
-  def ranges(i,j, all):
-    # def merge(b4):
-    #   j,n = -1,len(b4)
-    #   while j < n:
-    #     j += 1
-    #     a = b4[j]
-    #     if j< n-1:
-    #       b=b4[j+1]
+  def spans(i,j, all):
     lo  = min(i.lo, j.lo)
     hi  = max(i.hi, j.hi)
     gap = (hi-lo) / (6/the.xsmall)
     at  = lambda z: lo + int((z-lo)/gap)*gap 
-    all = {}
-    for x in map(at, i._all): s=all[x]=(all[x] if x in all else Sym()); s.add(1)
-    for x in map(at, j._all): s=all[x]=(all[x] if x in all else Sym()); s.add(0)
-    all = merge(sorted(all.items(),key=first))
+    tmp = {}
+    for x in map(at, i._all): 
+      s = tmp[x] = tmp[x] if x in tmp else Span(i,x,x+gap)
+      s.add(x,0)
+    for x in map(at, j._all): 
+      s = tmp[x] = tmp[x] if x in tmp else Span(i,x,x+gap)
+      s.add(x,1)
+    tmp = merge([x for _,x in sorted(tmp.items(),key=first)])
+    if len(tmp) > 1 : all + tmp
 
 class Sym(Col):
   "Summarize symbolic columns."
@@ -252,19 +264,36 @@ class Sym(Col):
     i.has, i.mode, i.most = {}, None, 0
 
   def add(i,x,inc):
-    tmp = i.has[x] = inc + i.has.get(x,0)
-    if tmp > i.most: i.most, i.mode = tmp, x
+    if x != "?":
+      i.n += inc
+      tmp = i.has[x] = inc + i.has.get(x,0)
+      if tmp > i.most: i.most, i.mode = tmp, x
+    return x
 
   def dist(i,x,y): return 0 if x==y else 1
 
-  def mid(i): return i.mode
   def div(i): 
-    p=lambda x: x/i.n
+    p = lambda x: x/i.n
     return sum( -p(x)*math.log(p(x),2) for x in i.has.values() )
 
-  def ranges(i,j, all):
-    for x,b in i.has.items(): all += [Range(i,x,x, b,i.n, j.has.get(x,0), j.n)]
-    for x,b in j.has.items(): all += [Range(j,x,x, b,j.n, i.has.get(x,0), i.n)]
+  def mid(i): return i.mode
+
+  def merge(i,j):
+    k = Sym(at=i.at, txt=i.txt)
+    for k,n in i.has.items(): k.add(x,n)
+    for k,n in j.has.items(): k.add(x,n)
+    return k
+
+  def spans(i,j, all):
+    tmp = {}
+    for x,n in i.has.items(): 
+      s = tmp[x] = (tmp[x] if x in tmp else Span(i,x,x))
+      s.add(x,0,n)
+    for x,n in j.has.items(): 
+      s = tmp[x] = (tmp[x] if x in tmp else Span(i,x,x))
+      s.add(x,1,n)
+    tmp = [second(x) for x in sorted(tmp.items(), key=first)]
+    if len(tmp) > 1 : all + tmp
 
 
 
@@ -290,7 +319,7 @@ class Sample(o):
       if txt[-1] != ":": where += [now]
       return now
     #----------- 
-    if i.cols: i.rows += [[col + a[col.at] for col in i.cols]]
+    if i.cols: i.rows += [[col.add(a[col.at]) for col in i.cols]]
     else:      i.cols  = [col(at,txt) for at,txt in enumerate(a)]
 
   def mid(i,cols=None): return [col.mid() for col in (cols or i.all)]
@@ -326,6 +355,21 @@ class Sample(o):
                      sorted([top.proj(r,x,y,c) for r in i.rows],key=first)):
       (left if n <= len(i.rows)//2 else right).__add__(r) 
     return left,right
+
+  def split(i,top=None):
+    top = top or i
+    if len(i.rows) < 2*len(top.rows)**the.enough:
+      return i
+    left0, right0 = i.half(top)
+    spans = []
+    for lcol,rcol in zip(left0.x, right0.x):
+      lcol.spans(rcol,spans)
+    span = sorted(spans)[0]
+    left, right = i.clone(), i.clone()
+    for row in i.rows:
+      (left if span.selects(row) else right).add(row)
+    return o(here=i, when=span, left=left.split(top), right=right.split(top))
+      
 #   _
 #  /\ \                                         
 #  \_\ \      __     ___ ___      ___     ____  
@@ -339,12 +383,12 @@ class Demos:
   "Possible start-up actions."
   def num(): 
     n=Num()
-    for i in range(10000): n + i
+    for x in range(10000): n.add(x)
     print(sorted(n._all),n)
 
   def sym(): 
     s=Sym()
-    for i in range(10000): s + int(r()*20)
+    for x in range(10000): s.add( int(r()*20))
     print(s)
 
   def rows(): 
