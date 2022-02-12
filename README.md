@@ -1,4 +1,4 @@
-<img src="/etc/img/lime.png" align=right width=500>
+<img src="/etc/img/lime.png" align=right width=400>
 
 # Sublime
 Data miners using/used by optimizers
