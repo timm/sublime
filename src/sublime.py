@@ -1,9 +1,39 @@
 #!/usr/bin/env python3
 # vim: ts=2 sw=2 sts=2 et :
+
+#                 .        +          .      .          .
+#          .            _        .                    .
+#       ,              /;-._,-.____        ,-----.__
+#      ((        .    (_:#::_.:::. `-._   /:, /-._, `._,
+#       `                 \   _|`"=:_::.`.);  \ __/ /
+#                           ,    `./  \:. `.   )==-'  .
+#         .      ., ,-=-.  ,\, +#./`   \:.  / /           .
+#     .           \/:/`-' , ,\ '` ` `   ): , /_  -o
+#            .    /:+- - + +- : :- + + -:'  /(o-) \)     .
+#       .      ,=':  \    ` `/` ' , , ,:' `'--".--"---._/`7
+#        `.   (    \: \,-._` ` + '\, ,"   _,--._,---":.__/
+#                   \:  `  X` _| _,\/'   .-'
+#     .               ":._:`\____  /:'  /      .           .
+#                         \::.  :\/:'  /              +
+#        .                 `.:.  /:'  }      .
+#                .           ):_(:;   \           .
+#                           /:. _/ ,  |
+#                        . (|::.     ,`                  .
+#          .                |::.    {\
+#                           |::.\  \ `.
+#                           |:::(\    |
+#                   O       |:::/{ }  |                  (o
+#                    )  ___/#\::`/ (O "==._____   O, (O  /`
+#               ~~~w/w~"~~,\` `:/,-(~`"~~~~~~~~"~o~\~/~w|/~
+#     dew   ~~~~~~~~~~~~~~~~~~~~~~~\\W~~~~~~~~~~~~\|/~~
+
 """
 ./sublime.py [OPTIONS]  
-(c)2022 Tim Menzies unlicense.org  
-Look (a little) before you leap.    
+(c)2022 Tim Menzies, unlicense.org.    
+Look, a little, before you leap, a lot. Random projections
+for bi-clustering.  Iterative dichotomization using ranges
+that most distinguish sibling clusters. Repeat, recursively.
+Use results for various knowledge-level tasks.
 
 OPTIONS:  
 
@@ -17,6 +47,7 @@ OPTIONS:
     -todo   start up task               : nothing  
     -xsmall Cohen's small effect        : .35  
 """
+
 import re,sys,random
 
 # This is free and unencumbered software released into the public domain.
@@ -75,24 +106,12 @@ def atom(x):
       try: return float(x)
       except: return x.strip()
   
-def options(doc):
-  d={}
-  for line in doc.splitlines():
-    if line and line.startswith("    -"):
-       key, *_, x = line[5:].strip().split(" ") # find first last word on each line
-       for j,flag in enumerate(sys.argv):
-         if flag and flag[0]=="-" and key.startswith(flag[1:]):
-           x= "True" if x=="False" else("False" if x=="True" else sys.argv[j+1])
-       d[key] = atom(x)
-  print(d)
-  if d["help"]: exit(print(doc))
-  return o(**d)
-
-def demo(want,one,all): 
+def demo(want,all): 
   "Maybe run a demo, if we want it, resetting random seed first."
-  if (not want or (want and one.startswith(want))):
-    random.seed(the.seed)
-    all.__dict__[one]()
+  for one in dir(all):
+    if (not want or (want and one.startswith(want))):
+      random.seed(the.seed)
+      all.__dict__[one]()
 
 def file(f):
   "Iterator. Returns one row at a time, as cells."
@@ -110,6 +129,19 @@ class o(object):
     return pre+str(
       {k: v for k, v in sorted(i.__dict__.items()) if str(k)[0] != "_"})
 
+def options(doc):
+  "Convert __doc__ string to options directory."
+  d={}
+  for line in doc.splitlines():
+    if line and line.startswith("    -"):
+       key, *_, x = line.strip()[1:].split(" ") # get 1st,last word on each line
+       for j,flag in enumerate(sys.argv):
+         if flag and flag[0]=="-" and key.startswith(flag[1:]):
+           x= "True" if x=="False" else("False" if x=="True" else sys.argv[j+1])
+       d[key] = atom(x)
+  if d["help"]: exit(print(doc))
+  return o(**d)
+
 the = options(__doc__)
 #          ___                                                
 #         /\_ \                                               
@@ -119,7 +151,9 @@ the = options(__doc__)
 # \ \____\   /\____\\ \__/.\_\\/\____/\/\____/\ \____\\/\____/
 #  \/____/   \/____/ \/__/\/_/ \/___/  \/___/  \/____/ \/___/ 
 #-------------------------------------------------------------------------------
+
 class Range(o):
+  "Track the `y` symbols seen in the range `lo` to `hi`."
   def __init__(i,col=None,lo=None,hi=None):
     i.col, i.xlo, i.xhi, i.yhas = col, lo, hi, Sym()
 
@@ -154,13 +188,17 @@ class Range(o):
     x = row[col.at]; return x=="?" or i.lo<=x and x<i.hi 
 
 class Col(o):
-  def __init__(i,at=0,txt=""): i.n,i.at,i.txt,i.w = 0,at,txt,(-1 if "<" in txt else 1)
+  "Summarize columns."
+  def __init__(i,at=0,txt=""): 
+    i.n,i.at,i.txt,i.w=0,at,txt,(-1 if "<" in txt else 1)
+
   def __add__(i,x,inc=1): 
     if x !="?": i.n += inc; i.add(x,inc)
     return x
   def dist(i,x,y): return 1 if x=="?" and y=="?" else i.dist1(x,y)
     
 class Num(Col):
+  "Summarize numeric columns."
   def __init__(i,**kw):
     super().__init__(**kw)
     i._all, i.lo, i.hi, i.max, i.ok = [], 1E32, -1E32, the.Max, False
@@ -208,6 +246,7 @@ class Num(Col):
     all = merge(sorted(all.items(),key=first))
 
 class Sym(Col):
+  "Summarize symbolic columns."
   def __init__(i,**kw):
     super().__init__(**kw)
     i.has, i.mode, i.most = {}, None, 0
@@ -235,7 +274,9 @@ class Sym(Col):
 
 
 #-------------------------------------------------------------------------------
-class Sample(Col):
+
+class Sample(o):
+  "Load, then manage, a set of examples."
   def __init__(i,inits=[]): 
     i.rows, i.cols, i.x, i.y = [], [], [], []
     if str ==type(inits): [i + row for row in file(inits)]
@@ -265,8 +306,8 @@ class Sample(Col):
     d = sum( col.dist(x[col.at], y[col.at])**the.p for col in i.x )
     return (d/len(i.x)) ** (1/the.p)
 
-  def far(i, row1, rows=None):
-    tmp= sorted([(i.dist(row1,row2),row2) for row2 in (rows or i.rows)],key=first)
+  def far(i, x, rows=None):
+    tmp= sorted([(i.dist(x,y),y) for y in (rows or i.rows)],key=first)
     return tmp[ int(len(tmp)*the.far) ]
 
   def proj(i,row,x,y,c):
@@ -293,7 +334,9 @@ class Sample(Col):
 # \ \___,_\\ \____\\ \_\ \_\ \_\\ \____/\/\____/
 #  \/__,_ / \/____/ \/_/\/_/\/_/ \/___/  \/___/ 
 #------------------------------------------------------------------------------
+
 class Demos:
+  "Possible start-up actions."
   def num(): 
     n=Num()
     for i in range(10000): n + i
@@ -330,4 +373,4 @@ class Demos:
     print(s2.mid(s2.y))
 
 if __name__ == "__main__": 
-  for one in dir(Demos): demo(the.todo,one,Demos)
+  demo(the.todo,Demos)

@@ -17,7 +17,7 @@
             <input id="togglestate" type="checkbox" aria-hidden="true" tabindex="-1">
             <div>
 
-                        <img src="lime.png" class="logo" alt="project logo"/>
+                        <img src="https://raw.githubusercontent.com/timm/22/main/etc/img/lime.png" class="logo" alt="project logo"/>
 
 
 
@@ -37,9 +37,6 @@
                     <a class="function" href="#atom">atom</a>
             </li>
             <li>
-                    <a class="function" href="#options">options</a>
-            </li>
-            <li>
                     <a class="function" href="#demo">demo</a>
             </li>
             <li>
@@ -53,6 +50,9 @@
                         </li>
                 </ul>
 
+            </li>
+            <li>
+                    <a class="function" href="#options">options</a>
             </li>
             <li>
                     <a class="variable" href="#the">the</a>
@@ -227,8 +227,11 @@
 sublime    </h1>
 
                         <div class="docstring"><p>./<a href="#py">sublime.py</a> [OPTIONS] <br />
-(c)2022 Tim Menzies unlicense.org <br />
-Look (a little) before you leap.    </p>
+(c)2022 Tim Menzies, unlicense.org. <br />
+Look, a little, before you leap, a lot. Random projections
+for bi-clustering.  Iterative dichotomization using ranges
+that most distinguish sibling clusters. Repeat, recursively.
+Use results for various knowledge-level tasks.</p>
 
 <p>OPTIONS:  </p>
 
@@ -248,10 +251,40 @@ Look (a little) before you leap.    </p>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
 <span class="c1"># vim: ts=2 sw=2 sts=2 et :</span>
+
+<span class="c1">#                 .        +          .      .          .</span>
+<span class="c1">#          .            _        .                    .</span>
+<span class="c1">#       ,              /;-._,-.____        ,-----.__</span>
+<span class="c1">#      ((        .    (_:#::_.:::. `-._   /:, /-._, `._,</span>
+<span class="c1">#       `                 \   _|`&quot;=:_::.`.);  \ __/ /</span>
+<span class="c1">#                           ,    `./  \:. `.   )==-&#39;  .</span>
+<span class="c1">#         .      ., ,-=-.  ,\, +#./`   \:.  / /           .</span>
+<span class="c1">#     .           \/:/`-&#39; , ,\ &#39;` ` `   ): , /_  -o</span>
+<span class="c1">#            .    /:+- - + +- : :- + + -:&#39;  /(o-) \)     .</span>
+<span class="c1">#       .      ,=&#39;:  \    ` `/` &#39; , , ,:&#39; `&#39;--&quot;.--&quot;---._/`7</span>
+<span class="c1">#        `.   (    \: \,-._` ` + &#39;\, ,&quot;   _,--._,---&quot;:.__/</span>
+<span class="c1">#                   \:  `  X` _| _,\/&#39;   .-&#39;</span>
+<span class="c1">#     .               &quot;:._:`\____  /:&#39;  /      .           .</span>
+<span class="c1">#                         \::.  :\/:&#39;  /              +</span>
+<span class="c1">#        .                 `.:.  /:&#39;  }      .</span>
+<span class="c1">#                .           ):_(:;   \           .</span>
+<span class="c1">#                           /:. _/ ,  |</span>
+<span class="c1">#                        . (|::.     ,`                  .</span>
+<span class="c1">#          .                |::.    {\</span>
+<span class="c1">#                           |::.\  \ `.</span>
+<span class="c1">#                           |:::(\    |</span>
+<span class="c1">#                   O       |:::/{ }  |                  (o</span>
+<span class="c1">#                    )  ___/#\::`/ (O &quot;==._____   O, (O  /`</span>
+<span class="c1">#               ~~~w/w~&quot;~~,\` `:/,-(~`&quot;~~~~~~~~&quot;~o~\~/~w|/~</span>
+<span class="c1">#     dew   ~~~~~~~~~~~~~~~~~~~~~~~\\W~~~~~~~~~~~~\|/~~</span>
+
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">./sublime.py [OPTIONS]  </span>
-<span class="sd">(c)2022 Tim Menzies unlicense.org  </span>
-<span class="sd">Look (a little) before you leap.    </span>
+<span class="sd">(c)2022 Tim Menzies, unlicense.org.    </span>
+<span class="sd">Look, a little, before you leap, a lot. Random projections</span>
+<span class="sd">for bi-clustering.  Iterative dichotomization using ranges</span>
+<span class="sd">that most distinguish sibling clusters. Repeat, recursively.</span>
+<span class="sd">Use results for various knowledge-level tasks.</span>
 
 <span class="sd">OPTIONS:  </span>
 
@@ -265,6 +298,7 @@ Look (a little) before you leap.    </p>
 <span class="sd">    -todo   start up task               : nothing  </span>
 <span class="sd">    -xsmall Cohen&#39;s small effect        : .35  </span>
 <span class="sd">&quot;&quot;&quot;</span>
+
 <span class="kn">import</span> <span class="nn">re</span><span class="o">,</span><span class="nn">sys</span><span class="o">,</span><span class="nn">random</span>
 
 <span class="c1"># This is free and unencumbered software released into the public domain.</span>
@@ -323,24 +357,12 @@ Look (a little) before you leap.    </p>
       <span class="k">try</span><span class="p">:</span> <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
       <span class="k">except</span><span class="p">:</span> <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
   
-<span class="k">def</span> <span class="nf">options</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
-  <span class="n">d</span><span class="o">=</span><span class="p">{}</span>
-  <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>
-    <span class="k">if</span> <span class="n">line</span> <span class="ow">and</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;    -&quot;</span><span class="p">):</span>
-       <span class="n">key</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">5</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span> <span class="c1"># find first last word on each line</span>
-       <span class="k">for</span> <span class="n">j</span><span class="p">,</span><span class="n">flag</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">):</span>
-         <span class="k">if</span> <span class="n">flag</span> <span class="ow">and</span> <span class="n">flag</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;-&quot;</span> <span class="ow">and</span> <span class="n">key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">flag</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
-           <span class="n">x</span><span class="o">=</span> <span class="s2">&quot;True&quot;</span> <span class="k">if</span> <span class="n">x</span><span class="o">==</span><span class="s2">&quot;False&quot;</span> <span class="k">else</span><span class="p">(</span><span class="s2">&quot;False&quot;</span> <span class="k">if</span> <span class="n">x</span><span class="o">==</span><span class="s2">&quot;True&quot;</span> <span class="k">else</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
-       <span class="n">d</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">atom</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-  <span class="nb">print</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
-  <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;help&quot;</span><span class="p">]:</span> <span class="n">exit</span><span class="p">(</span><span class="nb">print</span><span class="p">(</span><span class="n">doc</span><span class="p">))</span>
-  <span class="k">return</span> <span class="n">o</span><span class="p">(</span><span class="o">**</span><span class="n">d</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">demo</span><span class="p">(</span><span class="n">want</span><span class="p">,</span><span class="n">one</span><span class="p">,</span><span class="nb">all</span><span class="p">):</span> 
+<span class="k">def</span> <span class="nf">demo</span><span class="p">(</span><span class="n">want</span><span class="p">,</span><span class="nb">all</span><span class="p">):</span> 
   <span class="s2">&quot;Maybe run a demo, if we want it, resetting random seed first.&quot;</span>
-  <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">want</span> <span class="ow">or</span> <span class="p">(</span><span class="n">want</span> <span class="ow">and</span> <span class="n">one</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">want</span><span class="p">))):</span>
-    <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">seed</span><span class="p">)</span>
-    <span class="nb">all</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">one</span><span class="p">]()</span>
+  <span class="k">for</span> <span class="n">one</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="nb">all</span><span class="p">):</span>
+    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">want</span> <span class="ow">or</span> <span class="p">(</span><span class="n">want</span> <span class="ow">and</span> <span class="n">one</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">want</span><span class="p">))):</span>
+      <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">seed</span><span class="p">)</span>
+      <span class="nb">all</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">one</span><span class="p">]()</span>
 
 <span class="k">def</span> <span class="nf">file</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
   <span class="s2">&quot;Iterator. Returns one row at a time, as cells.&quot;</span>
@@ -358,6 +380,19 @@ Look (a little) before you leap.    </p>
     <span class="k">return</span> <span class="n">pre</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span>
       <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">())</span> <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">k</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;_&quot;</span><span class="p">})</span>
 
+<span class="k">def</span> <span class="nf">options</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
+  <span class="s2">&quot;Convert __doc__ string to options directory.&quot;</span>
+  <span class="n">d</span><span class="o">=</span><span class="p">{}</span>
+  <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">line</span> <span class="ow">and</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;    -&quot;</span><span class="p">):</span>
+       <span class="n">key</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span> <span class="c1"># get 1st,last word on each line</span>
+       <span class="k">for</span> <span class="n">j</span><span class="p">,</span><span class="n">flag</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">):</span>
+         <span class="k">if</span> <span class="n">flag</span> <span class="ow">and</span> <span class="n">flag</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;-&quot;</span> <span class="ow">and</span> <span class="n">key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">flag</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+           <span class="n">x</span><span class="o">=</span> <span class="s2">&quot;True&quot;</span> <span class="k">if</span> <span class="n">x</span><span class="o">==</span><span class="s2">&quot;False&quot;</span> <span class="k">else</span><span class="p">(</span><span class="s2">&quot;False&quot;</span> <span class="k">if</span> <span class="n">x</span><span class="o">==</span><span class="s2">&quot;True&quot;</span> <span class="k">else</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+       <span class="n">d</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">atom</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;help&quot;</span><span class="p">]:</span> <span class="n">exit</span><span class="p">(</span><span class="nb">print</span><span class="p">(</span><span class="n">doc</span><span class="p">))</span>
+  <span class="k">return</span> <span class="n">o</span><span class="p">(</span><span class="o">**</span><span class="n">d</span><span class="p">)</span>
+
 <span class="n">the</span> <span class="o">=</span> <span class="n">options</span><span class="p">(</span><span class="vm">__doc__</span><span class="p">)</span>
 <span class="c1">#          ___                                                </span>
 <span class="c1">#         /\_ \                                               </span>
@@ -367,7 +402,9 @@ Look (a little) before you leap.    </p>
 <span class="c1"># \ \____\   /\____\\ \__/.\_\\/\____/\/\____/\ \____\\/\____/</span>
 <span class="c1">#  \/____/   \/____/ \/__/\/_/ \/___/  \/___/  \/____/ \/___/ </span>
 <span class="c1">#-------------------------------------------------------------------------------</span>
+
 <span class="k">class</span> <span class="nc">Range</span><span class="p">(</span><span class="n">o</span><span class="p">):</span>
+  <span class="s2">&quot;Track the `y` symbols seen in the range `lo` to `hi`.&quot;</span>
   <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">col</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">lo</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">hi</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">i</span><span class="o">.</span><span class="n">col</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">xlo</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">xhi</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">yhas</span> <span class="o">=</span> <span class="n">col</span><span class="p">,</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">,</span> <span class="n">Sym</span><span class="p">()</span>
 
@@ -402,13 +439,17 @@ Look (a little) before you leap.    </p>
     <span class="n">x</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">at</span><span class="p">];</span> <span class="k">return</span> <span class="n">x</span><span class="o">==</span><span class="s2">&quot;?&quot;</span> <span class="ow">or</span> <span class="n">i</span><span class="o">.</span><span class="n">lo</span><span class="o">&lt;=</span><span class="n">x</span> <span class="ow">and</span> <span class="n">x</span><span class="o">&lt;</span><span class="n">i</span><span class="o">.</span><span class="n">hi</span> 
 
 <span class="k">class</span> <span class="nc">Col</span><span class="p">(</span><span class="n">o</span><span class="p">):</span>
-  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">at</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">txt</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span> <span class="n">i</span><span class="o">.</span><span class="n">n</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">at</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">txt</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="n">at</span><span class="p">,</span><span class="n">txt</span><span class="p">,(</span><span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="s2">&quot;&lt;&quot;</span> <span class="ow">in</span> <span class="n">txt</span> <span class="k">else</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="s2">&quot;Summarize columns.&quot;</span>
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">at</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">txt</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span> 
+    <span class="n">i</span><span class="o">.</span><span class="n">n</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">at</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">txt</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">w</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">at</span><span class="p">,</span><span class="n">txt</span><span class="p">,(</span><span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="s2">&quot;&lt;&quot;</span> <span class="ow">in</span> <span class="n">txt</span> <span class="k">else</span> <span class="mi">1</span><span class="p">)</span>
+
   <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">inc</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span> 
     <span class="k">if</span> <span class="n">x</span> <span class="o">!=</span><span class="s2">&quot;?&quot;</span><span class="p">:</span> <span class="n">i</span><span class="o">.</span><span class="n">n</span> <span class="o">+=</span> <span class="n">inc</span><span class="p">;</span> <span class="n">i</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">inc</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">x</span>
   <span class="k">def</span> <span class="nf">dist</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span> <span class="k">return</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">x</span><span class="o">==</span><span class="s2">&quot;?&quot;</span> <span class="ow">and</span> <span class="n">y</span><span class="o">==</span><span class="s2">&quot;?&quot;</span> <span class="k">else</span> <span class="n">i</span><span class="o">.</span><span class="n">dist1</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
     
 <span class="k">class</span> <span class="nc">Num</span><span class="p">(</span><span class="n">Col</span><span class="p">):</span>
+  <span class="s2">&quot;Summarize numeric columns.&quot;</span>
   <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="o">**</span><span class="n">kw</span><span class="p">):</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">)</span>
     <span class="n">i</span><span class="o">.</span><span class="n">_all</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">lo</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">hi</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">max</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">ok</span> <span class="o">=</span> <span class="p">[],</span> <span class="mf">1E32</span><span class="p">,</span> <span class="o">-</span><span class="mf">1E32</span><span class="p">,</span> <span class="n">the</span><span class="o">.</span><span class="n">Max</span><span class="p">,</span> <span class="kc">False</span>
@@ -456,6 +497,7 @@ Look (a little) before you leap.    </p>
     <span class="nb">all</span> <span class="o">=</span> <span class="n">merge</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="nb">all</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span><span class="n">key</span><span class="o">=</span><span class="n">first</span><span class="p">))</span>
 
 <span class="k">class</span> <span class="nc">Sym</span><span class="p">(</span><span class="n">Col</span><span class="p">):</span>
+  <span class="s2">&quot;Summarize symbolic columns.&quot;</span>
   <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="o">**</span><span class="n">kw</span><span class="p">):</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">)</span>
     <span class="n">i</span><span class="o">.</span><span class="n">has</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">most</span> <span class="o">=</span> <span class="p">{},</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">0</span>
@@ -483,7 +525,9 @@ Look (a little) before you leap.    </p>
 
 
 <span class="c1">#-------------------------------------------------------------------------------</span>
-<span class="k">class</span> <span class="nc">Sample</span><span class="p">(</span><span class="n">Col</span><span class="p">):</span>
+
+<span class="k">class</span> <span class="nc">Sample</span><span class="p">(</span><span class="n">o</span><span class="p">):</span>
+  <span class="s2">&quot;Load, then manage, a set of examples.&quot;</span>
   <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">inits</span><span class="o">=</span><span class="p">[]):</span> 
     <span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">cols</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
     <span class="k">if</span> <span class="nb">str</span> <span class="o">==</span><span class="nb">type</span><span class="p">(</span><span class="n">inits</span><span class="p">):</span> <span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">row</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">file</span><span class="p">(</span><span class="n">inits</span><span class="p">)]</span>
@@ -513,8 +557,8 @@ Look (a little) before you leap.    </p>
     <span class="n">d</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span> <span class="n">col</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">at</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">at</span><span class="p">])</span><span class="o">**</span><span class="n">the</span><span class="o">.</span><span class="n">p</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">i</span><span class="o">.</span><span class="n">x</span> <span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">d</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">x</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">the</span><span class="o">.</span><span class="n">p</span><span class="p">)</span>
 
-  <span class="k">def</span> <span class="nf">far</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">row1</span><span class="p">,</span> <span class="n">rows</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="n">tmp</span><span class="o">=</span> <span class="nb">sorted</span><span class="p">([(</span><span class="n">i</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">row1</span><span class="p">,</span><span class="n">row2</span><span class="p">),</span><span class="n">row2</span><span class="p">)</span> <span class="k">for</span> <span class="n">row2</span> <span class="ow">in</span> <span class="p">(</span><span class="n">rows</span> <span class="ow">or</span> <span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">)],</span><span class="n">key</span><span class="o">=</span><span class="n">first</span><span class="p">)</span>
+  <span class="k">def</span> <span class="nf">far</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">rows</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">tmp</span><span class="o">=</span> <span class="nb">sorted</span><span class="p">([(</span><span class="n">i</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">),</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="p">(</span><span class="n">rows</span> <span class="ow">or</span> <span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">)],</span><span class="n">key</span><span class="o">=</span><span class="n">first</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">tmp</span><span class="p">[</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span><span class="o">*</span><span class="n">the</span><span class="o">.</span><span class="n">far</span><span class="p">)</span> <span class="p">]</span>
 
   <span class="k">def</span> <span class="nf">proj</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">row</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">c</span><span class="p">):</span>
@@ -541,7 +585,9 @@ Look (a little) before you leap.    </p>
 <span class="c1"># \ \___,_\\ \____\\ \_\ \_\ \_\\ \____/\/\____/</span>
 <span class="c1">#  \/__,_ / \/____/ \/_/\/_/\/_/ \/___/  \/___/ </span>
 <span class="c1">#------------------------------------------------------------------------------</span>
+
 <span class="k">class</span> <span class="nc">Demos</span><span class="p">:</span>
+  <span class="s2">&quot;Possible start-up actions.&quot;</span>
   <span class="k">def</span> <span class="nf">num</span><span class="p">():</span> 
     <span class="n">n</span><span class="o">=</span><span class="n">Num</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10000</span><span class="p">):</span> <span class="n">n</span> <span class="o">+</span> <span class="n">i</span>
@@ -578,7 +624,7 @@ Look (a little) before you leap.    </p>
     <span class="nb">print</span><span class="p">(</span><span class="n">s2</span><span class="o">.</span><span class="n">mid</span><span class="p">(</span><span class="n">s2</span><span class="o">.</span><span class="n">y</span><span class="p">))</span>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span> 
-  <span class="k">for</span> <span class="n">one</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">Demos</span><span class="p">):</span> <span class="n">demo</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">todo</span><span class="p">,</span><span class="n">one</span><span class="p">,</span><span class="n">Demos</span><span class="p">)</span>
+  <span class="n">demo</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">todo</span><span class="p">,</span><span class="n">Demos</span><span class="p">)</span>
 </pre></div>
 
         </details>
@@ -667,50 +713,22 @@ Look (a little) before you leap.    </p>
 
 
                 </section>
-                <section id="options">
-                            <div class="attr function"><a class="headerlink" href="#options">#&nbsp;&nbsp</a>
-
-        
-            <span class="def">def</span>
-            <span class="name">options</span><span class="signature">(doc)</span>:
-    </div>
-
-                <details>
-            <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">options</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
-  <span class="n">d</span><span class="o">=</span><span class="p">{}</span>
-  <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>
-    <span class="k">if</span> <span class="n">line</span> <span class="ow">and</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;    -&quot;</span><span class="p">):</span>
-       <span class="n">key</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">line</span><span class="p">[</span><span class="mi">5</span><span class="p">:]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span> <span class="c1"># find first last word on each line</span>
-       <span class="k">for</span> <span class="n">j</span><span class="p">,</span><span class="n">flag</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">):</span>
-         <span class="k">if</span> <span class="n">flag</span> <span class="ow">and</span> <span class="n">flag</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;-&quot;</span> <span class="ow">and</span> <span class="n">key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">flag</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
-           <span class="n">x</span><span class="o">=</span> <span class="s2">&quot;True&quot;</span> <span class="k">if</span> <span class="n">x</span><span class="o">==</span><span class="s2">&quot;False&quot;</span> <span class="k">else</span><span class="p">(</span><span class="s2">&quot;False&quot;</span> <span class="k">if</span> <span class="n">x</span><span class="o">==</span><span class="s2">&quot;True&quot;</span> <span class="k">else</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
-       <span class="n">d</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">atom</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-  <span class="nb">print</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
-  <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;help&quot;</span><span class="p">]:</span> <span class="n">exit</span><span class="p">(</span><span class="nb">print</span><span class="p">(</span><span class="n">doc</span><span class="p">))</span>
-  <span class="k">return</span> <span class="n">o</span><span class="p">(</span><span class="o">**</span><span class="n">d</span><span class="p">)</span>
-</pre></div>
-
-        </details>
-
-    
-
-                </section>
                 <section id="demo">
                             <div class="attr function"><a class="headerlink" href="#demo">#&nbsp;&nbsp</a>
 
         
             <span class="def">def</span>
-            <span class="name">demo</span><span class="signature">(want, one, all)</span>:
+            <span class="name">demo</span><span class="signature">(want, all)</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">demo</span><span class="p">(</span><span class="n">want</span><span class="p">,</span><span class="n">one</span><span class="p">,</span><span class="nb">all</span><span class="p">):</span> 
+            <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">demo</span><span class="p">(</span><span class="n">want</span><span class="p">,</span><span class="nb">all</span><span class="p">):</span> 
   <span class="s2">&quot;Maybe run a demo, if we want it, resetting random seed first.&quot;</span>
-  <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">want</span> <span class="ow">or</span> <span class="p">(</span><span class="n">want</span> <span class="ow">and</span> <span class="n">one</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">want</span><span class="p">))):</span>
-    <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">seed</span><span class="p">)</span>
-    <span class="nb">all</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">one</span><span class="p">]()</span>
+  <span class="k">for</span> <span class="n">one</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="nb">all</span><span class="p">):</span>
+    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">want</span> <span class="ow">or</span> <span class="p">(</span><span class="n">want</span> <span class="ow">and</span> <span class="n">one</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">want</span><span class="p">))):</span>
+      <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">seed</span><span class="p">)</span>
+      <span class="nb">all</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">one</span><span class="p">]()</span>
 </pre></div>
 
         </details>
@@ -790,6 +808,37 @@ Look (a little) before you leap.    </p>
 
                             </div>
                 </section>
+                <section id="options">
+                            <div class="attr function"><a class="headerlink" href="#options">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">options</span><span class="signature">(doc)</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">options</span><span class="p">(</span><span class="n">doc</span><span class="p">):</span>
+  <span class="s2">&quot;Convert __doc__ string to options directory.&quot;</span>
+  <span class="n">d</span><span class="o">=</span><span class="p">{}</span>
+  <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">doc</span><span class="o">.</span><span class="n">splitlines</span><span class="p">():</span>
+    <span class="k">if</span> <span class="n">line</span> <span class="ow">and</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;    -&quot;</span><span class="p">):</span>
+       <span class="n">key</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span> <span class="c1"># get 1st,last word on each line</span>
+       <span class="k">for</span> <span class="n">j</span><span class="p">,</span><span class="n">flag</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">):</span>
+         <span class="k">if</span> <span class="n">flag</span> <span class="ow">and</span> <span class="n">flag</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;-&quot;</span> <span class="ow">and</span> <span class="n">key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">flag</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+           <span class="n">x</span><span class="o">=</span> <span class="s2">&quot;True&quot;</span> <span class="k">if</span> <span class="n">x</span><span class="o">==</span><span class="s2">&quot;False&quot;</span> <span class="k">else</span><span class="p">(</span><span class="s2">&quot;False&quot;</span> <span class="k">if</span> <span class="n">x</span><span class="o">==</span><span class="s2">&quot;True&quot;</span> <span class="k">else</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+       <span class="n">d</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">atom</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;help&quot;</span><span class="p">]:</span> <span class="n">exit</span><span class="p">(</span><span class="nb">print</span><span class="p">(</span><span class="n">doc</span><span class="p">))</span>
+  <span class="k">return</span> <span class="n">o</span><span class="p">(</span><span class="o">**</span><span class="n">d</span><span class="p">)</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>Convert __doc__ string to options directory.</p>
+</div>
+
+
+                </section>
                 <section id="the">
                                 <div class="attr variable"><a class="headerlink" href="#the">#&nbsp;&nbsp</a>
 
@@ -811,6 +860,7 @@ Look (a little) before you leap.    </p>
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Range</span><span class="p">(</span><span class="n">o</span><span class="p">):</span>
+  <span class="s2">&quot;Track the `y` symbols seen in the range `lo` to `hi`.&quot;</span>
   <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">col</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">lo</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">hi</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="n">i</span><span class="o">.</span><span class="n">col</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">xlo</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">xhi</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">yhas</span> <span class="o">=</span> <span class="n">col</span><span class="p">,</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">,</span> <span class="n">Sym</span><span class="p">()</span>
 
@@ -847,7 +897,7 @@ Look (a little) before you leap.    </p>
 
         </details>
 
-            <div class="docstring"><p>Class that can pretty print its slots, with fast init.</p>
+            <div class="docstring"><p>Track the <code>y</code> symbols seen in the range <code>lo</code> to <code>hi</code>.</p>
 </div>
 
 
@@ -945,7 +995,10 @@ Look (a little) before you leap.    </p>
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Col</span><span class="p">(</span><span class="n">o</span><span class="p">):</span>
-  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">at</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">txt</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span> <span class="n">i</span><span class="o">.</span><span class="n">n</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">at</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">txt</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="n">at</span><span class="p">,</span><span class="n">txt</span><span class="p">,(</span><span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="s2">&quot;&lt;&quot;</span> <span class="ow">in</span> <span class="n">txt</span> <span class="k">else</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="s2">&quot;Summarize columns.&quot;</span>
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">at</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">txt</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span> 
+    <span class="n">i</span><span class="o">.</span><span class="n">n</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">at</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">txt</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">w</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">at</span><span class="p">,</span><span class="n">txt</span><span class="p">,(</span><span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="s2">&quot;&lt;&quot;</span> <span class="ow">in</span> <span class="n">txt</span> <span class="k">else</span> <span class="mi">1</span><span class="p">)</span>
+
   <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">inc</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span> 
     <span class="k">if</span> <span class="n">x</span> <span class="o">!=</span><span class="s2">&quot;?&quot;</span><span class="p">:</span> <span class="n">i</span><span class="o">.</span><span class="n">n</span> <span class="o">+=</span> <span class="n">inc</span><span class="p">;</span> <span class="n">i</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">inc</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">x</span>
@@ -954,7 +1007,7 @@ Look (a little) before you leap.    </p>
 
         </details>
 
-            <div class="docstring"><p>Class that can pretty print its slots, with fast init.</p>
+            <div class="docstring"><p>Summarize columns.</p>
 </div>
 
 
@@ -967,7 +1020,8 @@ Look (a little) before you leap.    </p>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">at</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">txt</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span> <span class="n">i</span><span class="o">.</span><span class="n">n</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">at</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">txt</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="n">at</span><span class="p">,</span><span class="n">txt</span><span class="p">,(</span><span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="s2">&quot;&lt;&quot;</span> <span class="ow">in</span> <span class="n">txt</span> <span class="k">else</span> <span class="mi">1</span><span class="p">)</span>
+            <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">at</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">txt</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span> 
+    <span class="n">i</span><span class="o">.</span><span class="n">n</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">at</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">txt</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">w</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">at</span><span class="p">,</span><span class="n">txt</span><span class="p">,(</span><span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="s2">&quot;&lt;&quot;</span> <span class="ow">in</span> <span class="n">txt</span> <span class="k">else</span> <span class="mi">1</span><span class="p">)</span>
 </pre></div>
 
         </details>
@@ -1006,6 +1060,7 @@ Look (a little) before you leap.    </p>
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Num</span><span class="p">(</span><span class="n">Col</span><span class="p">):</span>
+  <span class="s2">&quot;Summarize numeric columns.&quot;</span>
   <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="o">**</span><span class="n">kw</span><span class="p">):</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">)</span>
     <span class="n">i</span><span class="o">.</span><span class="n">_all</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">lo</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">hi</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">max</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">ok</span> <span class="o">=</span> <span class="p">[],</span> <span class="mf">1E32</span><span class="p">,</span> <span class="o">-</span><span class="mf">1E32</span><span class="p">,</span> <span class="n">the</span><span class="o">.</span><span class="n">Max</span><span class="p">,</span> <span class="kc">False</span>
@@ -1055,7 +1110,7 @@ Look (a little) before you leap.    </p>
 
         </details>
 
-            <div class="docstring"><p>Class that can pretty print its slots, with fast init.</p>
+            <div class="docstring"><p>Summarize numeric columns.</p>
 </div>
 
 
@@ -1271,6 +1326,7 @@ Look (a little) before you leap.    </p>
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Sym</span><span class="p">(</span><span class="n">Col</span><span class="p">):</span>
+  <span class="s2">&quot;Summarize symbolic columns.&quot;</span>
   <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="o">**</span><span class="n">kw</span><span class="p">):</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kw</span><span class="p">)</span>
     <span class="n">i</span><span class="o">.</span><span class="n">has</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">mode</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">most</span> <span class="o">=</span> <span class="p">{},</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">0</span>
@@ -1293,7 +1349,7 @@ Look (a little) before you leap.    </p>
 
         </details>
 
-            <div class="docstring"><p>Class that can pretty print its slots, with fast init.</p>
+            <div class="docstring"><p>Summarize symbolic columns.</p>
 </div>
 
 
@@ -1419,12 +1475,13 @@ Look (a little) before you leap.    </p>
 
         
         <span class="def">class</span>
-        <span class="name">Sample</span><wbr>(<span class="base"><a href="#Col">Col</a></span>):
+        <span class="name">Sample</span><wbr>(<span class="base"><a href="#o">o</a></span>):
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Sample</span><span class="p">(</span><span class="n">Col</span><span class="p">):</span>
+            <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Sample</span><span class="p">(</span><span class="n">o</span><span class="p">):</span>
+  <span class="s2">&quot;Load, then manage, a set of examples.&quot;</span>
   <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">inits</span><span class="o">=</span><span class="p">[]):</span> 
     <span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">cols</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
     <span class="k">if</span> <span class="nb">str</span> <span class="o">==</span><span class="nb">type</span><span class="p">(</span><span class="n">inits</span><span class="p">):</span> <span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="n">row</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">file</span><span class="p">(</span><span class="n">inits</span><span class="p">)]</span>
@@ -1454,8 +1511,8 @@ Look (a little) before you leap.    </p>
     <span class="n">d</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span> <span class="n">col</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">at</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">at</span><span class="p">])</span><span class="o">**</span><span class="n">the</span><span class="o">.</span><span class="n">p</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">i</span><span class="o">.</span><span class="n">x</span> <span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">d</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">x</span><span class="p">))</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">the</span><span class="o">.</span><span class="n">p</span><span class="p">)</span>
 
-  <span class="k">def</span> <span class="nf">far</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">row1</span><span class="p">,</span> <span class="n">rows</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="n">tmp</span><span class="o">=</span> <span class="nb">sorted</span><span class="p">([(</span><span class="n">i</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">row1</span><span class="p">,</span><span class="n">row2</span><span class="p">),</span><span class="n">row2</span><span class="p">)</span> <span class="k">for</span> <span class="n">row2</span> <span class="ow">in</span> <span class="p">(</span><span class="n">rows</span> <span class="ow">or</span> <span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">)],</span><span class="n">key</span><span class="o">=</span><span class="n">first</span><span class="p">)</span>
+  <span class="k">def</span> <span class="nf">far</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">rows</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">tmp</span><span class="o">=</span> <span class="nb">sorted</span><span class="p">([(</span><span class="n">i</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">),</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="p">(</span><span class="n">rows</span> <span class="ow">or</span> <span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">)],</span><span class="n">key</span><span class="o">=</span><span class="n">first</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">tmp</span><span class="p">[</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span><span class="o">*</span><span class="n">the</span><span class="o">.</span><span class="n">far</span><span class="p">)</span> <span class="p">]</span>
 
   <span class="k">def</span> <span class="nf">proj</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">row</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">c</span><span class="p">):</span>
@@ -1478,7 +1535,7 @@ Look (a little) before you leap.    </p>
 
         </details>
 
-            <div class="docstring"><p>Class that can pretty print its slots, with fast init.</p>
+            <div class="docstring"><p>Load, then manage, a set of examples.</p>
 </div>
 
 
@@ -1585,13 +1642,13 @@ Look (a little) before you leap.    </p>
 
         
             <span class="def">def</span>
-            <span class="name">far</span><span class="signature">(i, row1, rows=None)</span>:
+            <span class="name">far</span><span class="signature">(i, x, rows=None)</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="nf">far</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">row1</span><span class="p">,</span> <span class="n">rows</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="n">tmp</span><span class="o">=</span> <span class="nb">sorted</span><span class="p">([(</span><span class="n">i</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">row1</span><span class="p">,</span><span class="n">row2</span><span class="p">),</span><span class="n">row2</span><span class="p">)</span> <span class="k">for</span> <span class="n">row2</span> <span class="ow">in</span> <span class="p">(</span><span class="n">rows</span> <span class="ow">or</span> <span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">)],</span><span class="n">key</span><span class="o">=</span><span class="n">first</span><span class="p">)</span>
+            <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="nf">far</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">rows</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">tmp</span><span class="o">=</span> <span class="nb">sorted</span><span class="p">([(</span><span class="n">i</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">),</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="p">(</span><span class="n">rows</span> <span class="ow">or</span> <span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">)],</span><span class="n">key</span><span class="o">=</span><span class="n">first</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">tmp</span><span class="p">[</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span><span class="o">*</span><span class="n">the</span><span class="o">.</span><span class="n">far</span><span class="p">)</span> <span class="p">]</span>
 </pre></div>
 
@@ -1662,6 +1719,7 @@ Look (a little) before you leap.    </p>
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Demos</span><span class="p">:</span>
+  <span class="s2">&quot;Possible start-up actions.&quot;</span>
   <span class="k">def</span> <span class="nf">num</span><span class="p">():</span> 
     <span class="n">n</span><span class="o">=</span><span class="n">Num</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10000</span><span class="p">):</span> <span class="n">n</span> <span class="o">+</span> <span class="n">i</span>
@@ -1700,7 +1758,9 @@ Look (a little) before you leap.    </p>
 
         </details>
 
-    
+            <div class="docstring"><p>Possible start-up actions.</p>
+</div>
+
 
                             <div id="Demos.__init__" class="classattr">
                                         <div class="attr function"><a class="headerlink" href="#Demos.__init__">#&nbsp;&nbsp</a>
