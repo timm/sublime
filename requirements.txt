@@ -1,0 +1,7 @@
+python3
+pip
+pdoc
+
+# other stuff
+gawk
+a2ps
