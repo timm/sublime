@@ -18,7 +18,7 @@ bye: mds ## stop work (save all files)
 	@mkdir -p ../docs
 
 pdoc: ok ## generate docs (python)
-	pdoc --logo "https://raw.githubusercontent.com/timm/22/main/etc/img/lime.png" \
+	pdoc --logo "https://raw.githubusercontent.com/timm/sublime/main/etc/img/lime.png" \
        -o ../docs sublime.py
 
 pdfs: ../docs/sublime.pdf ## generate docs (pdf)
