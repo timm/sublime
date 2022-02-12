@@ -14,8 +14,6 @@ hi: ## start work (update all files)
 
 bye: mds ## stop work (save all files)
 	git add *;git commit -am save;git push;git status
-	ok:
-	@mkdir -p ../docs
 
 pdoc: ok ## generate docs (python)
 	pdoc --logo "https://raw.githubusercontent.com/timm/sublime/main/etc/img/lime.png" \
