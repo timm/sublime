@@ -1,21 +1,21 @@
 #!/usr/bin/env python3
 # vim: ts=2 sw=2 sts=2 et :
-# python3 sublime.py
-# (c) 2022, Tim Menzies, unlicense.org",
 """
-./sublime.py [OPTIONS]
-(c)2022 Tim Menzies unlicense.org
+./sublime.py [OPTIONS]  
+(c)2022 Tim Menzies unlicense.org  
+Look (a little) before you leap.    
 
-OPTIONS:
-  -Max     max numbers to keep            = 512
-  -Some    find `far` in this many egs    = 512
-  -data    data file                      = ../data/auto93.csv
-  -help    show help                      = False
-  -far     ihow far to look within `Some` = .9
-  -p       distance function coefficient  = 2
-  -seed    random number seed             = 10019
-  -todo    start up task                  = nothing
-  -xsmall  Cohen's small effect           = .35
+OPTIONS:  
+
+    -Max    max numbers to keep         : 512  
+    -Some   find `far` in this many egs : 512  
+    -data   data file                   : ../data/auto93.csv   
+    -help   show help                   : False  
+    -far    how far to look in `Some`   : .9  
+    -p      distance coefficient        : 2  
+    -seed   random number seed          : 10019  
+    -todo   start up task               : nothing  
+    -xsmall Cohen's small effect        : .35  
 """
 import re,sys,random
 
@@ -78,12 +78,13 @@ def atom(x):
 def options(doc):
   d={}
   for line in doc.splitlines():
-    if line and line.startswith("  -"):
-       key, *_, x = line[3:].split(" ")
+    if line and line.startswith("    -"):
+       key, *_, x = line[5:].strip().split(" ") # find first last word on each line
        for j,flag in enumerate(sys.argv):
          if flag and flag[0]=="-" and key.startswith(flag[1:]):
            x= "True" if x=="False" else("False" if x=="True" else sys.argv[j+1])
        d[key] = atom(x)
+  print(d)
   if d["help"]: exit(print(doc))
   return o(**d)
 
@@ -104,7 +105,9 @@ def file(f):
 class o(object):
   "Class that can pretty print its slots, with fast init."
   def __init__(i, **d): i.__dict__.update(**d)
-  def __repr__(i): return i.__class__.__name__+str(
+  def __repr__(i): 
+    pre = i.__class__.__name__ if issubclass(i,o) else ""
+    return pre+str(
       {k: v for k, v in sorted(i.__dict__.items()) if str(k)[0] != "_"})
 
 the = options(__doc__)
