@@ -29,13 +29,11 @@
 
 """
 ./sublime.py [OPTIONS]  
-(c)2022 Tim Menzies, unlicense.org.    
-Look, a little, before you leap, a lot. Random projections
-for bi-clustering.  Iterative dichotomization using ranges
-that most distinguish sibling clusters. Repeat, recursively.
-Use results for various knowledge-level tasks.
+(c)2022 Tim Menzies <timm@ieee.org> unlicense.org.     
+Sublime's unsupervised bifurcation: 
+let's infer minimal explanations. 
 
-OPTIONS:  
+OPTIONS:    
 
     -Max    max numbers to keep         : 512  
     -Some   find `far` in this many egs : 512  
@@ -47,54 +45,62 @@ OPTIONS:
     -seed   random number seed          : 10019  
     -todo   start up task               : nothing  
     -xsmall Cohen's small effect        : .35  
+
+## See Also
+
+[issues](issues) • [repo](github)
+
+## Algorithm
+
+Stochastic clustering to generate tiny models.  Uses random projections
+then   unsupervised iterative dichotomization using ranges that
+most distinguish sibling clusters.
+
+## License
+
+This is free and unencumbered software released into the public
+domain.
+
+Anyone is free to copy, modify, publish, use, compile, sell, or
+distribute this software, either in source code form or as a compiled
+binary, for any purpose, commercial or non-commercial, and by any
+means.
+
+In jurisdictions that recognize copyright laws, the author or authors
+of this software dedicate any and all copyright interest in the
+software to the public domain. We make this dedication for the
+benefit of the public at large and to the detriment of our heirs
+and successors. We intend this dedication to be an overt act of
+relinquishment in perpetuity of all present and future rights to
+this software under copyright law.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
+OR OTHER DEALINGS IN THE SOFTWARE.
+
+For more information, please refer to <http://unlicense.org/>
 """
 
-import re,sys,random
-
-# This is free and unencumbered software released into the public domain.
-#
-# Anyone is free to copy, modify, publish, use, compile, sell, or
-# distribute this software, either in source code form or as a compiled
-# binary, for any purpose, commercial or non-commercial, and by any
-# means.
-#
-# In jurisdictions that recognize copyright laws, the author or authors
-# of this software dedicate any and all copyright interest in the
-# software to the public domain. We make this dedication for the benefit
-# of the public at large and to the detriment of our heirs and
-# successors. We intend this dedication to be an overt act of
-# relinquishment in perpetuity of all present and future rights to this
-# software under copyright law.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-# IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR
-# OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-# ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-# OTHER DEALINGS IN THE SOFTWARE.
-#
-# For more information, please refer to <http://unlicense.org/>
-
-#  ___              __        
+import random,sys,re
+from random import random as r
+from typing import Any
+#  ___              __        
 # /\_ \      __    /\ \       
 # \//\ \    /\_\   \ \ \____  
 #   \ \ \   \/\ \   \ \ '__`\ 
 #    \_\ \_  \ \ \   \ \ \L\ \
 #    /\____\  \ \_\   \ \_,__/
 #    \/____/   \/_/    \/___/ 
-#-------------------------------------------------------------------------------
 
-# randoms stuff
-r        = random.random
-anywhere = lambda a: random.randint(0, len(a)-1)
+def anywhere(a:list) -> int:
+  "Return a random index of list `a`."
+  return random.randint(0, len(a)-1)
 
-# useful constants
-big      = sys.maxsize
-
-# list membership
-first    = lambda a: a[0]
-second   = lambda a: a[1]
+big = sys.maxsize
 
 def atom(x):
   "Return a number or trimmed string."
@@ -122,28 +128,35 @@ def file(f):
       if line:
         yield [atom(cell.strip()) for cell in line.split(",")]
 
-def merge(b4):
-  j,n,tmp = -1,len(b4),[]
+def first(a:list) -> Any:
+  "Return first item."
+  return a[0]
+
+def merge(old:list) -> list:
+  j,n,now = -1,len(old),[]
   while j < n-1:
     j += 1
-    a = b4[j]
+    a  = old[j]
     if j < n-2:
-      if b := a.merge(b4[j+1]):
-        a = b
+      if b := a.merge( old[j+1] ):
+        a  = b
         j += 1
-    tmp += [a]
-  return b4 if len(b4)==len(all) else merge(tmp)  
+    now += [a]
+  return old if len(now)==len(old) else merge(now)  
 
 class o(object):
-  "Class that can pretty print its slots, with fast init."
+  "Class that can pretty print its slots, with fast inits."
   def __init__(i, **d): i.__dict__.update(**d)
   def __repr__(i): 
-    pre = i.__class__.__name__ if issubclass(i,o) else ""
+    pre = i.__class__.__name__ if isinstance(i,o) else ""
     return pre+str(
       {k: v for k, v in sorted(i.__dict__.items()) if str(k)[0] != "_"})
 
-def options(doc):
-  "Convert __doc__ string to options directory."
+def options(doc:str) ->o:
+  """Convert `doc` to options dictionary using command line args.
+  Args canuse two 'shorthands': (1) boolean flags have no arguments (and mentioning
+  those on the command line means 'flip the default value'; (2) args need only
+  mention the first few of a key (e.g. -s is enough to select for -seed)."""
   d={}
   for line in doc.splitlines():
     if line and line.startswith("    -"):
@@ -152,63 +165,108 @@ def options(doc):
          if flag and flag[0]=="-" and key.startswith(flag[1:]):
            x= "True" if x=="False" else("False" if x=="True" else sys.argv[j+1])
        d[key] = atom(x)
-  if d["help"]: exit(print(doc))
+  if d["help"]: exit(print(re.sub(r'\n#.*',"",doc,flags=re.S)))
   return o(**d)
 
-the = options(__doc__)
-#          ___                                                
+def r() -> float: 
+  "Return random number 0..1" 
+  return random.random()
+
+def second(a:list) -> Any:
+  "Return second item."
+  return a[1]
+
+the = options(__doc__)
+#          ___                                                
 #         /\_ \                                               
 #   ___   \//\ \       __       ____    ____     __     ____  
 #  /'___\   \ \ \    /'__`\    /',__\  /',__\  /'__`\  /',__\ 
 # /\ \__/    \_\ \_ /\ \L\.\_ /\__, `\/\__, `\/\  __/ /\__, `\
 # \ \____\   /\____\\ \__/.\_\\/\____/\/\____/\ \____\\/\____/
 #  \/____/   \/____/ \/__/\/_/ \/___/  \/___/  \/____/ \/___/ 
-#-------------------------------------------------------------------------------
+                          
+#   ___  _ __   __ _   _ _  
+#  (_-< | '_ \ / _` | | ' \ 
+#  /__/ | .__/ \__,_| |_||_|
+#       |_|                 
 
 class Span(o):
-  "Track the `y` symbols seen in the range `lo` to `hi`."
+  """Given two `Sample`s and some `x` range `lo..hi`,
+     a `Span` holds often that range appears in each `Sample`."""
   def __init__(i,col, lo, hi, ys=None,):
-    i.col, i.lo, i.hi, i.B, i.R, i.ys = col, lo, hi,  ys or Sym()
+    i.col, i.lo, i.hi, i.ys = col, lo, hi,  ys or Sym()
 
-  def add(i,x,y, inc=1):
+  def add(i, x:float, y:Any, inc=1) -> None:
+    "`y` is a label identifying, one `Sample` or another."
     i.lo = min(x,i.lo)
     i.hi = max(x,i.hi)
     i.ys.add(y,inc)
 
-  def __lt__(i,j):
-    s1, e1 = i.ys.n / i.col.n, i.ys.div()
-    s2, s2 = j.ys.n / j.col.n, j.ys.div()
-    return ((1 - s1)**2 + e1**2)**.5 < ((1 - s2)**2 + e2**2)**.5
-
-  def merge(i,j): 
+  def merge(i, j): # -> Span|None
+    "If the merged span is simpler, return that merge." 
     a, b, c = i.ys, j.ys, i.ys.merge(j.ys)
     if c.div()*.99 <= (a.n*a.div() + b.n*b.div())/(a.n + b.n): 
       return Span(i.col, min(i.lo,j.lo),max(i.hi,j.hi), ys=c) 
 
-  def __repr__(i):
-    if i.lo == i.hi: return f"{i.col.txt} == {i.lo}"
-    if i.lo == -big: return f"{i.col.txt} == {i.hi}"
-    if i.hi ==  big: return f"{i.col.txt} >= {i.lo}"
-    return f"{i.lo} <= {i.col.txt} < {i.hi}"
-
-  def selects(i,row):
+  def selects(i,row:list) -> bool:
+    "True if the range accepts the row."
     x = row[col.at]; return x=="?" or i.lo<=x and x<i.hi 
+
+  def show(i, positive=True) -> None: 
+    "Show the range."
+    txt = i.col.txt
+    if positive:
+      if   i.lo == i.hi: return f"{txt} == {i.lo}"
+      elif i.lo == -big: return f"{txt} < {i.hi}"
+      elif i.hi ==  big: return f"{txt} >= {i.lo}"
+      else             : return f"{i.lo} <= {txt} < {i.hi}"
+    else:
+      if   i.lo == i.hi: return f"{txt} != {i.lo}"
+      elif i.lo == -big: return f"{txt} >= {i.hi}"
+      elif i.hi ==  big: return f"{txt} < {i.lo}"
+      else             : return f"{txt} < {i.lo} or {txt} >= {i.hi}"
+
+  def support(i) -> float: 
+    "Returns 0..1."
+    return i.ys.n / i.col.n
+
+  @staticmethod
+  def sort(spans : list) -> list:
+    "Good spans have large support and low diversity."
+    divs, supports = Num(), Num()
+    sn = lambda s: supports.norm( s.support())
+    dn = lambda s: divs.norm(     s.ys.div())
+    f  = lambda s: ((1 - sn(s))**2 + dn(s)**2)**.5
+    for s in spans:
+      divs.add(    s.ys.div())
+      supports.add(s.support())
+    return sorted(spans, key=f)
+
+#              _ 
+#   __   ___  | |
+#  / _| / _ \ | |
+#  \__| \___/ |_|
 
 class Col(o):
   "Summarize columns."
   def __init__(i,at=0,txt=""): 
     i.n,i.at,i.txt,i.w=0,at,txt,(-1 if "<" in txt else 1)
 
-  def dist(i,x,y): 
+  def dist(i,x:Any, y:Any) -> float: 
     return 1 if x=="?" and y=="?" else i.dist1(x,y)
-    
+
+#   _ _    _  _   _ __  
+#  | ' \  | || | | '  \ 
+#  |_||_|  \_,_| |_|_|_|
+
 class Num(Col):
   "Summarize numeric columns."
   def __init__(i,**kw):
     super().__init__(**kw)
     i._all, i.lo, i.hi, i.max, i.ok = [], 1E32, -1E32, the.Max, False
 
-  def add(i,x,_):
+  def add(i,x: float ,_):
+    "Reservoir sampler. If `_all` is full, sometimes replace an item at random."
     if x != "?":
       i.n += 1
       i.lo = min(x,i.lo)
@@ -218,14 +276,24 @@ class Num(Col):
     return x
 
   def all(i):
+    "Return `_all`, sorted."
     if not i.ok: i.ok=True; i._all.sort()
     return i._all
 
-  def per(i,p=.5): 
+  def div(i): 
+    """&pm;2,3 &sigma; is 66,95% of the mass. But also,
+    90% of the mass is &pm;1.28&sigma;. So one standard deviation is
+    (90-10)th percentile is 2.56 times &sigma;."""
+    return (i.per(.9) - i.per(.1)) / 2.56
+
+  def mid(i): 
+    "Return median item."
+    return i.per(.5)
+
+  def per(i,p:float=.5) -> float:
+    "Return the p-th ranked item."
     a = i.all(); return a[ int(p*len(a)) ]
 
-  def mid(i): return i.per(.5)
-  def div(i): return (i.per(.9) - i.per(.1)) / 2.56
 
   def merge(i,j):
     k = Num(at=i.at, txt=i.txt)
@@ -256,6 +324,11 @@ class Num(Col):
       s.add(x,1)
     tmp = merge([x for _,x in sorted(tmp.items(),key=first)])
     if len(tmp) > 1 : all + tmp
+
+#   ___  _  _   _ __  
+#  (_-< | || | | '  \ 
+#  /__/  \_, | |_|_|_|
+#        |__/         
 
 class Sym(Col):
   "Summarize symbolic columns."
@@ -294,15 +367,12 @@ class Sym(Col):
       s.add(x,1,n)
     tmp = [second(x) for x in sorted(tmp.items(), key=first)]
     if len(tmp) > 1 : all + tmp
-
 
-
-
-
-
-
-
-#-------------------------------------------------------------------------------
+#                              _       
+#   ___  __ _   _ __    _ __  | |  ___ 
+#  (_-< / _` | | '  \  | '_ \ | | / -_)
+#  /__/ \__,_| |_|_|_| | .__/ |_| \___|
+#                      |_|             
 
 class Sample(o):
   "Load, then manage, a set of examples."
@@ -342,7 +412,7 @@ class Sample(o):
   def proj(i,row,x,y,c):
     a = i.dist(row,x)
     b = i.dist(row,y)
-    return (a**2 + c**2 - b**2) / (2*c) , row
+    return ((a**2 + c**2 - b**2) / (2*c) , row)
 
   def half(i, top=None):
     top  = top or i
@@ -357,30 +427,49 @@ class Sample(o):
     return left,right
 
   def split(i,top=None):
+    here = Tree(i)
     top = top or i
-    if len(i.rows) < 2*len(top.rows)**the.enough:
-      return i
-    left0, right0 = i.half(top)
-    spans = []
-    for lcol,rcol in zip(left0.x, right0.x):
-      lcol.spans(rcol,spans)
-    span = sorted(spans)[0]
-    left, right = i.clone(), i.clone()
-    for row in i.rows:
-      (left if span.selects(row) else right).add(row)
-    return o(here=i, when=span, left=left.split(top), right=right.split(top))
-      
-#   _
+    if len(i.rows) >= 2*len(top.rows)**the.enough:
+      left0, right0 = i.half(top)
+      spans = []
+      [lcol.spans(rcol,spans) for lcol,rcol in zip(left0.x, right0.x)]
+      if len(spans) > 0:
+        here.when   = Span.sort(spans)[0]
+        left, right = i.clone(), i.clone()
+        [(left if span.selects(row) else right).add(row) for row in i.rows]
+        if len(left.rows) < len(i.rows): here.left  = left.split(top)
+        if len(rght.rows) < len(i.rows): here.right = right.split(top)
+    return here
+
+#   _                     
+#  | |_   _ _   ___   ___ 
+#  |  _| | '_| / -_) / -_)
+#   \__| |_|   \___| \___|
+                        
+class Tree(o):
+  def __init__(i,here):
+    i.here, i.when, i.yes, i.no = here, None, None, None
+
+  def show(i,pre=""):
+    "Print tree with indents."
+    print(f"{pre}{i.here.ys.n}")
+    if i.yes: 
+      print(f"{pre}  {i.when.show(True)}") ; i.yes.show(pre + "|.. ")
+    if i.no: 
+      print(f"{pre}  {i.when.show(False)}"); i.no.show( pre + "|.. ")
+#    _
 #  /\ \                                         
 #  \_\ \      __     ___ ___      ___     ____  
 #  /'_` \   /'__`\ /' __` __`\   / __`\  /',__\ 
 # /\ \L\ \ /\  __/ /\ \/\ \/\ \ /\ \L\ \/\__, `\
 # \ \___,_\\ \____\\ \_\ \_\ \_\\ \____/\/\____/
 #  \/__,_ / \/____/ \/_/\/_/\/_/ \/___/  \/___/ 
-#------------------------------------------------------------------------------
 
 class Demos:
   "Possible start-up actions."
+  def opt(): 
+    print(the)
+
   def num(): 
     n=Num()
     for x in range(10000): n.add(x)
