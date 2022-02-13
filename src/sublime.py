@@ -97,6 +97,10 @@ from typing import Any
 #    /\____\  \ \_\   \ \_,__/
 #    \/____/   \/_/    \/___/ 
 
+def any(a:list) -> Any:
+  "Return a random item."
+  return a[anywhere(a)]
+
 def anywhere(a:list) -> int:
   "Return a random index of list `a`."
   return random.randint(0, len(a)-1)
@@ -114,18 +118,23 @@ def atom(x):
       try: return float(x)
       except: return x.strip()
  
-def demo(want,all): 
+def demo(do,all): 
   "Maybe run a demo, if we want it, resetting random seed first."
-  for one in dir(all):
-    if (not want or (want and one.startswith(want))):
-      fun = all.__dict__[one]
-      if type(fun)==type(demo):
-        random.seed(the.seed)
-        try: fun()
-        except Exception as e:
-          all.fails += 0
-          if the.cautious : traceback.print_exc(); exit(1)
-          else            : print("FAIL", e)
+  todo = dir(all)
+  if do and do != "all":
+    todo = [x for x in dir(all) if x.startswith(do)]
+  for one in todo:
+    fun = all.__dict__.get(one,"")
+    if type(fun)==type(demo):
+      random.seed(the.seed)
+      doc = re.sub(r"\n\s+", "\n", fun.__doc__ or "")
+      try: 
+        fun()
+        print("PASS:", doc)
+      except Exception as e:
+        all.fails += 0
+        if the.cautious : traceback.print_exc(); exit(1)
+        else            : print("FAIL:", doc, e)
   exit(all.fails)
 
 def file(f):
@@ -182,6 +191,14 @@ def r() -> float:
   "Return random number 0..1" 
   return random.random()
 
+def rn(x:float, n=3) -> float:
+  "Round a number to three decimals."
+  return round(x,n)
+
+def rN(a:list, n=3) -> list:
+  "Round a list of numbers to three decimals."
+  return [rn(x,n=n) for x in a]
+
 def second(a:list) -> Any:
   "Return second item."
   return a[1]
@@ -208,19 +225,20 @@ class Span(o):
 
   def add(i, x:float, y:Any, inc=1) -> None:
     "`y` is a label identifying, one `Sample` or another."
-    i.lo = min(x,i.lo)
-    i.hi = max(x,i.hi)
+    i.lo = min(x, i.lo)
+    i.hi = max(x, i.hi)
     i.ys.add(y,inc)
 
   def merge(i, j): # -> Span|None
     "If the merged span is simpler, return that merge." 
     a, b, c = i.ys, j.ys, i.ys.merge(j.ys)
-    if c.div()*.99 <= (a.n*a.div() + b.n*b.div())/(a.n + b.n): 
+    if (i.ys.n==0 or j.ys.n==0 or 
+        c.div()*.99 <= (a.n*a.div() + b.n*b.div())/(a.n + b.n)): 
       return Span(i.col, min(i.lo,j.lo),max(i.hi,j.hi), ys=c) 
 
   def selects(i,row:list) -> bool:
     "True if the range accepts the row."
-    x = row[col.at]; return x=="?" or i.lo<=x and x<i.hi 
+    x = row[i.col.at]; return x=="?" or i.lo<=x and x<i.hi 
 
   def show(i, positive=True) -> None: 
     "Show the range."
@@ -246,7 +264,7 @@ class Span(o):
     divs, supports = Num(), Num()
     sn = lambda s: supports.norm( s.support())
     dn = lambda s: divs.norm(     s.ys.div())
-    f  = lambda s: ((1 - sn(s))**2 + dn(s)**2)**.5
+    f  = lambda s: ((1 - sn(s))**2 + dn(s)**2)**.5/2**.5
     for s in spans:
       divs.add(    s.ys.div())
       supports.add(s.support())
@@ -321,23 +339,27 @@ class Num(Col):
     "Return the p-th ranked item."
     a = i.all(); return a[ int(p*len(a)) ]
 
-  def spans(i,j, all):
+  def spans(i,j, out):
     """Divide the whole space `lo` to `hi` into, say, `xsmall`=16 bin,
     then count the number of times we the bin on other side.
     Then merge similar adjacent bins."""
     lo  = min(i.lo, j.lo)
     hi  = max(i.hi, j.hi)
     gap = (hi-lo) / (6/the.xsmall)
-    at  = lambda z: lo + int((z-lo)/gap)*gap 
-    tmp = {}
-    for x in map(at, i._all): 
-      s = tmp[x] = tmp[x] if x in tmp else Span(i,x,x+gap)
-      s.add(x,0)
-    for x in map(at, j._all): 
-      s = tmp[x] = tmp[x] if x in tmp else Span(i,x,x+gap)
-      s.add(x,1)
-    tmp = merge([x for _,x in sorted(tmp.items(),key=first)])
-    if len(tmp) > 1 : all + tmp
+    xys = [(x,"this",1) for x in i._all] + [
+           (x,"that",1) for x in j._all]
+    one = Span(i,lo,lo)
+    all = [one]
+    for x,y,n in sorted(xys, key=first):
+      if one.hi - one.lo > gap:
+        one  = Span(i, one.hi,x)
+        all += [one]
+      one.add(x,y,n)
+    print("")
+    all = merge(all)
+    all[ 0].lo = -big
+    all[-1].hi =  big
+    if len(all) > 1: out += all
 
 #   ___  _  _   _ __  
 #  (_-< | || | | '  \ 
@@ -364,32 +386,34 @@ class Sym(Col):
 
   def div(i): 
     "Return diversity of this distribution (using entropy)."
-    p = lambda x: x/i.n
+    p = lambda x: x / (1E-31 + i.n)
     return sum( -p(x)*math.log(p(x),2) for x in i.has.values() )
 
   def merge(i,j):
     "Merge two `Sym`s."
     k = Sym(at=i.at, txt=i.txt)
-    for k,n in i.has.items(): k.add(x,n)
-    for k,n in j.has.items(): k.add(x,n)
+    for x,n in i.has.items(): k.add(x,n)
+    for x,n in j.has.items(): k.add(x,n)
     return k
 
   def mid(i): 
     "Return central tendancy of this distribution (using mode)."
     return i.mode
 
-  def spans(i,j, all):
+  def spans(i,j, out):
     """For each symbol in `i` and `j`, count the 
     number of times we see it on either side."""
-    tmp = {}
-    for x,n in i.has.items(): 
-      s = tmp[x] = (tmp[x] if x in tmp else Span(i,x,x))
-      s.add(x,0,n)
-    for x,n in j.has.items(): 
-      s = tmp[x] = (tmp[x] if x in tmp else Span(i,x,x))
-      s.add(x,1,n)
-    tmp = [second(x) for x in sorted(tmp.items(), key=first)]
-    if len(tmp) > 1 : all + tmp
+    xys = [(x,"this",n) for x,n in i.has.items()] + [
+           (x,"that",n) for x,n in j.has.items()]
+    one, last = None,None
+    all  = []
+    for x,y,n in sorted(xys, key=first):
+      if x != last: 
+         last = x
+         one  = Span(i, x,x)
+         all += [one]
+      one.add(x,y,n)
+    if len(all) > 1 : out += all
 
 #                              _       
 #   ___  __ _   _ __    _ __  | |  ___ 
@@ -443,7 +467,8 @@ class Sample(o):
       (left if n <= len(i.rows)//2 else right).__add__(r) 
     return left,right
 
-  def mid(i,cols=None): return [col.mid() for col in (cols or i.all)]
+  def mid(i,cols=None): 
+    return [col.mid() for col in (cols or i.all)]
 
   def proj(i,row,x,y,c):
     "Find the distance of a `row` on a line between `x` and `y`."
@@ -456,16 +481,16 @@ class Sample(o):
     separates the data. Divide data on that span."""
     here = Tree(i)
     top = top or i
-    if len(i.rows) >= 2*len(top.rows)**the.enough:
+    if len(i.rows) >= 2*(len(top.rows)**the.enough):
       left, right = i.half(top)
       spans = []
       [lcol.spans(rcol,spans) for lcol,rcol in zip(left.x, right.x)]
       if len(spans) > 0:
         here.span   = Span.sort(spans)[0]
         yes, no = i.clone(), i.clone()
-        [(yes if span.selects(row) else no).add(row) for row in i.rows]
-        if len(yes.rows) < len(i.rows): here.yes = yes.split(top)
-        if len(no.rows ) < len(i.rows): here.no  = no.split(top)
+        [(yes if here.span.selects(row) else no) + row for row in i.rows]
+        if len(yes.rows) < len(i.rows): here.yes = yes.split(top=top)
+        if len(no.rows ) < len(i.rows): here.no  = no.split(top=top)
     return here
 
 #   _                     
@@ -498,46 +523,65 @@ class Demos:
   "Possible start-up actions."
   fails=0
   def opt(): 
-    "Show the config."
+    "show the config."
     [print(f"{k:>10} = {v}") for k,v in the.__dict__.items()]
 
+  def seed():
+    "seed"
+    assert .494 <= r() <= .495 
+
   def num(): 
-    "Check `Num`."
+    "check `Num`."
     n = Num()
     for _ in range(100): n.add(r())
     assert .30 <= n.div() <= .31, "in range"
 
   def sym(): 
-    "Check `Sym`."
+    "check `Sym`."
     s = Sym()
     for x in "aaaabbc": s.add(x)
     assert 1.37 <= s.div() <= 1.38, "entropy"
     assert 'a'  == s.mid(), "mode"
 
   def rows(): 
-    for row in file(the.data): print(row)
+    "count rows in a file."
+    assert 399 == len([row for row in file(the.data)])
 
-  def sample(): s=Sample(the.data); print(len(s.rows))
+  def sample(): 
+    "sampling."
+    s = Sample(the.data)
+    assert 398 == len(s.rows),    "length of rows"
+    assert 249 == s.x[-1].has[1], "symbol counts"
 
-  def done(): s=Sample(the.data); s.dist(s.rows[1], s.rows[2])
-
-  def dist():
-    s=Sample(the.data)
-    for row in s.rows: print(s.dist(s.rows[0], row))
+  def dist(): 
+    "distance between rows"
+    s = Sample(the.data)
+    assert .84 <= s.dist(s.rows[1], s.rows[-1]) <= .842
 
   def far():
-    s=Sample(the.data)
-    for row in s.rows: print(row,s.far(row))
+    "distant items"
+    s = Sample(the.data)
+    for _ in range(32):
+      a,_ = s.far(any(s.rows))
+      assert a>.5, "large?"
 
   def clone():
-    s=Sample(the.data); s1 = s.clone(s.rows)
-    print(s.x[0])
-    print(s1.x[0])
+    "cloning"
+    s = Sample(the.data)
+    s1 = s.clone(s.rows)
+    d1,d2 = s.x[0].__dict__, s1.x[0].__dict__
+    for k,v in d1.items(): 
+      assert d2[k] == v, "clone test"
 
   def half():
-    s=Sample(the.data); s1,s2 = s.half()
+    "divide data in two"
+    s = Sample(the.data); s1,s2 = s.half()
     print(s1.mid(s1.y))
     print(s2.mid(s2.y))
 
-if __name__ == "__main__": 
-  demo(the.todo,Demos)
+  def split():
+    "divide data in two"
+    s = Sample(the.data)
+    s.split().show()
+
+if __name__ == "__main__": demo(the.todo,Demos)

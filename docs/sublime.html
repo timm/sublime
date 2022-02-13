@@ -32,6 +32,9 @@
                     <h2>API Documentation</h2>
                         <ul class="memberlist">
             <li>
+                    <a class="function" href="#any">any</a>
+            </li>
+            <li>
                     <a class="function" href="#anywhere">anywhere</a>
             </li>
             <li>
@@ -230,6 +233,9 @@
                                 <a class="function" href="#Demos.opt">opt</a>
                         </li>
                         <li>
+                                <a class="function" href="#Demos.seed">seed</a>
+                        </li>
+                        <li>
                                 <a class="function" href="#Demos.num">num</a>
                         </li>
                         <li>
@@ -240,9 +246,6 @@
                         </li>
                         <li>
                                 <a class="function" href="#Demos.sample">sample</a>
-                        </li>
-                        <li>
-                                <a class="function" href="#Demos.done">done</a>
                         </li>
                         <li>
                                 <a class="function" href="#Demos.dist">dist</a>
@@ -276,7 +279,7 @@
 sublime    </h1>
 
                         <div class="docstring"><p>./<a href="#py">sublime.py</a> [OPTIONS] <br />
-(c)2022 Tim Menzies <a href="&#x6d;a&#x69;&#x6c;&#x74;o&#x3a;&#x74;&#x69;&#x6d;&#109;&#64;&#105;&#x65;&#101;&#101;&#46;&#x6f;&#114;g">&#x74;&#x69;&#x6d;&#109;&#64;&#105;&#x65;&#101;&#101;&#46;&#x6f;&#114;g</a> unlicense.org. <br />
+(c)2022 Tim Menzies <a href="&#109;&#x61;&#x69;&#x6c;&#116;o&#x3a;&#x74;&#x69;&#109;&#109;&#64;&#x69;&#x65;&#x65;&#x65;&#x2e;&#x6f;&#x72;&#x67;">&#x74;&#x69;&#109;&#109;&#64;&#x69;&#x65;&#x65;&#x65;&#x2e;&#x6f;&#x72;&#x67;</a> unlicense.org. <br />
 Sublime's unsupervised bifurcation: 
 let's infer minimal explanations. </p>
 
@@ -424,7 +427,7 @@ OR OTHER DEALINGS IN THE SOFTWARE.</p>
 <span class="sd">For more information, please refer to &lt;http://unlicense.org/&gt;</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">traceback</span><span class="o">,</span> <span class="nn">random</span><span class="o">,</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">traceback</span><span class="o">,</span> <span class="nn">random</span><span class="o">,</span> <span class="nn">math</span><span class="o">,</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">re</span>
 <span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">random</span> <span class="k">as</span> <span class="n">r</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
 <span class="c1">#  ___              __        </span>
@@ -434,6 +437,10 @@ OR OTHER DEALINGS IN THE SOFTWARE.</p>
 <span class="c1">#    \_\ \_  \ \ \   \ \ \L\ \</span>
 <span class="c1">#    /\____\  \ \_\   \ \_,__/</span>
 <span class="c1">#    \/____/   \/_/    \/___/ </span>
+
+<span class="k">def</span> <span class="nf">any</span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+  <span class="s2">&quot;Return a random item.&quot;</span>
+  <span class="k">return</span> <span class="n">a</span><span class="p">[</span><span class="n">anywhere</span><span class="p">(</span><span class="n">a</span><span class="p">)]</span>
 
 <span class="k">def</span> <span class="nf">anywhere</span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
   <span class="s2">&quot;Return a random index of list `a`.&quot;</span>
@@ -452,18 +459,23 @@ OR OTHER DEALINGS IN THE SOFTWARE.</p>
       <span class="k">try</span><span class="p">:</span> <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
       <span class="k">except</span><span class="p">:</span> <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
  
-<span class="k">def</span> <span class="nf">demo</span><span class="p">(</span><span class="n">want</span><span class="p">,</span><span class="nb">all</span><span class="p">):</span> 
+<span class="k">def</span> <span class="nf">demo</span><span class="p">(</span><span class="n">do</span><span class="p">,</span><span class="nb">all</span><span class="p">):</span> 
   <span class="s2">&quot;Maybe run a demo, if we want it, resetting random seed first.&quot;</span>
-  <span class="k">for</span> <span class="n">one</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="nb">all</span><span class="p">):</span>
-    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">want</span> <span class="ow">or</span> <span class="p">(</span><span class="n">want</span> <span class="ow">and</span> <span class="n">one</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">want</span><span class="p">))):</span>
-      <span class="n">fun</span> <span class="o">=</span> <span class="nb">all</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">one</span><span class="p">]</span>
-      <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">fun</span><span class="p">)</span><span class="o">==</span><span class="nb">type</span><span class="p">(</span><span class="n">demo</span><span class="p">):</span>
-        <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">seed</span><span class="p">)</span>
-        <span class="k">try</span><span class="p">:</span> <span class="n">fun</span><span class="p">()</span>
-        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-          <span class="nb">all</span><span class="o">.</span><span class="n">fails</span> <span class="o">+=</span> <span class="mi">0</span>
-          <span class="k">if</span> <span class="n">the</span><span class="o">.</span><span class="n">cautious</span> <span class="p">:</span> <span class="n">traceback</span><span class="o">.</span><span class="n">print_exc</span><span class="p">();</span> <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-          <span class="k">else</span>            <span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;FAIL&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+  <span class="n">todo</span> <span class="o">=</span> <span class="nb">dir</span><span class="p">(</span><span class="nb">all</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">do</span> <span class="ow">and</span> <span class="n">do</span> <span class="o">!=</span> <span class="s2">&quot;all&quot;</span><span class="p">:</span>
+    <span class="n">todo</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="nb">all</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">do</span><span class="p">)]</span>
+  <span class="k">for</span> <span class="n">one</span> <span class="ow">in</span> <span class="n">todo</span><span class="p">:</span>
+    <span class="n">fun</span> <span class="o">=</span> <span class="nb">all</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">one</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">fun</span><span class="p">)</span><span class="o">==</span><span class="nb">type</span><span class="p">(</span><span class="n">demo</span><span class="p">):</span>
+      <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">seed</span><span class="p">)</span>
+      <span class="n">doc</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\n\s+&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fun</span><span class="o">.</span><span class="vm">__doc__</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+      <span class="k">try</span><span class="p">:</span> 
+        <span class="n">fun</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;PASS:&quot;</span><span class="p">,</span> <span class="n">doc</span><span class="p">)</span>
+      <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">all</span><span class="o">.</span><span class="n">fails</span> <span class="o">+=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">the</span><span class="o">.</span><span class="n">cautious</span> <span class="p">:</span> <span class="n">traceback</span><span class="o">.</span><span class="n">print_exc</span><span class="p">();</span> <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span>            <span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;FAIL:&quot;</span><span class="p">,</span> <span class="n">doc</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
   <span class="n">exit</span><span class="p">(</span><span class="nb">all</span><span class="o">.</span><span class="n">fails</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">file</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
@@ -781,7 +793,8 @@ OR OTHER DEALINGS IN THE SOFTWARE.</p>
       <span class="p">(</span><span class="n">left</span> <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span> <span class="k">else</span> <span class="n">right</span><span class="p">)</span><span class="o">.</span><span class="fm">__add__</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> 
     <span class="k">return</span> <span class="n">left</span><span class="p">,</span><span class="n">right</span>
 
-  <span class="k">def</span> <span class="nf">mid</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">cols</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span> <span class="k">return</span> <span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">mid</span><span class="p">()</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">(</span><span class="n">cols</span> <span class="ow">or</span> <span class="n">i</span><span class="o">.</span><span class="n">all</span><span class="p">)]</span>
+  <span class="k">def</span> <span class="nf">mid</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">cols</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span> 
+    <span class="k">return</span> <span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">mid</span><span class="p">()</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">(</span><span class="n">cols</span> <span class="ow">or</span> <span class="n">i</span><span class="o">.</span><span class="n">all</span><span class="p">)]</span>
 
   <span class="k">def</span> <span class="nf">proj</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">row</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">c</span><span class="p">):</span>
     <span class="s2">&quot;Find the distance of a `row` on a line between `x` and `y`.&quot;</span>
@@ -836,53 +849,90 @@ OR OTHER DEALINGS IN THE SOFTWARE.</p>
   <span class="s2">&quot;Possible start-up actions.&quot;</span>
   <span class="n">fails</span><span class="o">=</span><span class="mi">0</span>
   <span class="k">def</span> <span class="nf">opt</span><span class="p">():</span> 
-    <span class="s2">&quot;Show the config.&quot;</span>
+    <span class="s2">&quot;show the config.&quot;</span>
     <span class="p">[</span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s2">&gt;10</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">the</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
 
+  <span class="k">def</span> <span class="nf">seed</span><span class="p">():</span>
+    <span class="s2">&quot;seed&quot;</span>
+    <span class="k">assert</span> <span class="mf">.494</span> <span class="o">&lt;=</span> <span class="n">r</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mf">.495</span> 
+
   <span class="k">def</span> <span class="nf">num</span><span class="p">():</span> 
-    <span class="s2">&quot;Check `Num`.&quot;</span>
+    <span class="s2">&quot;check `Num`.&quot;</span>
     <span class="n">n</span> <span class="o">=</span> <span class="n">Num</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span> <span class="n">n</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">r</span><span class="p">())</span>
     <span class="k">assert</span> <span class="mf">.30</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="o">.</span><span class="n">div</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mf">.31</span><span class="p">,</span> <span class="s2">&quot;in range&quot;</span>
 
   <span class="k">def</span> <span class="nf">sym</span><span class="p">():</span> 
-    <span class="s2">&quot;Check `Sym`.&quot;</span>
-    <span class="n">s</span><span class="o">=</span><span class="n">Sym</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10000</span><span class="p">):</span> <span class="n">s</span><span class="o">.</span><span class="n">add</span><span class="p">(</span> <span class="nb">int</span><span class="p">(</span><span class="n">r</span><span class="p">()</span><span class="o">*</span><span class="mi">20</span><span class="p">))</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
+    <span class="s2">&quot;check `Sym`.&quot;</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">Sym</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="s2">&quot;aaaabbc&quot;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="mf">1.37</span> <span class="o">&lt;=</span> <span class="n">s</span><span class="o">.</span><span class="n">div</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mf">1.38</span><span class="p">,</span> <span class="s2">&quot;entropy&quot;</span>
+    <span class="k">assert</span> <span class="s1">&#39;a&#39;</span>  <span class="o">==</span> <span class="n">s</span><span class="o">.</span><span class="n">mid</span><span class="p">(),</span> <span class="s2">&quot;mode&quot;</span>
 
   <span class="k">def</span> <span class="nf">rows</span><span class="p">():</span> 
-    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">file</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">):</span> <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+    <span class="s2">&quot;count rows in a file.&quot;</span>
+    <span class="k">assert</span> <span class="mi">399</span> <span class="o">==</span> <span class="nb">len</span><span class="p">([</span><span class="n">row</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">file</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">)])</span>
 
-  <span class="k">def</span> <span class="nf">sample</span><span class="p">():</span> <span class="n">s</span><span class="o">=</span><span class="n">Sample</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">);</span> <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">rows</span><span class="p">))</span>
-
-  <span class="k">def</span> <span class="nf">done</span><span class="p">():</span> <span class="n">s</span><span class="o">=</span><span class="n">Sample</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">);</span> <span class="n">s</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">rows</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">.</span><span class="n">rows</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
-
-  <span class="k">def</span> <span class="nf">dist</span><span class="p">():</span>
+  <span class="k">def</span> <span class="nf">sample</span><span class="p">():</span> 
+    <span class="s2">&quot;sampling.&quot;</span>
     <span class="n">s</span><span class="o">=</span><span class="n">Sample</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">rows</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">rows</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">row</span><span class="p">))</span>
+    <span class="k">assert</span> <span class="mi">398</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">rows</span><span class="p">),</span>    <span class="s2">&quot;length of rows&quot;</span>
+    <span class="k">assert</span> <span class="mi">249</span> <span class="o">==</span> <span class="n">s</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">has</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;symbol counts&quot;</span>
+
+  <span class="k">def</span> <span class="nf">dist</span><span class="p">():</span> 
+    <span class="s2">&quot;distance between rows&quot;</span>
+    <span class="n">s</span><span class="o">=</span><span class="n">Sample</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="mf">.84</span> <span class="o">&lt;=</span> <span class="n">s</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">rows</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">.</span><span class="n">rows</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="mf">.842</span>
 
   <span class="k">def</span> <span class="nf">far</span><span class="p">():</span>
+    <span class="s2">&quot;distant items&quot;</span>
     <span class="n">s</span><span class="o">=</span><span class="n">Sample</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">rows</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">,</span><span class="n">s</span><span class="o">.</span><span class="n">far</span><span class="p">(</span><span class="n">row</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">32</span><span class="p">):</span>
+      <span class="n">a</span><span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">far</span><span class="p">(</span><span class="nb">any</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">rows</span><span class="p">))</span>
+      <span class="k">assert</span> <span class="n">a</span><span class="o">&gt;</span><span class="mf">.5</span><span class="p">,</span> <span class="s2">&quot;large?&quot;</span>
 
   <span class="k">def</span> <span class="nf">clone</span><span class="p">():</span>
-    <span class="n">s</span><span class="o">=</span><span class="n">Sample</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">);</span> <span class="n">s1</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">s1</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="s2">&quot;cloning&quot;</span>
+    <span class="n">s</span><span class="o">=</span><span class="n">Sample</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">s1</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span>
+    <span class="n">d1</span><span class="p">,</span><span class="n">d2</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">,</span> <span class="n">s1</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="vm">__dict__</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">d1</span><span class="o">.</span><span class="n">items</span><span class="p">():</span> 
+      <span class="k">assert</span> <span class="n">d2</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">==</span> <span class="n">v</span><span class="p">,</span> <span class="s2">&quot;clone test&quot;</span>
 
   <span class="k">def</span> <span class="nf">half</span><span class="p">():</span>
+    <span class="s2">&quot;divide data in two&quot;</span>
     <span class="n">s</span><span class="o">=</span><span class="n">Sample</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">);</span> <span class="n">s1</span><span class="p">,</span><span class="n">s2</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">half</span><span class="p">()</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">s1</span><span class="o">.</span><span class="n">mid</span><span class="p">(</span><span class="n">s1</span><span class="o">.</span><span class="n">y</span><span class="p">))</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">s2</span><span class="o">.</span><span class="n">mid</span><span class="p">(</span><span class="n">s2</span><span class="o">.</span><span class="n">y</span><span class="p">))</span>
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span> 
-  <span class="n">demo</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">todo</span><span class="p">,</span><span class="n">Demos</span><span class="p">)</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span> <span class="n">demo</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">todo</span><span class="p">,</span><span class="n">Demos</span><span class="p">)</span>
 </pre></div>
 
         </details>
 
             </section>
+                <section id="any">
+                            <div class="attr function"><a class="headerlink" href="#any">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">any</span><span class="signature">(a: list) -&gt; Any</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">any</span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+  <span class="s2">&quot;Return a random item.&quot;</span>
+  <span class="k">return</span> <span class="n">a</span><span class="p">[</span><span class="n">anywhere</span><span class="p">(</span><span class="n">a</span><span class="p">)]</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>Return a random item.</p>
+</div>
+
+
+                </section>
                 <section id="anywhere">
                             <div class="attr function"><a class="headerlink" href="#anywhere">#&nbsp;&nbsp</a>
 
@@ -939,23 +989,28 @@ OR OTHER DEALINGS IN THE SOFTWARE.</p>
 
         
             <span class="def">def</span>
-            <span class="name">demo</span><span class="signature">(want, all)</span>:
+            <span class="name">demo</span><span class="signature">(do, all)</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">demo</span><span class="p">(</span><span class="n">want</span><span class="p">,</span><span class="nb">all</span><span class="p">):</span> 
+            <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">demo</span><span class="p">(</span><span class="n">do</span><span class="p">,</span><span class="nb">all</span><span class="p">):</span> 
   <span class="s2">&quot;Maybe run a demo, if we want it, resetting random seed first.&quot;</span>
-  <span class="k">for</span> <span class="n">one</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="nb">all</span><span class="p">):</span>
-    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">want</span> <span class="ow">or</span> <span class="p">(</span><span class="n">want</span> <span class="ow">and</span> <span class="n">one</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">want</span><span class="p">))):</span>
-      <span class="n">fun</span> <span class="o">=</span> <span class="nb">all</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">one</span><span class="p">]</span>
-      <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">fun</span><span class="p">)</span><span class="o">==</span><span class="nb">type</span><span class="p">(</span><span class="n">demo</span><span class="p">):</span>
-        <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">seed</span><span class="p">)</span>
-        <span class="k">try</span><span class="p">:</span> <span class="n">fun</span><span class="p">()</span>
-        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-          <span class="nb">all</span><span class="o">.</span><span class="n">fails</span> <span class="o">+=</span> <span class="mi">0</span>
-          <span class="k">if</span> <span class="n">the</span><span class="o">.</span><span class="n">cautious</span> <span class="p">:</span> <span class="n">traceback</span><span class="o">.</span><span class="n">print_exc</span><span class="p">();</span> <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-          <span class="k">else</span>            <span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;FAIL&quot;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+  <span class="n">todo</span> <span class="o">=</span> <span class="nb">dir</span><span class="p">(</span><span class="nb">all</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">do</span> <span class="ow">and</span> <span class="n">do</span> <span class="o">!=</span> <span class="s2">&quot;all&quot;</span><span class="p">:</span>
+    <span class="n">todo</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="nb">all</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">do</span><span class="p">)]</span>
+  <span class="k">for</span> <span class="n">one</span> <span class="ow">in</span> <span class="n">todo</span><span class="p">:</span>
+    <span class="n">fun</span> <span class="o">=</span> <span class="nb">all</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">one</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">fun</span><span class="p">)</span><span class="o">==</span><span class="nb">type</span><span class="p">(</span><span class="n">demo</span><span class="p">):</span>
+      <span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">seed</span><span class="p">)</span>
+      <span class="n">doc</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;\n\s+&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fun</span><span class="o">.</span><span class="vm">__doc__</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+      <span class="k">try</span><span class="p">:</span> 
+        <span class="n">fun</span><span class="p">()</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;PASS:&quot;</span><span class="p">,</span> <span class="n">doc</span><span class="p">)</span>
+      <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">all</span><span class="o">.</span><span class="n">fails</span> <span class="o">+=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">the</span><span class="o">.</span><span class="n">cautious</span> <span class="p">:</span> <span class="n">traceback</span><span class="o">.</span><span class="n">print_exc</span><span class="p">();</span> <span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span>            <span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;FAIL:&quot;</span><span class="p">,</span> <span class="n">doc</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
   <span class="n">exit</span><span class="p">(</span><span class="nb">all</span><span class="o">.</span><span class="n">fails</span><span class="p">)</span>
 </pre></div>
 
@@ -2126,7 +2181,8 @@ number of times we see it on either side.</p>
       <span class="p">(</span><span class="n">left</span> <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span> <span class="k">else</span> <span class="n">right</span><span class="p">)</span><span class="o">.</span><span class="fm">__add__</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> 
     <span class="k">return</span> <span class="n">left</span><span class="p">,</span><span class="n">right</span>
 
-  <span class="k">def</span> <span class="nf">mid</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">cols</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span> <span class="k">return</span> <span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">mid</span><span class="p">()</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">(</span><span class="n">cols</span> <span class="ow">or</span> <span class="n">i</span><span class="o">.</span><span class="n">all</span><span class="p">)]</span>
+  <span class="k">def</span> <span class="nf">mid</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">cols</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span> 
+    <span class="k">return</span> <span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">mid</span><span class="p">()</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">(</span><span class="n">cols</span> <span class="ow">or</span> <span class="n">i</span><span class="o">.</span><span class="n">all</span><span class="p">)]</span>
 
   <span class="k">def</span> <span class="nf">proj</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">row</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">c</span><span class="p">):</span>
     <span class="s2">&quot;Find the distance of a `row` on a line between `x` and `y`.&quot;</span>
@@ -2296,7 +2352,8 @@ number of times we see it on either side.</p>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="nf">mid</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">cols</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span> <span class="k">return</span> <span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">mid</span><span class="p">()</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">(</span><span class="n">cols</span> <span class="ow">or</span> <span class="n">i</span><span class="o">.</span><span class="n">all</span><span class="p">)]</span>
+            <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="nf">mid</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">cols</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span> 
+    <span class="k">return</span> <span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">mid</span><span class="p">()</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">(</span><span class="n">cols</span> <span class="ow">or</span> <span class="n">i</span><span class="o">.</span><span class="n">all</span><span class="p">)]</span>
 </pre></div>
 
         </details>
@@ -2458,42 +2515,58 @@ that do/do not match a <code>span</code>.</p>
   <span class="s2">&quot;Possible start-up actions.&quot;</span>
   <span class="n">fails</span><span class="o">=</span><span class="mi">0</span>
   <span class="k">def</span> <span class="nf">opt</span><span class="p">():</span> 
-    <span class="s2">&quot;Show the config.&quot;</span>
+    <span class="s2">&quot;show the config.&quot;</span>
     <span class="p">[</span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s2">&gt;10</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">the</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
 
+  <span class="k">def</span> <span class="nf">seed</span><span class="p">():</span>
+    <span class="s2">&quot;seed&quot;</span>
+    <span class="k">assert</span> <span class="mf">.494</span> <span class="o">&lt;=</span> <span class="n">r</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mf">.495</span> 
+
   <span class="k">def</span> <span class="nf">num</span><span class="p">():</span> 
-    <span class="s2">&quot;Check `Num`.&quot;</span>
+    <span class="s2">&quot;check `Num`.&quot;</span>
     <span class="n">n</span> <span class="o">=</span> <span class="n">Num</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span> <span class="n">n</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">r</span><span class="p">())</span>
     <span class="k">assert</span> <span class="mf">.30</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="o">.</span><span class="n">div</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mf">.31</span><span class="p">,</span> <span class="s2">&quot;in range&quot;</span>
 
   <span class="k">def</span> <span class="nf">sym</span><span class="p">():</span> 
-    <span class="s2">&quot;Check `Sym`.&quot;</span>
-    <span class="n">s</span><span class="o">=</span><span class="n">Sym</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10000</span><span class="p">):</span> <span class="n">s</span><span class="o">.</span><span class="n">add</span><span class="p">(</span> <span class="nb">int</span><span class="p">(</span><span class="n">r</span><span class="p">()</span><span class="o">*</span><span class="mi">20</span><span class="p">))</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
+    <span class="s2">&quot;check `Sym`.&quot;</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">Sym</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="s2">&quot;aaaabbc&quot;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="mf">1.37</span> <span class="o">&lt;=</span> <span class="n">s</span><span class="o">.</span><span class="n">div</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mf">1.38</span><span class="p">,</span> <span class="s2">&quot;entropy&quot;</span>
+    <span class="k">assert</span> <span class="s1">&#39;a&#39;</span>  <span class="o">==</span> <span class="n">s</span><span class="o">.</span><span class="n">mid</span><span class="p">(),</span> <span class="s2">&quot;mode&quot;</span>
 
   <span class="k">def</span> <span class="nf">rows</span><span class="p">():</span> 
-    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">file</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">):</span> <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+    <span class="s2">&quot;count rows in a file.&quot;</span>
+    <span class="k">assert</span> <span class="mi">399</span> <span class="o">==</span> <span class="nb">len</span><span class="p">([</span><span class="n">row</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">file</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">)])</span>
 
-  <span class="k">def</span> <span class="nf">sample</span><span class="p">():</span> <span class="n">s</span><span class="o">=</span><span class="n">Sample</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">);</span> <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">rows</span><span class="p">))</span>
-
-  <span class="k">def</span> <span class="nf">done</span><span class="p">():</span> <span class="n">s</span><span class="o">=</span><span class="n">Sample</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">);</span> <span class="n">s</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">rows</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">.</span><span class="n">rows</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
-
-  <span class="k">def</span> <span class="nf">dist</span><span class="p">():</span>
+  <span class="k">def</span> <span class="nf">sample</span><span class="p">():</span> 
+    <span class="s2">&quot;sampling.&quot;</span>
     <span class="n">s</span><span class="o">=</span><span class="n">Sample</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">rows</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">rows</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">row</span><span class="p">))</span>
+    <span class="k">assert</span> <span class="mi">398</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">rows</span><span class="p">),</span>    <span class="s2">&quot;length of rows&quot;</span>
+    <span class="k">assert</span> <span class="mi">249</span> <span class="o">==</span> <span class="n">s</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">has</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;symbol counts&quot;</span>
+
+  <span class="k">def</span> <span class="nf">dist</span><span class="p">():</span> 
+    <span class="s2">&quot;distance between rows&quot;</span>
+    <span class="n">s</span><span class="o">=</span><span class="n">Sample</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="mf">.84</span> <span class="o">&lt;=</span> <span class="n">s</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">rows</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">.</span><span class="n">rows</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="mf">.842</span>
 
   <span class="k">def</span> <span class="nf">far</span><span class="p">():</span>
+    <span class="s2">&quot;distant items&quot;</span>
     <span class="n">s</span><span class="o">=</span><span class="n">Sample</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">rows</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">,</span><span class="n">s</span><span class="o">.</span><span class="n">far</span><span class="p">(</span><span class="n">row</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">32</span><span class="p">):</span>
+      <span class="n">a</span><span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">far</span><span class="p">(</span><span class="nb">any</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">rows</span><span class="p">))</span>
+      <span class="k">assert</span> <span class="n">a</span><span class="o">&gt;</span><span class="mf">.5</span><span class="p">,</span> <span class="s2">&quot;large?&quot;</span>
 
   <span class="k">def</span> <span class="nf">clone</span><span class="p">():</span>
-    <span class="n">s</span><span class="o">=</span><span class="n">Sample</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">);</span> <span class="n">s1</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">s1</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="s2">&quot;cloning&quot;</span>
+    <span class="n">s</span><span class="o">=</span><span class="n">Sample</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">s1</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span>
+    <span class="n">d1</span><span class="p">,</span><span class="n">d2</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">,</span> <span class="n">s1</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="vm">__dict__</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">d1</span><span class="o">.</span><span class="n">items</span><span class="p">():</span> 
+      <span class="k">assert</span> <span class="n">d2</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">==</span> <span class="n">v</span><span class="p">,</span> <span class="s2">&quot;clone test&quot;</span>
 
   <span class="k">def</span> <span class="nf">half</span><span class="p">():</span>
+    <span class="s2">&quot;divide data in two&quot;</span>
     <span class="n">s</span><span class="o">=</span><span class="n">Sample</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">);</span> <span class="n">s1</span><span class="p">,</span><span class="n">s2</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">half</span><span class="p">()</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">s1</span><span class="o">.</span><span class="n">mid</span><span class="p">(</span><span class="n">s1</span><span class="o">.</span><span class="n">y</span><span class="p">))</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">s2</span><span class="o">.</span><span class="n">mid</span><span class="p">(</span><span class="n">s2</span><span class="o">.</span><span class="n">y</span><span class="p">))</span>
@@ -2536,13 +2609,35 @@ that do/do not match a <code>span</code>.</p>
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="nf">opt</span><span class="p">():</span> 
-    <span class="s2">&quot;Show the config.&quot;</span>
+    <span class="s2">&quot;show the config.&quot;</span>
     <span class="p">[</span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">:</span><span class="s2">&gt;10</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">the</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
 </pre></div>
 
         </details>
 
-            <div class="docstring"><p>Show the config.</p>
+            <div class="docstring"><p>show the config.</p>
+</div>
+
+
+                            </div>
+                            <div id="Demos.seed" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Demos.seed">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">seed</span><span class="signature">()</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="nf">seed</span><span class="p">():</span>
+    <span class="s2">&quot;seed&quot;</span>
+    <span class="k">assert</span> <span class="mf">.494</span> <span class="o">&lt;=</span> <span class="n">r</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mf">.495</span> 
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>seed</p>
 </div>
 
 
@@ -2558,7 +2653,7 @@ that do/do not match a <code>span</code>.</p>
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="nf">num</span><span class="p">():</span> 
-    <span class="s2">&quot;Check `Num`.&quot;</span>
+    <span class="s2">&quot;check `Num`.&quot;</span>
     <span class="n">n</span> <span class="o">=</span> <span class="n">Num</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span> <span class="n">n</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">r</span><span class="p">())</span>
     <span class="k">assert</span> <span class="mf">.30</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="o">.</span><span class="n">div</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mf">.31</span><span class="p">,</span> <span class="s2">&quot;in range&quot;</span>
@@ -2566,7 +2661,7 @@ that do/do not match a <code>span</code>.</p>
 
         </details>
 
-            <div class="docstring"><p>Check <code><a href="#Num">Num</a></code>.</p>
+            <div class="docstring"><p>check <code><a href="#Num">Num</a></code>.</p>
 </div>
 
 
@@ -2582,15 +2677,16 @@ that do/do not match a <code>span</code>.</p>
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="nf">sym</span><span class="p">():</span> 
-    <span class="s2">&quot;Check `Sym`.&quot;</span>
-    <span class="n">s</span><span class="o">=</span><span class="n">Sym</span><span class="p">()</span>
-    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10000</span><span class="p">):</span> <span class="n">s</span><span class="o">.</span><span class="n">add</span><span class="p">(</span> <span class="nb">int</span><span class="p">(</span><span class="n">r</span><span class="p">()</span><span class="o">*</span><span class="mi">20</span><span class="p">))</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span>
+    <span class="s2">&quot;check `Sym`.&quot;</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">Sym</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="s2">&quot;aaaabbc&quot;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="mf">1.37</span> <span class="o">&lt;=</span> <span class="n">s</span><span class="o">.</span><span class="n">div</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mf">1.38</span><span class="p">,</span> <span class="s2">&quot;entropy&quot;</span>
+    <span class="k">assert</span> <span class="s1">&#39;a&#39;</span>  <span class="o">==</span> <span class="n">s</span><span class="o">.</span><span class="n">mid</span><span class="p">(),</span> <span class="s2">&quot;mode&quot;</span>
 </pre></div>
 
         </details>
 
-            <div class="docstring"><p>Check <code><a href="#Sym">Sym</a></code>.</p>
+            <div class="docstring"><p>check <code><a href="#Sym">Sym</a></code>.</p>
 </div>
 
 
@@ -2606,12 +2702,15 @@ that do/do not match a <code>span</code>.</p>
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="nf">rows</span><span class="p">():</span> 
-    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">file</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">):</span> <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+    <span class="s2">&quot;count rows in a file.&quot;</span>
+    <span class="k">assert</span> <span class="mi">399</span> <span class="o">==</span> <span class="nb">len</span><span class="p">([</span><span class="n">row</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">file</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">)])</span>
 </pre></div>
 
         </details>
 
-    
+            <div class="docstring"><p>count rows in a file.</p>
+</div>
+
 
                             </div>
                             <div id="Demos.sample" class="classattr">
@@ -2624,30 +2723,18 @@ that do/do not match a <code>span</code>.</p>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="nf">sample</span><span class="p">():</span> <span class="n">s</span><span class="o">=</span><span class="n">Sample</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">);</span> <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">rows</span><span class="p">))</span>
+            <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="nf">sample</span><span class="p">():</span> 
+    <span class="s2">&quot;sampling.&quot;</span>
+    <span class="n">s</span><span class="o">=</span><span class="n">Sample</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="mi">398</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">rows</span><span class="p">),</span>    <span class="s2">&quot;length of rows&quot;</span>
+    <span class="k">assert</span> <span class="mi">249</span> <span class="o">==</span> <span class="n">s</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">has</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;symbol counts&quot;</span>
 </pre></div>
 
         </details>
 
-    
+            <div class="docstring"><p>sampling.</p>
+</div>
 
-                            </div>
-                            <div id="Demos.done" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#Demos.done">#&nbsp;&nbsp</a>
-
-        
-            <span class="def">def</span>
-            <span class="name">done</span><span class="signature">()</span>:
-    </div>
-
-                <details>
-            <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="nf">done</span><span class="p">():</span> <span class="n">s</span><span class="o">=</span><span class="n">Sample</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">);</span> <span class="n">s</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">rows</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">.</span><span class="n">rows</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
-</pre></div>
-
-        </details>
-
-    
 
                             </div>
                             <div id="Demos.dist" class="classattr">
@@ -2660,14 +2747,17 @@ that do/do not match a <code>span</code>.</p>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="nf">dist</span><span class="p">():</span>
+            <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="nf">dist</span><span class="p">():</span> 
+    <span class="s2">&quot;distance between rows&quot;</span>
     <span class="n">s</span><span class="o">=</span><span class="n">Sample</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">rows</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">rows</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">row</span><span class="p">))</span>
+    <span class="k">assert</span> <span class="mf">.84</span> <span class="o">&lt;=</span> <span class="n">s</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">rows</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">.</span><span class="n">rows</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">&lt;=</span> <span class="mf">.842</span>
 </pre></div>
 
         </details>
 
-    
+            <div class="docstring"><p>distance between rows</p>
+</div>
+
 
                             </div>
                             <div id="Demos.far" class="classattr">
@@ -2681,13 +2771,18 @@ that do/do not match a <code>span</code>.</p>
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="nf">far</span><span class="p">():</span>
+    <span class="s2">&quot;distant items&quot;</span>
     <span class="n">s</span><span class="o">=</span><span class="n">Sample</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">rows</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">,</span><span class="n">s</span><span class="o">.</span><span class="n">far</span><span class="p">(</span><span class="n">row</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">32</span><span class="p">):</span>
+      <span class="n">a</span><span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">far</span><span class="p">(</span><span class="nb">any</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">rows</span><span class="p">))</span>
+      <span class="k">assert</span> <span class="n">a</span><span class="o">&gt;</span><span class="mf">.5</span><span class="p">,</span> <span class="s2">&quot;large?&quot;</span>
 </pre></div>
 
         </details>
 
-    
+            <div class="docstring"><p>distant items</p>
+</div>
+
 
                             </div>
                             <div id="Demos.clone" class="classattr">
@@ -2701,14 +2796,19 @@ that do/do not match a <code>span</code>.</p>
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="nf">clone</span><span class="p">():</span>
-    <span class="n">s</span><span class="o">=</span><span class="n">Sample</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">);</span> <span class="n">s1</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">s1</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="s2">&quot;cloning&quot;</span>
+    <span class="n">s</span><span class="o">=</span><span class="n">Sample</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">s1</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span>
+    <span class="n">d1</span><span class="p">,</span><span class="n">d2</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">,</span> <span class="n">s1</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="vm">__dict__</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">d1</span><span class="o">.</span><span class="n">items</span><span class="p">():</span> 
+      <span class="k">assert</span> <span class="n">d2</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">==</span> <span class="n">v</span><span class="p">,</span> <span class="s2">&quot;clone test&quot;</span>
 </pre></div>
 
         </details>
 
-    
+            <div class="docstring"><p>cloning</p>
+</div>
+
 
                             </div>
                             <div id="Demos.half" class="classattr">
@@ -2722,6 +2822,7 @@ that do/do not match a <code>span</code>.</p>
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="nf">half</span><span class="p">():</span>
+    <span class="s2">&quot;divide data in two&quot;</span>
     <span class="n">s</span><span class="o">=</span><span class="n">Sample</span><span class="p">(</span><span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">);</span> <span class="n">s1</span><span class="p">,</span><span class="n">s2</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">half</span><span class="p">()</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">s1</span><span class="o">.</span><span class="n">mid</span><span class="p">(</span><span class="n">s1</span><span class="o">.</span><span class="n">y</span><span class="p">))</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">s2</span><span class="o">.</span><span class="n">mid</span><span class="p">(</span><span class="n">s2</span><span class="o">.</span><span class="n">y</span><span class="p">))</span>
@@ -2729,7 +2830,9 @@ that do/do not match a <code>span</code>.</p>
 
         </details>
 
-    
+            <div class="docstring"><p>divide data in two</p>
+</div>
+
 
                             </div>
                 </section>
