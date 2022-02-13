@@ -35,16 +35,17 @@ let's infer minimal explanations.
 
 OPTIONS:    
 
-    -Max    max numbers to keep         : 512  
-    -Some   find `far` in this many egs : 512  
-    -data   data file                   : ../data/auto93.csv   
-    -enough min leaf size               : .5
-    -help   show help                   : False  
-    -far    how far to look in `Some`   : .9  
-    -p      distance coefficient        : 2  
-    -seed   random number seed          : 10019  
-    -todo   start up task               : nothing  
-    -xsmall Cohen's small effect        : .35  
+    -Max       max numbers to keep           : 512  
+    -Some      find `far` in this many egs   : 512  
+    -cautious  On any crash, stop+show stack : False    
+    -data      data file                     : ../data/auto93.csv   
+    -enough    min leaf size                 : .5
+    -help      show help                     : False  
+    -far       how far to look in `Some`     : .9  
+    -p         distance coefficient          : 2  
+    -seed      random number seed            : 10019  
+    -todo      start up task                 : nothing  
+    -xsmall    Cohen's small effect          : .35  
 
 ## See Also
 
@@ -85,7 +86,7 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 For more information, please refer to <http://unlicense.org/>
 """
 
-import random,sys,re
+import traceback, random, math, sys, re
 from random import random as r
 from typing import Any
 #  ___              __        
@@ -112,13 +113,20 @@ def atom(x):
     except:
       try: return float(x)
       except: return x.strip()
-  
+ 
 def demo(want,all): 
   "Maybe run a demo, if we want it, resetting random seed first."
   for one in dir(all):
     if (not want or (want and one.startswith(want))):
-      random.seed(the.seed)
-      all.__dict__[one]()
+      fun = all.__dict__[one]
+      if type(fun)==type(demo):
+        random.seed(the.seed)
+        try: fun()
+        except Exception as e:
+          all.fails += 0
+          if the.cautious : traceback.print_exc(); exit(1)
+          else            : print("FAIL", e)
+  exit(all.fails)
 
 def file(f):
   "Iterator. Returns one row at a time, as cells."
@@ -132,17 +140,19 @@ def first(a:list) -> Any:
   "Return first item."
   return a[0]
 
-def merge(old:list) -> list:
-  j,n,now = -1,len(old),[]
+def merge(b4:list) -> list:
+  "While we can find similar adjacent things, merge them."
+  j,n,now = -1,len(b4),[]
   while j < n-1:
     j += 1
-    a  = old[j]
+    a  = b4[j]
     if j < n-2:
-      if b := a.merge( old[j+1] ):
-        a  = b
-        j += 1
+      if merged := a.merge(b4[j+1]):
+        a  = merged
+        j += 1 # we will continue, after missing one
     now += [a]
-  return old if len(now)==len(old) else merge(now)  
+  # if `now` is same size as `b4`, look for any other merges.
+  return b4 if len(now)==len(b4) else merge(now)  
 
 class o(object):
   "Class that can pretty print its slots, with fast inits."
@@ -265,10 +275,10 @@ class Num(Col):
     super().__init__(**kw)
     i._all, i.lo, i.hi, i.max, i.ok = [], 1E32, -1E32, the.Max, False
 
-  def add(i,x: float ,_):
+  def add(i,x: float ,inc=1):
     "Reservoir sampler. If `_all` is full, sometimes replace an item at random."
     if x != "?":
-      i.n += 1
+      i.n += inc
       i.lo = min(x,i.lo)
       i.hi = max(x,i.hi)
       if len(i._all) < i.max    : i.ok=False; i._all += [x]
@@ -280,37 +290,41 @@ class Num(Col):
     if not i.ok: i.ok=True; i._all.sort()
     return i._all
 
-  def div(i): 
-    """&pm;2,3 &sigma; is 66,95% of the mass. But also,
-    90% of the mass is &pm;1.28&sigma;. So one standard deviation is
-    (90-10)th percentile is 2.56 times &sigma;."""
-    return (i.per(.9) - i.per(.1)) / 2.56
-
-  def mid(i): 
-    "Return median item."
-    return i.per(.5)
-
-  def per(i,p:float=.5) -> float:
-    "Return the p-th ranked item."
-    a = i.all(); return a[ int(p*len(a)) ]
-
-
-  def merge(i,j):
-    k = Num(at=i.at, txt=i.txt)
-    for x in i._all: k.add(x)
-    for x in j._all: k.add(x)
-    return k
-
-  def norm(i,x):
-    return 0 if i.hi-i.lo < 1E-9 else (x-i.lo)/(i.hi-i.lo)
-
   def dist1(i,x,y):
     if   x=="?": y=i.norm(y); x=(1 if y<.5 else 0)
     elif y=="?": x=i.norm(x); y=(1 if x<.5 else 0)
     else       : x,y = i.norm(x), i.norm(y)
     return abs(x-y)
 
+  def div(i): 
+    """Report the diversity of this distribution (using standard deviation).
+    &pm;2, 2,56, 3 &sigma; is 66,90,95%, of the mass.  28&sigma;. So one 
+    standard deviation is (90-10)th divide by  2.4 times &sigma;."""
+    return (i.per(.9) - i.per(.1)) / 2.56
+
+  def merge(i,j):
+    "Return two `Num`s."
+    k = Num(at=i.at, txt=i.txt)
+    for x in i._all: k.add(x)
+    for x in j._all: k.add(x)
+    return k
+
+  def mid(i): 
+    "Return central tendency of this distribution (using median)."
+    return i.per(.5)
+
+  def norm(i,x):
+    "Normalize `x` to the range 0..1."
+    return 0 if i.hi-i.lo < 1E-9 else (x-i.lo)/(i.hi-i.lo)
+
+  def per(i,p:float=.5) -> float:
+    "Return the p-th ranked item."
+    a = i.all(); return a[ int(p*len(a)) ]
+
   def spans(i,j, all):
+    """Divide the whole space `lo` to `hi` into, say, `xsmall`=16 bin,
+    then count the number of times we the bin on other side.
+    Then merge similar adjacent bins."""
     lo  = min(i.lo, j.lo)
     hi  = max(i.hi, j.hi)
     gap = (hi-lo) / (6/the.xsmall)
@@ -336,28 +350,37 @@ class Sym(Col):
     super().__init__(**kw)
     i.has, i.mode, i.most = {}, None, 0
 
-  def add(i,x,inc):
+  def add(i, x:str, inc:int=1) -> str:
+    "Update symbol counts in `has`, updating `mode` as we go."
     if x != "?":
       i.n += inc
       tmp = i.has[x] = inc + i.has.get(x,0)
       if tmp > i.most: i.most, i.mode = tmp, x
     return x
 
-  def dist(i,x,y): return 0 if x==y else 1
+  def dist(i,x:str, y:str) ->float: 
+    "Distance between two symbols."
+    return 0 if x==y else 1
 
   def div(i): 
+    "Return diversity of this distribution (using entropy)."
     p = lambda x: x/i.n
     return sum( -p(x)*math.log(p(x),2) for x in i.has.values() )
 
-  def mid(i): return i.mode
-
   def merge(i,j):
+    "Merge two `Sym`s."
     k = Sym(at=i.at, txt=i.txt)
     for k,n in i.has.items(): k.add(x,n)
     for k,n in j.has.items(): k.add(x,n)
     return k
 
+  def mid(i): 
+    "Return central tendancy of this distribution (using mode)."
+    return i.mode
+
   def spans(i,j, all):
+    """For each symbol in `i` and `j`, count the 
+    number of times we see it on either side."""
     tmp = {}
     for x,n in i.has.items(): 
       s = tmp[x] = (tmp[x] if x in tmp else Span(i,x,x))
@@ -392,9 +415,6 @@ class Sample(o):
     if i.cols: i.rows += [[col.add(a[col.at]) for col in i.cols]]
     else:      i.cols  = [col(at,txt) for at,txt in enumerate(a)]
 
-  def mid(i,cols=None): return [col.mid() for col in (cols or i.all)]
-  def div(i,cols=None): return [col.div() for col in (cols or i.all)]
-
   def clone(i,inits=[]):
     out = Sample()
     out + [col.txt for col in i.cols]
@@ -405,14 +425,11 @@ class Sample(o):
     d = sum( col.dist(x[col.at], y[col.at])**the.p for col in i.x )
     return (d/len(i.x)) ** (1/the.p)
 
+  def div(i,cols=None): return [col.div() for col in (cols or i.all)]
+
   def far(i, x, rows=None):
     tmp= sorted([(i.dist(x,y),y) for y in (rows or i.rows)],key=first)
     return tmp[ int(len(tmp)*the.far) ]
-
-  def proj(i,row,x,y,c):
-    a = i.dist(row,x)
-    b = i.dist(row,y)
-    return ((a**2 + c**2 - b**2) / (2*c) , row)
 
   def half(i, top=None):
     top  = top or i
@@ -426,19 +443,29 @@ class Sample(o):
       (left if n <= len(i.rows)//2 else right).__add__(r) 
     return left,right
 
+  def mid(i,cols=None): return [col.mid() for col in (cols or i.all)]
+
+  def proj(i,row,x,y,c):
+    "Find the distance of a `row` on a line between `x` and `y`."
+    a = i.dist(row,x)
+    b = i.dist(row,y)
+    return ((a**2 + c**2 - b**2) / (2*c) , row)
+
   def split(i,top=None):
+    """Split the data using random projections. Find the span that most 
+    separates the data. Divide data on that span."""
     here = Tree(i)
     top = top or i
     if len(i.rows) >= 2*len(top.rows)**the.enough:
-      left0, right0 = i.half(top)
+      left, right = i.half(top)
       spans = []
-      [lcol.spans(rcol,spans) for lcol,rcol in zip(left0.x, right0.x)]
+      [lcol.spans(rcol,spans) for lcol,rcol in zip(left.x, right.x)]
       if len(spans) > 0:
-        here.when   = Span.sort(spans)[0]
-        left, right = i.clone(), i.clone()
-        [(left if span.selects(row) else right).add(row) for row in i.rows]
-        if len(left.rows) < len(i.rows): here.left  = left.split(top)
-        if len(rght.rows) < len(i.rows): here.right = right.split(top)
+        here.span   = Span.sort(spans)[0]
+        yes, no = i.clone(), i.clone()
+        [(yes if span.selects(row) else no).add(row) for row in i.rows]
+        if len(yes.rows) < len(i.rows): here.yes = yes.split(top)
+        if len(no.rows ) < len(i.rows): here.no  = no.split(top)
     return here
 
 #   _                     
@@ -447,16 +474,18 @@ class Sample(o):
 #   \__| |_|   \___| \___|
                         
 class Tree(o):
+  """Binary tree that splits into `yes`,`no` branches containing samples
+     that do/do not match a `span`."""
   def __init__(i,here):
-    i.here, i.when, i.yes, i.no = here, None, None, None
+    i.here, i.span, i.yes, i.no = here, None, None, None
 
   def show(i,pre=""):
     "Print tree with indents."
-    print(f"{pre}{i.here.ys.n}")
+    print(f"{pre}{i.span.ys.n}")
     if i.yes: 
-      print(f"{pre}  {i.when.show(True)}") ; i.yes.show(pre + "|.. ")
+      print(f"{pre}  {i.span.show(True)}") ; i.yes.show(pre + "|.. ")
     if i.no: 
-      print(f"{pre}  {i.when.show(False)}"); i.no.show( pre + "|.. ")
+      print(f"{pre}  {i.span.show(False)}"); i.no.show( pre + "|.. ")
 #    _
 #  /\ \                                         
 #  \_\ \      __     ___ ___      ___     ____  
@@ -467,18 +496,23 @@ class Tree(o):
 
 class Demos:
   "Possible start-up actions."
+  fails=0
   def opt(): 
-    print(the)
+    "Show the config."
+    [print(f"{k:>10} = {v}") for k,v in the.__dict__.items()]
 
   def num(): 
-    n=Num()
-    for x in range(10000): n.add(x)
-    print(sorted(n._all),n)
+    "Check `Num`."
+    n = Num()
+    for _ in range(100): n.add(r())
+    assert .30 <= n.div() <= .31, "in range"
 
   def sym(): 
-    s=Sym()
-    for x in range(10000): s.add( int(r()*20))
-    print(s)
+    "Check `Sym`."
+    s = Sym()
+    for x in "aaaabbc": s.add(x)
+    assert 1.37 <= s.div() <= 1.38, "entropy"
+    assert 'a'  == s.mid(), "mode"
 
   def rows(): 
     for row in file(the.data): print(row)
