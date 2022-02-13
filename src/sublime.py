@@ -203,7 +203,7 @@ def second(a:list) -> Any:
   "Return second item."
   return a[1]
 
-the = options(__doc__)
+#the = options(__doc__)
 #          ___                                                
 #         /\_ \                                               
 #   ___   \//\ \       __       ____    ____     __     ____  
@@ -278,7 +278,7 @@ class Span(o):
 class Col(o):
   "Summarize columns."
   def __init__(i,at=0,txt=""): 
-    i.n,i.at,i.txt,i.w=0,at,txt,(-1 if "<" in txt else 1)
+    i.n,i.at,i.txt,i.w=0,at,txt,(-1 if "-" in txt else 1)
 
   def dist(i,x:Any, y:Any) -> float: 
     return 1 if x=="?" and y=="?" else i.dist1(x,y)
@@ -355,7 +355,6 @@ class Num(Col):
         one  = Span(i, one.hi,x)
         all += [one]
       one.add(x,y,n)
-    print("")
     all = merge(all)
     all[ 0].lo = -big
     all[-1].hi =  big
@@ -424,16 +423,18 @@ class Sym(Col):
 class Sample(o):
   "Load, then manage, a set of examples."
   def __init__(i,inits=[]): 
-    i.rows, i.cols, i.x, i.y = [], [], [], []
-    if str ==type(inits): [i + row for row in file(inits)]
-    if list==type(inits): [i + row for row in inits]
+    i.rows, i.cols, i.x, i.y, i.klass = [], [], [], [],None
+    if str ==type(inits): [i.add(row) for row in file(inits)]
+    if list==type(inits): [i.add(row) for row in inits]
 
-  def __add__(i,a):
+  def add(i,a):
     def col(at,txt):
       what  = Num if txt[0].isupper() else Sym
       now   = what(at=at, txt=txt)
       where = i.y if "+" in txt or "-" in txt or "!" in txt else i.x
-      if txt[-1] != ":": where += [now]
+      if txt[-1] != ":": 
+        where += [now]
+        if "!" in txt: i.klass = now
       return now
     #----------- 
     if i.cols: i.rows += [[col.add(a[col.at]) for col in i.cols]]
@@ -441,9 +442,23 @@ class Sample(o):
 
   def clone(i,inits=[]):
     out = Sample()
-    out + [col.txt for col in i.cols]
-    [out + x for x in inits]
+    out.add([col.txt for col in i.cols])
+    [out.add(x) for x in inits]
     return out 
+
+  def cluster(i,top=None):
+    """Split the data using random projections. Find the span that most 
+    separates the data. Divide data on that span."""
+    here = Cluster(i)
+    top = top or i
+    if len(i.rows) >= 2*(len(top.rows)**the.enough):
+      left,right,x,y,c,mid = i.half(top)
+      if len(left.rows) < len(i.rows):
+        here       = Cluster(i,x,y,c,mid)
+        here.left  = left.cluster(top)
+        here.right = right.cluster(top)
+    return here
+
 
   def dist(i,x,y):
     d = sum( col.dist(x[col.at], y[col.at])**the.p for col in i.x )
@@ -456,16 +471,15 @@ class Sample(o):
     return tmp[ int(len(tmp)*the.far) ]
 
   def half(i, top=None):
+    "Using two faraway points `x,y` break data at median distance."
     top  = top or i
-    some = random.choices(i.rows, k=the.Some)
-    w    = some[0]
+    some = i.rows if len(i.rows)<the.Some else random.choices(i.rows, k=the.Some)
+    w    = any(some)
     _,x  = top.far(w, some)
     c,y  = top.far(x, some)
-    left, right = i.clone(), i.clone()
-    for n,(_,r) in enumerate(
-                     sorted([top.proj(r,x,y,c) for r in i.rows],key=first)):
-      (left if n <= len(i.rows)//2 else right).__add__(r) 
-    return left,right
+    tmp= [r for _,r in sorted([(top.proj(r,x,y,c),r) for r in i.rows],key=first)]
+    mid  = len(tmp)//2
+    return i.clone(tmp[:mid]), i.clone(tmp[mid:]), x, y, c, tmp[mid]
 
   def mid(i,cols=None): 
     return [col.mid() for col in (cols or i.all)]
@@ -474,43 +488,67 @@ class Sample(o):
     "Find the distance of a `row` on a line between `x` and `y`."
     a = i.dist(row,x)
     b = i.dist(row,y)
-    return ((a**2 + c**2 - b**2) / (2*c) , row)
+    return (a**2 + c**2 - b**2) / (2*c) 
 
-  def split(i,top=None):
+  def xplain(i,top=None):
     """Split the data using random projections. Find the span that most 
     separates the data. Divide data on that span."""
-    here = Tree(i)
+    here = Explain(i)
     top = top or i
-    if len(i.rows) >= 2*(len(top.rows)**the.enough):
-      left, right = i.half(top)
+    tiny = len(top.rows)**the.enough
+    if len(i.rows) >= 2*tiny:
+      left, right,*_ = i.half(top)
       spans = []
       [lcol.spans(rcol,spans) for lcol,rcol in zip(left.x, right.x)]
       if len(spans) > 0:
-        here.span   = Span.sort(spans)[0]
+        here.span = Span.sort(spans)[0]
         yes, no = i.clone(), i.clone()
-        [(yes if here.span.selects(row) else no) + row for row in i.rows]
-        if len(yes.rows) < len(i.rows): here.yes = yes.split(top=top)
-        if len(no.rows ) < len(i.rows): here.no  = no.split(top=top)
+        [(yes if here.span.selects(row) else no).add(row) for row in i.rows]
+        if tiny <= len(yes.rows) < len(i.rows): here.yes = yes.xplain(top=top)
+        if tiny <= len(no.rows ) < len(i.rows): here.no  = no.xplain(top=top)
     return here
 
-#   _                     
-#  | |_   _ _   ___   ___ 
-#  |  _| | '_| / -_) / -_)
-#   \__| |_|   \___| \___|
-                        
-class Tree(o):
-  """Binary tree that splits into `yes`,`no` branches containing samples
-     that do/do not match a `span`."""
+#                      _          _        
+#   ___  __ __  _ __  | |  __ _  (_)  _ _  
+#  / -_) \ \ / | '_ \ | | / _` | | | | ' \ 
+#  \___| /_\_\ | .__/ |_| \__,_| |_| |_||_|
+#              |_|                         
+
+class Explain(o):
+  "Tree with `yes`,`no` branches for samples that do/do not match a `span`."
   def __init__(i,here):
     i.here, i.span, i.yes, i.no = here, None, None, None
 
   def show(i,pre=""):
-    "Print tree with indents."
-    print(f"{pre}{i.span.ys.n}")
+    if not pre: 
+      tmp= i.here.mid(i.here.y)
+      print(f"{'':40} : {len(i.here.rows):5} : {tmp}")
     if i.yes: 
-      print(f"{pre}  {i.span.show(True)}") ; i.yes.show(pre + "|.. ")
-    if i.no: 
-      print(f"{pre}  {i.span.show(False)}"); i.no.show( pre + "|.. ")
+      s=f"{pre}{i.span.show(True)}" 
+      tmp= i.yes.here.mid(i.yes.here.y)
+      print(f"{s:40} : {len(i.yes.here.rows):5} : {tmp}")
+      i.yes.show(pre + "|.. ")
+    if i.no:  
+      s=f"{pre}{i.span.show(False)}" 
+      tmp= i.no.here.mid(i.no.here.y)
+      print(f"{s:40} : {len(i.no.here.rows):5} : {tmp}")
+      i.no.show(pre + "|.. ")   
+
+#        _               _               
+#   __  | |  _  _   ___ | |_   ___   _ _ 
+#  / _| | | | || | (_-< |  _| / -_) | '_|
+#  \__| |_|  \_,_| /__/  \__| \___| |_|  
+#                                        
+class Cluster(o):
+  "Tree with `left`,`right` samples, broken at median between far points."
+  def __init__(i,here,x=None,y=None,c=None,mid=None):
+    i.here,i.x,i.y,i.c,i.mid,i.left,i.right = here,x,y,c,mid,None,None
+
+  def show(i,pre=""):
+    s= f"{pre:40} : {len(i.here.rows):5}"
+    print(f"{s}" if i.left  else f"{s}  : {i.here.mid(i.here.y)}")
+    for kid in [i.left,i.right]: 
+      if kid: kid.show(pre + "|.. ")
 #    _
 #  /\ \                                         
 #  \_\ \      __     ___ ___      ___     ____  
@@ -575,13 +613,25 @@ class Demos:
 
   def half():
     "divide data in two"
-    s = Sample(the.data); s1,s2 = s.half()
+    s = Sample(the.data); s1,s2,*_ = s.half()
     print(s1.mid(s1.y))
     print(s2.mid(s2.y))
 
-  def split():
+  def cluster():
     "divide data in two"
     s = Sample(the.data)
-    s.split().show()
+    s.cluster().show(); print("")
 
+  def xplain():
+    "divide data in two"
+    s = Sample(the.data)
+    s.xplain().show(); print("")
+
+#---------------------------------------------------
+the=options(__doc__)
 if __name__ == "__main__": demo(the.todo,Demos)
+
+"""
+all config local to Sample
+Example class
+"""
