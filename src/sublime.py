@@ -50,7 +50,7 @@ OPTIONS:
 
 [issues](https://github.com/timm/sublime/issues)
 • [repo](https://github.com/timm/sublime)
-• [view source](https://github.com/timm/sublime/blob/main/docs/pdf/sublime.pdf)
+• [view source](https://github.com/timm/sublime/blob/main/docs/pdf)
 
 
 ## Algorithm
