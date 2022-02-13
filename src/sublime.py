@@ -54,8 +54,9 @@ OPTIONS:
 ## Algorithm
 
 Stochastic clustering to generate tiny models.  Uses random projections
-then   unsupervised iterative dichotomization using ranges that
-most distinguish sibling clusters.
+to divide the space. Then, optionally, _explain_ the clusters by
+unsupervised iterative dichotomization using ranges that most
+distinguish sibling clusters.
 
 ## License
 
@@ -283,6 +284,59 @@ class Col(o):
   def dist(i,x:Any, y:Any) -> float: 
     return 1 if x=="?" and y=="?" else i.dist1(x,y)
 
+#   ___  _  _   _ __  
+#  (_-< | || | | '  \ 
+#  /__/  \_, | |_|_|_|
+#        |__/         
+
+class Sym(Col):
+  "Summarize symbolic columns."
+  def __init__(i,**kw):
+    super().__init__(**kw)
+    i.has, i.mode, i.most = {}, None, 0
+
+  def add(i, x:str, inc:int=1) -> str:
+    "Update symbol counts in `has`, updating `mode` as we go."
+    if x != "?":
+      i.n += inc
+      tmp = i.has[x] = inc + i.has.get(x,0)
+      if tmp > i.most: i.most, i.mode = tmp, x
+    return x
+
+  def dist(i,x:str, y:str) ->float: 
+    "Distance between two symbols."
+    return 0 if x==y else 1
+
+  def div(i): 
+    "Return diversity of this distribution (using entropy)."
+    p = lambda x: x / (1E-31 + i.n)
+    return sum( -p(x)*math.log(p(x),2) for x in i.has.values() )
+
+  def merge(i,j):
+    "Merge two `Sym`s."
+    k = Sym(at=i.at, txt=i.txt)
+    for x,n in i.has.items(): k.add(x,n)
+    for x,n in j.has.items(): k.add(x,n)
+    return k
+
+  def mid(i): 
+    "Return central tendancy of this distribution (using mode)."
+    return i.mode
+
+  def spans(i,j, out):
+    """For each symbol in `i` and `j`, count the 
+    number of times we see it on either side."""
+    xys = [(x,"this",n) for x,n in i.has.items()] + [
+           (x,"that",n) for x,n in j.has.items()]
+    one, last = None,None
+    all  = []
+    for x,y,n in sorted(xys, key=first):
+      if x != last: 
+         last = x
+         one  = Span(i, x,x)
+         all += [one]
+      one.add(x,y,n)
+    if len(all) > 1 : out += all
 #   _ _    _  _   _ __  
 #  | ' \  | || | | '  \ 
 #  |_||_|  \_,_| |_|_|_|
@@ -359,61 +413,47 @@ class Num(Col):
     all[ 0].lo = -big
     all[-1].hi =  big
     if len(all) > 1: out += all
+#                      _          _        
+#   ___  __ __  _ __  | |  __ _  (_)  _ _  
+#  / -_) \ \ / | '_ \ | | / _` | | | | ' \ 
+#  \___| /_\_\ | .__/ |_| \__,_| |_| |_||_|
+#              |_|                         
 
-#   ___  _  _   _ __  
-#  (_-< | || | | '  \ 
-#  /__/  \_, | |_|_|_|
-#        |__/         
+class Explain(o):
+  "Tree with `yes`,`no` branches for samples that do/do not match a `span`."
+  def __init__(i,here):
+    i.here, i.span, i.yes, i.no = here, None, None, None
 
-class Sym(Col):
-  "Summarize symbolic columns."
-  def __init__(i,**kw):
-    super().__init__(**kw)
-    i.has, i.mode, i.most = {}, None, 0
+  def show(i,pre=""):
+    if not pre: 
+      tmp= i.here.mid(i.here.y)
+      print(f"{'':40} : {len(i.here.rows):5} : {tmp}")
+    if i.yes: 
+      s=f"{pre}{i.span.show(True)}" 
+      tmp= i.yes.here.mid(i.yes.here.y)
+      print(f"{s:40} : {len(i.yes.here.rows):5} : {tmp}")
+      i.yes.show(pre + "|.. ")
+    if i.no:  
+      s=f"{pre}{i.span.show(False)}" 
+      tmp= i.no.here.mid(i.no.here.y)
+      print(f"{s:40} : {len(i.no.here.rows):5} : {tmp}")
+      i.no.show(pre + "|.. ")   
 
-  def add(i, x:str, inc:int=1) -> str:
-    "Update symbol counts in `has`, updating `mode` as we go."
-    if x != "?":
-      i.n += inc
-      tmp = i.has[x] = inc + i.has.get(x,0)
-      if tmp > i.most: i.most, i.mode = tmp, x
-    return x
+#        _               _               
+#   __  | |  _  _   ___ | |_   ___   _ _ 
+#  / _| | | | || | (_-< |  _| / -_) | '_|
+#  \__| |_|  \_,_| /__/  \__| \___| |_|  
+#                                        
+class Cluster(o):
+  "Tree with `left`,`right` samples, broken at median between far points."
+  def __init__(i,here,x=None,y=None,c=None,mid=None):
+    i.here,i.x,i.y,i.c,i.mid,i.left,i.right = here,x,y,c,mid,None,None
 
-  def dist(i,x:str, y:str) ->float: 
-    "Distance between two symbols."
-    return 0 if x==y else 1
-
-  def div(i): 
-    "Return diversity of this distribution (using entropy)."
-    p = lambda x: x / (1E-31 + i.n)
-    return sum( -p(x)*math.log(p(x),2) for x in i.has.values() )
-
-  def merge(i,j):
-    "Merge two `Sym`s."
-    k = Sym(at=i.at, txt=i.txt)
-    for x,n in i.has.items(): k.add(x,n)
-    for x,n in j.has.items(): k.add(x,n)
-    return k
-
-  def mid(i): 
-    "Return central tendancy of this distribution (using mode)."
-    return i.mode
-
-  def spans(i,j, out):
-    """For each symbol in `i` and `j`, count the 
-    number of times we see it on either side."""
-    xys = [(x,"this",n) for x,n in i.has.items()] + [
-           (x,"that",n) for x,n in j.has.items()]
-    one, last = None,None
-    all  = []
-    for x,y,n in sorted(xys, key=first):
-      if x != last: 
-         last = x
-         one  = Span(i, x,x)
-         all += [one]
-      one.add(x,y,n)
-    if len(all) > 1 : out += all
-
+  def show(i,pre=""):
+    s= f"{pre:40} : {len(i.here.rows):5}"
+    print(f"{s}" if i.left  else f"{s}  : {i.here.mid(i.here.y)}")
+    for kid in [i.left,i.right]: 
+      if kid: kid.show(pre + "|.. ")
 #                              _       
 #   ___  __ _   _ __    _ __  | |  ___ 
 #  (_-< / _` | | '  \  | '_ \ | | / -_)
@@ -459,12 +499,12 @@ class Sample(o):
         here.right = right.cluster(top)
     return here
 
-
   def dist(i,x,y):
     d = sum( col.dist(x[col.at], y[col.at])**the.p for col in i.x )
     return (d/len(i.x)) ** (1/the.p)
 
-  def div(i,cols=None): return [col.div() for col in (cols or i.all)]
+  def div(i,cols=None): 
+    return [col.div() for col in (cols or i.all)]
 
   def far(i, x, rows=None):
     tmp= sorted([(i.dist(x,y),y) for y in (rows or i.rows)],key=first)
@@ -472,13 +512,14 @@ class Sample(o):
 
   def half(i, top=None):
     "Using two faraway points `x,y` break data at median distance."
-    top  = top or i
-    some = i.rows if len(i.rows)<the.Some else random.choices(i.rows, k=the.Some)
-    w    = any(some)
-    _,x  = top.far(w, some)
-    c,y  = top.far(x, some)
-    tmp= [r for _,r in sorted([(top.proj(r,x,y,c),r) for r in i.rows],key=first)]
-    mid  = len(tmp)//2
+    some= i.rows if len(i.rows)<the.Some else random.choices(i.rows, k=the.Some)
+    top= top or i
+    w  = any(some)
+    _,x= top.far(w, some)
+    c,y= top.far(x, some)
+    tmp= [r for _,r in sorted([(top.proj(r,x,y,c),r) 
+                               for r in i.rows],key=first)]
+    mid= len(tmp)//2
     return i.clone(tmp[:mid]), i.clone(tmp[mid:]), x, y, c, tmp[mid]
 
   def mid(i,cols=None): 
@@ -508,47 +549,7 @@ class Sample(o):
         if tiny <= len(no.rows ) < len(i.rows): here.no  = no.xplain(top=top)
     return here
 
-#                      _          _        
-#   ___  __ __  _ __  | |  __ _  (_)  _ _  
-#  / -_) \ \ / | '_ \ | | / _` | | | | ' \ 
-#  \___| /_\_\ | .__/ |_| \__,_| |_| |_||_|
-#              |_|                         
-
-class Explain(o):
-  "Tree with `yes`,`no` branches for samples that do/do not match a `span`."
-  def __init__(i,here):
-    i.here, i.span, i.yes, i.no = here, None, None, None
-
-  def show(i,pre=""):
-    if not pre: 
-      tmp= i.here.mid(i.here.y)
-      print(f"{'':40} : {len(i.here.rows):5} : {tmp}")
-    if i.yes: 
-      s=f"{pre}{i.span.show(True)}" 
-      tmp= i.yes.here.mid(i.yes.here.y)
-      print(f"{s:40} : {len(i.yes.here.rows):5} : {tmp}")
-      i.yes.show(pre + "|.. ")
-    if i.no:  
-      s=f"{pre}{i.span.show(False)}" 
-      tmp= i.no.here.mid(i.no.here.y)
-      print(f"{s:40} : {len(i.no.here.rows):5} : {tmp}")
-      i.no.show(pre + "|.. ")   
-
-#        _               _               
-#   __  | |  _  _   ___ | |_   ___   _ _ 
-#  / _| | | | || | (_-< |  _| / -_) | '_|
-#  \__| |_|  \_,_| /__/  \__| \___| |_|  
-#                                        
-class Cluster(o):
-  "Tree with `left`,`right` samples, broken at median between far points."
-  def __init__(i,here,x=None,y=None,c=None,mid=None):
-    i.here,i.x,i.y,i.c,i.mid,i.left,i.right = here,x,y,c,mid,None,None
-
-  def show(i,pre=""):
-    s= f"{pre:40} : {len(i.here.rows):5}"
-    print(f"{s}" if i.left  else f"{s}  : {i.here.mid(i.here.y)}")
-    for kid in [i.left,i.right]: 
-      if kid: kid.show(pre + "|.. ")
+      
 #    _
 #  /\ \                                         
 #  \_\ \      __     ___ ___      ___     ____  
