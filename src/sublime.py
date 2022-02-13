@@ -60,7 +60,7 @@ to divide the space. Then, optionally, explain the clusters by
 unsupervised iterative dichotomization using ranges that most
 distinguish sibling clusters.
 
-e.g.1: just bi-cluster on two distant points
+### Example1: just bi-cluster on two distant points
 
 ```
 /sublime.py -c -s $RANDOM -t cluster
@@ -97,7 +97,7 @@ e.g.1: just bi-cluster on two distant points
 |.. |.. |.. |..                          :    25  : [4129, 13, 10]
 ```
 
-e.g. #2, as above but split on range that mist divides data
+### Example2: as above but split on range that most divides data
 
 ```
 ./sublime.py -c -s $RANDOM -t xplain
