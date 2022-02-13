@@ -49,8 +49,8 @@ OPTIONS:
 ## See Also
 
 [issues](https://github.com/timm/sublime/issues)
-• [repo](https://github.com/timm/sublime)
-• [view source](https://github.com/timm/sublime/blob/main/docs/pdf)
+:: [repo](https://github.com/timm/sublime)
+:: [view source](https://github.com/timm/sublime/blob/main/docs/pdf)
 
 
 ## Algorithm
