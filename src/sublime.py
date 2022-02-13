@@ -49,8 +49,7 @@ OPTIONS:
 ## See Also
 
 [issues](https://github.com/timm/sublime/issues)
-:: [repo](https://github.com/timm/sublime)
-:: <a href="sublime\\.pdf">view source</a>
+• [repo](https://github.com/timm/sublime)
 
 
 ## Algorithm
