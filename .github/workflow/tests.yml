@@ -9,8 +9,12 @@ jobs:
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       - name: Check out repository code
         uses: actions/checkout@v2
+      - name: Install lua
+        run: |
+          cd ${{ github.workspace }}; \
+          ls
       - name: Run tests  
         run: |
-          cd ${{ github.workspace }}/src; pwd; ls ..; python3.9 aa.py
+          cd ${{ github.workspace }}/src; pwd; ls ..; \
+          ls | wc
       - run: echo "🍏 This job's status is ${{ job.status }}."
-
