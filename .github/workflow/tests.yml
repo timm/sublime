@@ -12,6 +12,6 @@ jobs:
       - name: Run tests  
         run: |
           cd ${{ github.workspace }}/src; pwd; ls ..; \
-          python3.9 --versioni
+          python3.9 --version
       - run: echo "🍏 This job's status is ${{ job.status }}."
 
