@@ -50,8 +50,8 @@ OPTIONS:
 
 [issues](https://github.com/timm/sublime/issues)
 :: [repo](https://github.com/timm/sublime)
-:: [repo](sublime.pdf)
-::  [srx](sublime.pdf)
+:: [repo](sublime)
+::  [srx](sublime)
 
 
 ## Algorithm
