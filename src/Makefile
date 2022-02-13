@@ -26,6 +26,7 @@ pdfs: ../docs/sublime.pdf ## generate docs (pdf)
            --borders=no --pro=color --columns 2 \
            --right-footer="" --left-footer=""    \
            --footer="page %p."                    \
+            --pretty-print=../etc/python.ssh       \
            -M letter -o $@.ps $<
 	@ps2pdf $@.ps $@; rm $@.ps ; git add $@
 
