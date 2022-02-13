@@ -309,7 +309,7 @@
 sublime    </h1>
 
                         <div class="docstring"><p>./<a href="#py">sublime.py</a> [OPTIONS] <br />
-(c)2022 Tim Menzies <a href="&#109;&#97;&#105;&#x6c;&#x74;&#111;&#x3a;t&#105;&#x6d;m&#64;&#x69;&#x65;&#101;&#101;&#46;&#111;&#114;&#103;">t&#105;&#x6d;m&#64;&#x69;&#x65;&#101;&#101;&#46;&#111;&#114;&#103;</a> unlicense.org. <br />
+(c)2022 Tim Menzies <a href="&#109;&#97;&#105;&#108;&#x74;&#111;&#x3a;&#116;i&#x6d;&#x6d;&#64;&#105;e&#101;&#x65;&#x2e;&#111;&#114;&#x67;">&#116;i&#x6d;&#x6d;&#64;&#105;e&#101;&#x65;&#x2e;&#111;&#114;&#x67;</a> unlicense.org. <br />
 Sublime's unsupervised bifurcation: 
 let's infer minimal explanations. </p>
 
@@ -335,9 +335,65 @@ let's infer minimal explanations. </p>
 <h2 id="algorithm">Algorithm</h2>
 
 <p>Stochastic clustering to generate tiny models.  Uses random projections
-to divide the space. Then, optionally, _explain_ the clusters by
+to divide the space. Then, optionally, explain the clusters by
 unsupervised iterative dichotomization using ranges that most
 distinguish sibling clusters.</p>
+
+<p>e.g.1: just bi-cluster on two distant points</p>
+
+<pre><code>/<a href="#py">sublime.py</a> -c -s $RANDOM -t cluster
+                                         :   398
+|..                                      :   199
+|.. |..                                  :    99
+|.. |.. |..                              :    49    Lbs-   Acc+  Mpg+
+|.. |.. |.. |..                          :    24  : [2255, 15.5, 30]
+|.. |.. |.. |..                          :    25  : [2575, 16.4, 30]
+|.. |.. |..                              :    50
+|.. |.. |.. |..                          :    25  : [2110, 16.4, 30] &lt;== best
+|.. |.. |.. |..                          :    25  : [2205, 16, 30]
+|.. |..                                  :   100
+|.. |.. |..                              :    50
+|.. |.. |.. |..                          :    25  : [2234, 15.5, 30]
+|.. |.. |.. |..                          :    25  : [2278, 16.5, 30] 
+|.. |.. |..                              :    50
+|.. |.. |.. |..                          :    25  : [2220, 15.5, 30]
+|.. |.. |.. |..                          :    25  : [2320, 15.8, 30]
+|..                                      :   199
+|.. |..                                  :    99
+|.. |.. |..                              :    49
+|.. |.. |.. |..                          :    24  : [2451, 16.5, 20]
+|.. |.. |.. |..                          :    25  : [3021, 15.5, 20]
+|.. |.. |..                              :    50
+|.. |.. |.. |..                          :    25  : [3425, 17.6, 20]
+|.. |.. |.. |..                          :    25  : [3155, 16.7, 20]
+|.. |..                                  :   100
+|.. |.. |..                              :    50
+|.. |.. |.. |..                          :    25  : [4141, 13.5, 10]
+|.. |.. |.. |..                          :    25  : [4054, 13.2, 20]
+|.. |.. |..                              :    50
+|.. |.. |.. |..                          :    25  : [4425, 11, 10]
+|.. |.. |.. |..                          :    25  : [4129, 13, 10]
+</code></pre>
+
+<p>e.g. #2, as above but split on range that mist divides data</p>
+
+<pre><code>./<a href="#py">sublime.py</a> -c -s $RANDOM -t xplain
+                                                    Lbs-  Acc+  Mgg+
+                                         :   398 : [2807, 15.5, 20]
+198 &lt;= Lbs &lt; 454                         :   167 : [3725, 14.5, 20]
+|.. Modl &lt; 72                            :    34 : [3609, 13,   20]
+|.. Modl &gt;= 72                           :   133 : [3735, 14.9, 20]
+|.. |.. Cylr &lt; 8                         :    56 : [3336, 17,   20]
+|.. |.. |.. 77 &lt;= Modl &lt; 82              :    22 : [3410, 17.1, 20]
+|.. |.. |.. Modl &lt; 77 or Modl &gt;= 82      :    34 : [3233, 17,   20]
+|.. |.. Cylr &gt;= 8                        :    77 : [4129, 13.2, 20]
+|.. |.. |.. Modl &lt; 75                    :    37 : [4274, 13,   10]
+|.. |.. |.. Modl &gt;= 75                   :    40 : [3962, 13.5, 20]
+|.. |.. |.. |.. Lbs &gt;= 302               :    35 : [4054, 13.2, 20]
+Lbs &lt; 198 or Lbs &gt;= 454                  :   231 : [2290, 16,   30] &lt;== best
+</code></pre>
+
+<p></p>
 
 <h2 id="license">License</h2>
 
@@ -372,33 +428,32 @@ OR OTHER DEALINGS IN THE SOFTWARE.</p>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
 <span class="c1"># vim: ts=2 sw=2 sts=2 et :</span>
-
-<span class="c1">#                 .        +          .      .          .</span>
-<span class="c1">#          .            _        .                    .</span>
-<span class="c1">#       ,              /;-._,-.____        ,-----.__</span>
-<span class="c1">#      ((        .    (_:#::_.:::. `-._   /:, /-._, `._,</span>
-<span class="c1">#       `                 \   _|`&quot;=:_::.`.);  \ __/ /</span>
-<span class="c1">#                           ,    `./  \:. `.   )==-&#39;  .</span>
-<span class="c1">#         .      ., ,-=-.  ,\, +#./`   \:.  / /           .</span>
-<span class="c1">#     .           \/:/`-&#39; , ,\ &#39;` ` `   ): , /_  -o</span>
-<span class="c1">#            .    /:+- - + +- : :- + + -:&#39;  /(o-) \)     .</span>
-<span class="c1">#       .      ,=&#39;:  \    ` `/` &#39; , , ,:&#39; `&#39;--&quot;.--&quot;---._/`7</span>
-<span class="c1">#        `.   (    \: \,-._` ` + &#39;\, ,&quot;   _,--._,---&quot;:.__/</span>
-<span class="c1">#                   \:  `  X` _| _,\/&#39;   .-&#39;</span>
-<span class="c1">#     .               &quot;:._:`\____  /:&#39;  /      .           .</span>
-<span class="c1">#                         \::.  :\/:&#39;  /              +</span>
-<span class="c1">#        .                 `.:.  /:&#39;  }      .</span>
-<span class="c1">#                .           ):_(:;   \           .</span>
-<span class="c1">#                           /:. _/ ,  |</span>
-<span class="c1">#                        . (|::.     ,`                  .</span>
-<span class="c1">#          .                |::.    {\</span>
-<span class="c1">#                           |::.\  \ `.</span>
-<span class="c1">#                           |:::(\    |</span>
-<span class="c1">#                   O       |:::/{ }  |                  (o</span>
-<span class="c1">#                    )  ___/#\::`/ (O &quot;==._____   O, (O  /`</span>
-<span class="c1">#               ~~~w/w~&quot;~~,\` `:/,-(~`&quot;~~~~~~~~&quot;~o~\~/~w|/~</span>
+<span class="c1">#</span>
 <span class="c1">#     dew   ~~~~~~~~~~~~~~~~~~~~~~~\\W~~~~~~~~~~~~\|/~~</span>
-
+<span class="c1">#               ~~~w/w~&quot;~~,\` `:/,-(~`&quot;~~~~~~~~&quot;~o~\~/~w|/~</span>
+<span class="c1">#                    )  ___/#\::`/ (O &quot;==._____   O, (O  /`</span>
+<span class="c1">#                   O       |:::/{ }  |                  (o</span>
+<span class="c1">#                           |:::(\    |</span>
+<span class="c1">#                           |::.\  \ `.</span>
+<span class="c1">#          .                |::.    {\</span>
+<span class="c1">#                        . (|::.     ,`                  .</span>
+<span class="c1">#                           /:. _/ ,  |</span>
+<span class="c1">#                .           ):_(:;   \           .</span>
+<span class="c1">#        .                 `.:.  /:&#39;  }      .</span>
+<span class="c1">#                         \::.  :\/:&#39;  /              +</span>
+<span class="c1">#     .               &quot;:._:`\____  /:&#39;  /      .           .</span>
+<span class="c1">#                   \:  `  X` _| _,\/&#39;   .-&#39;</span>
+<span class="c1">#        `.   (    \: \,-._` ` + &#39;\, ,&quot;   _,--._,---&quot;:.__/</span>
+<span class="c1">#       .      ,=&#39;:  \    ` `/` &#39; , , ,:&#39; `&#39;--&quot;.--&quot;---._/`7</span>
+<span class="c1">#            .    /:+- - + +- : :- + + -:&#39;  /(o-) \)     .</span>
+<span class="c1">#     .           \/:/`-&#39; , ,\ &#39;` ` `   ): , /_  -o</span>
+<span class="c1">#         .      ., ,-=-.  ,\, +#./`   \:.  / /           .</span>
+<span class="c1">#                           ,    `./  \:. `.   )==-&#39;  .</span>
+<span class="c1">#       `                 \   _|`&quot;=:_::.`.);  \ __/ /</span>
+<span class="c1">#      ((        .    (_:#::_.:::. `-._   /:, /-._, `._,</span>
+<span class="c1">#       ,              /;-._,-.____        ,-----.__</span>
+<span class="c1">#          .            _        .                    .</span>
+<span class="c1">#                 .        +          .      .          .</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">./sublime.py [OPTIONS]  </span>
 <span class="sd">(c)2022 Tim Menzies &lt;timm@ieee.org&gt; unlicense.org.     </span>
@@ -426,10 +481,66 @@ OR OTHER DEALINGS IN THE SOFTWARE.</p>
 <span class="sd">## Algorithm</span>
 
 <span class="sd">Stochastic clustering to generate tiny models.  Uses random projections</span>
-<span class="sd">to divide the space. Then, optionally, _explain_ the clusters by</span>
+<span class="sd">to divide the space. Then, optionally, explain the clusters by</span>
 <span class="sd">unsupervised iterative dichotomization using ranges that most</span>
 <span class="sd">distinguish sibling clusters.</span>
 
+<span class="sd">e.g.1: just bi-cluster on two distant points</span>
+
+<span class="sd">```</span>
+<span class="sd">/sublime.py -c -s $RANDOM -t cluster</span>
+<span class="sd">                                         :   398</span>
+<span class="sd">|..                                      :   199</span>
+<span class="sd">|.. |..                                  :    99</span>
+<span class="sd">|.. |.. |..                              :    49    Lbs-   Acc+  Mpg+</span>
+<span class="sd">|.. |.. |.. |..                          :    24  : [2255, 15.5, 30]</span>
+<span class="sd">|.. |.. |.. |..                          :    25  : [2575, 16.4, 30]</span>
+<span class="sd">|.. |.. |..                              :    50</span>
+<span class="sd">|.. |.. |.. |..                          :    25  : [2110, 16.4, 30] &lt;== best</span>
+<span class="sd">|.. |.. |.. |..                          :    25  : [2205, 16, 30]</span>
+<span class="sd">|.. |..                                  :   100</span>
+<span class="sd">|.. |.. |..                              :    50</span>
+<span class="sd">|.. |.. |.. |..                          :    25  : [2234, 15.5, 30]</span>
+<span class="sd">|.. |.. |.. |..                          :    25  : [2278, 16.5, 30] </span>
+<span class="sd">|.. |.. |..                              :    50</span>
+<span class="sd">|.. |.. |.. |..                          :    25  : [2220, 15.5, 30]</span>
+<span class="sd">|.. |.. |.. |..                          :    25  : [2320, 15.8, 30]</span>
+<span class="sd">|..                                      :   199</span>
+<span class="sd">|.. |..                                  :    99</span>
+<span class="sd">|.. |.. |..                              :    49</span>
+<span class="sd">|.. |.. |.. |..                          :    24  : [2451, 16.5, 20]</span>
+<span class="sd">|.. |.. |.. |..                          :    25  : [3021, 15.5, 20]</span>
+<span class="sd">|.. |.. |..                              :    50</span>
+<span class="sd">|.. |.. |.. |..                          :    25  : [3425, 17.6, 20]</span>
+<span class="sd">|.. |.. |.. |..                          :    25  : [3155, 16.7, 20]</span>
+<span class="sd">|.. |..                                  :   100</span>
+<span class="sd">|.. |.. |..                              :    50</span>
+<span class="sd">|.. |.. |.. |..                          :    25  : [4141, 13.5, 10]</span>
+<span class="sd">|.. |.. |.. |..                          :    25  : [4054, 13.2, 20]</span>
+<span class="sd">|.. |.. |..                              :    50</span>
+<span class="sd">|.. |.. |.. |..                          :    25  : [4425, 11, 10]</span>
+<span class="sd">|.. |.. |.. |..                          :    25  : [4129, 13, 10]</span>
+<span class="sd">```</span>
+
+<span class="sd">e.g. #2, as above but split on range that mist divides data</span>
+
+<span class="sd">```</span>
+<span class="sd">./sublime.py -c -s $RANDOM -t xplain</span>
+<span class="sd">                                                    Lbs-  Acc+  Mgg+</span>
+<span class="sd">                                         :   398 : [2807, 15.5, 20]</span>
+<span class="sd">198 &lt;= Lbs &lt; 454                         :   167 : [3725, 14.5, 20]</span>
+<span class="sd">|.. Modl &lt; 72                            :    34 : [3609, 13,   20]</span>
+<span class="sd">|.. Modl &gt;= 72                           :   133 : [3735, 14.9, 20]</span>
+<span class="sd">|.. |.. Cylr &lt; 8                         :    56 : [3336, 17,   20]</span>
+<span class="sd">|.. |.. |.. 77 &lt;= Modl &lt; 82              :    22 : [3410, 17.1, 20]</span>
+<span class="sd">|.. |.. |.. Modl &lt; 77 or Modl &gt;= 82      :    34 : [3233, 17,   20]</span>
+<span class="sd">|.. |.. Cylr &gt;= 8                        :    77 : [4129, 13.2, 20]</span>
+<span class="sd">|.. |.. |.. Modl &lt; 75                    :    37 : [4274, 13,   10]</span>
+<span class="sd">|.. |.. |.. Modl &gt;= 75                   :    40 : [3962, 13.5, 20]</span>
+<span class="sd">|.. |.. |.. |.. Lbs &gt;= 302               :    35 : [4054, 13.2, 20]</span>
+<span class="sd">Lbs &lt; 198 or Lbs &gt;= 454                  :   231 : [2290, 16,   30] &lt;== best</span>
+<span class="sd">```</span>
+<span class="sd"></span>
 <span class="sd">## License</span>
 
 <span class="sd">This is free and unencumbered software released into the public</span>
@@ -574,9 +685,7 @@ OR OTHER DEALINGS IN THE SOFTWARE.</p>
 
 <span class="k">def</span> <span class="nf">second</span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
   <span class="s2">&quot;Return second item.&quot;</span>
-  <span class="k">return</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-
-<span class="c1">#the = options(__doc__)</span>
+  <span class="k">return</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 <span class="c1">#          ___                                                </span>
 <span class="c1">#         /\_ \                                               </span>
 <span class="c1">#   ___   \//\ \       __       ____    ____     __     ____  </span>
@@ -1362,7 +1471,7 @@ mention the first few of a key (e.g. -s is enough to select for -seed).</p>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">second</span><span class="p">(</span><span class="n">a</span><span class="p">:</span><span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
   <span class="s2">&quot;Return second item.&quot;</span>
-  <span class="k">return</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+  <span class="k">return</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 </pre></div>
 
         </details>
