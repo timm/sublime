@@ -37,7 +37,7 @@ OPTIONS:
     -Max       max numbers to keep           : 512  
     -Some      find `far` in this many egs   : 512  
     -cautious  On any crash, stop+show stack : False    
-    -data      data file                     : ../data/auto93.csv   
+    -data      data file                     : data/auto93.csv   
     -enough    min leaf size                 : .5
     -help      show help                     : False  
     -far       how far to look in `Some`     : .9  
