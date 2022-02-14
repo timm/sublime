@@ -33,4 +33,4 @@ jobs:
       - name: Run a multi-line script
         run: |
            cd ${{ github.workspace }}/src;  \
-           python3 --version
+           python3 sublime.py -t all
