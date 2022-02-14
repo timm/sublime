@@ -21,13 +21,14 @@ hi: ## start work (update all files)
 bye: mds ## stop work (save all files)
 	git add *;git commit -am save;git push;git status
 
-pdoc: ok $(MAKEFILE) sublime.py ## generate docs (python)
+pdoc: docs/sublime.html
+pdfs: docs/pdf/sublime.pdf ## generate docs (pdf)
+
+docs/%.html : %.py  ## generate docs (python)
 	pdoc --logo "https://raw.githubusercontent.com/timm/sublime/main/etc/img/lime.png" \
        -o docs sublime.py
 
-pdfs: docs/pdf/sublime.pdf ## generate docs (pdf)
-
-docs/pdf/%.pdf : %.py ok
+docs/pdf/%.pdf : %.py 
 	@a2ps -q -BjR --line-numbers=1               \
            --borders=no --pro=color --columns 2 \
            --right-footer="" --left-footer=""    \
