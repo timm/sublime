@@ -1,4 +1,4 @@
-.PHONY: help tests ho bye mds
+.PHONY: help all bye demo hi ok pdoc pdfs
 
 help:
 	@printf "\n[SETTINGS] make [OPTIONS]\n\nOPTIONS:\n"
@@ -6,20 +6,19 @@ help:
 	| sort \
 	| awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%10s :\033[0m %s\n", $$1, $$2}'
 
+all: ok pdoc pdfs bye ## run all (i.e. make ok pdoc pdfs bye)
+
+bye:  ## stop work (save all files)
+	git add *;git commit -am save;git push;git status
+
 demo: ## run demo $t; e.g. t=all make demo 
 	@python3 sublime.py -t $t; printf "\n\nexit status: $$?\n\n"
-
-all: ok pdoc pdfs bye ## run all (i.e. make ok pdoc pdfs bye)
-	echo $(MAKEFILE)
-
-ok:
-	@mkdir -p docs/pdf
 
 hi: ## start work (update all files)
 	git pull
 
-bye: mds ## stop work (save all files)
-	git add *;git commit -am save;git push;git status
+ok:
+	@mkdir -p docs/pdf
 
 pdoc: docs/sublime.html
 pdfs: docs/pdf/sublime.pdf ## generate docs (pdf)
