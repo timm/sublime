@@ -194,7 +194,7 @@ def demo(do,all):
         all.fails += 0
         if the.cautious : traceback.print_exc(); exit(1)
         else            : print("FAIL:", doc, e)
-  exit(all.fails)
+  exit(all.fails+1)
 
 def file(f):
   "Iterator. Returns one row at a time, as cells."
