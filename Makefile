@@ -6,7 +6,7 @@ help: ## show help
 	| sort \
 	| awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%10s :\033[0m %s\n", $$1, $$2}'
 
-all: ok pdoc pdfs bye ## run all (i.e. make ok pdoc pdfs bye)
+all: ok pep8s pdoc pdfs bye ## run all (i.e. make ok pdoc pdfs bye)
 
 bye:  ## stop work (save all files)
 	git add *;git commit -am save;git push;git status
@@ -17,12 +17,16 @@ demo: ## run demo $t; e.g. t=all make demo
 hi: ## start work (update all files)
 	git pull
 
+pep8s: sublime-pep8.py 
 pdoc: docs/sublime.html   ## generate docs (html)
-pdfs: docs/pdf/sublime.pdf ## generate docs (pdf)
+pdfs: docs/pdf/sublime.pdf docs/pdf/sublime-pep8.pdf ## generate docs (pdf)
 
 #----------------------------------------------------
 ok:
 	@mkdir -p docs/pdf
+
+%-pep8.py: %.py
+	autopep8 --indent-size=2 $< > $@
 
 docs/%.html : %.py  
 	pdoc --logo "https://raw.githubusercontent.com/timm/sublime/main/etc/img/lime.png" \
