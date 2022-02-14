@@ -10,6 +10,7 @@ demo: ## run demo $t; e.g. t=all make demo
 	@python3 sublime.py -t $t; printf "\n\nexit status: $$?\n\n"
 
 all: ok pdoc pdfs bye ## run all (i.e. make ok pdoc pdfs bye)
+	echo $(MAKEFILE)
 
 ok:
 	@mkdir -p docs/pdf
@@ -20,7 +21,7 @@ hi: ## start work (update all files)
 bye: mds ## stop work (save all files)
 	git add *;git commit -am save;git push;git status
 
-pdoc: ok ## generate docs (python)
+pdoc: ok $(MAKEFILE) sublime.py ## generate docs (python)
 	pdoc --logo "https://raw.githubusercontent.com/timm/sublime/main/etc/img/lime.png" \
        -o docs sublime.py
 
