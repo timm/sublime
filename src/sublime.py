@@ -52,6 +52,7 @@ OPTIONS:
 :: [repo](https://github.com/timm/sublime)
 :: [view source](https://github.com/timm/sublime/blob/main/docs/pdf)
 
+[![sublime-all](https://github.com/timm/sublime/actions/workflows/main.yml/badge.svg)](https://github.com/timm/sublime/actions/workflows/main.yml)
 
 ## Algorithm
 
