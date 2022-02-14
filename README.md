@@ -1,4 +1,4 @@
-<img src="/etc/img/lime.png" align=right width=400>
+<img src="/etc/img/lime.png" align=right width=350>
 
 <a href="https://zenodo.org/badge/latestdoi/452530453"><img src="https://zenodo.org/badge/452530453.svg"></a>
 <img src="https://img.shields.io/badge/purpose-se,ai-informational?style=flat&logo=hyper&logoColor=white&color=blueviolet">
