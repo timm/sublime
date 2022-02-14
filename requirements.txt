@@ -1,5 +1,7 @@
 python3 >= 3.8
 pdoc >= 9.0.0
+pycodestyle >=  2.8.0
+autopep8 >= 1.6.0 
 
 # other stuff
 gawk > 5.1
