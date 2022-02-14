@@ -100,6 +100,7 @@ mytmux() {
     tmux splitw -v  -p 5
     tmux selectp -t 2
     tmux send-keys C-m  "htop"  C-m
+    tmux selectp -t 0
 
     tmux attach-session -t $session
   fi
