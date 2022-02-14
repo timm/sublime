@@ -1,7 +1,6 @@
-python3
-pip
-pdoc
+python3 >= 3.8
+pdoc >= 9.0.0
 
 # other stuff
-gawk
-a2ps
+gawk > 5.1
+a2ps > 4.10
