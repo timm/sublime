@@ -1,6 +1,6 @@
 .PHONY: help all bye demo hi ok pdoc pdfs
 
-help:
+help: ## show help
 	@printf "\n[SETTINGS] make [OPTIONS]\n\nOPTIONS:\n"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
 	| sort \
@@ -17,13 +17,14 @@ demo: ## run demo $t; e.g. t=all make demo
 hi: ## start work (update all files)
 	git pull
 
+pdoc: docs/sublime.html   ## generate docs (html)
+pdfs: docs/pdf/sublime.pdf ## generate docs (pdf)
+
+#----------------------------------------------------
 ok:
 	@mkdir -p docs/pdf
 
-pdoc: docs/sublime.html
-pdfs: docs/pdf/sublime.pdf ## generate docs (pdf)
-
-docs/%.html : %.py  ## generate docs (python)
+docs/%.html : %.py  
 	pdoc --logo "https://raw.githubusercontent.com/timm/sublime/main/etc/img/lime.png" \
        -o docs sublime.py
 
