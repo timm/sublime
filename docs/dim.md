@@ -8,9 +8,24 @@ https://www.researchgate.net/publication/30013021_On_the_Surprising_Behavior_of_
 - symemtric: d(x,y) = d(y,x)  
 - positive: d(x,x) = 0 and d(x,y)>0 for x != y
 - triangle inequality d(x,y) + d (y,z) >= d(x,z)
- 
 
+# Aha distance
+
+ https://link.springer.com/article/10.1007/BF00153759
+
+distance between  2 symbols is 0 if x==y and 1
+
+distannce ebtween 2 numebrs is nomalized
+
+    (x - lo)/(hi - lo)
+
+is missing data: make the maximal assumotion
+
+    if x==? and y=="?" the d =1
+    if x==? then assume some value of x that maximized d(x,y)
+ 
 # eculdiean distance (L2 norm)
+
     distance =  d = sqrt((x1-y1)^2 + (x2-y2)^2 + (x3-y3)^2 + ... )
 
 (Btw, this is called the L2 form. L1  is (sum(xi-yi)^p)^1/p)
@@ -35,6 +50,9 @@ for non-uniform dots
     v[n] = v[n-2] * (2π r^2)/n
 
 for unit sphere with r=1, what happens when n > 2π
+
+https://scikit-learn.org/stable/modules/clustering.html
+
 
 # random projections
 
