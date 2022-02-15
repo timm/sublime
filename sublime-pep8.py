@@ -430,7 +430,7 @@ class Num(Col):
     super().__init__(**kw)
     i._all, i.lo, i.hi, i.max, i.ok = [], 1E32, -1E32, the.Max, False
 
-  def add(i, x: int | float , inc=1):
+  def add(i, x: float , inc=1):
     "Reservoir sampler. If `_all` is full, sometimes replace an item at random."
     if x != "?":
       i.n += inc
