@@ -3,6 +3,6 @@ pdoc >= 9.0.0
 pycodestyle >=  2.8.0
 autopep8 >= 1.6.0 
 
-# other stuff
-gawk > 5.1
-a2ps > 4.10
+# other stuff (that is not python packages)
+# gawk > 5.1
+# a2ps > 4.10
