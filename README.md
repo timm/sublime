@@ -1,4 +1,4 @@
-<img src="/etc/img/lime.png" align=right width=450>
+<img src="/etc/img/lime.png" align=right width=400>
 
 # Sublime
 S.U.B.L.I.M.E. = Sublime's unsupervised bifurcation: let's infer minimal explanations. 
