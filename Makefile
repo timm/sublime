@@ -30,7 +30,9 @@ ok:
 
 docs/%.html : %.py  
 	pdoc --logo "https://raw.githubusercontent.com/timm/sublime/main/etc/img/lime.png" \
-       -o docs sublime.py
+	     --logo-link "http://github.com/timm/sublime" \
+	     --footer-text="Share and enjoy" \
+	     --math -o docs sublime.py
 
 docs/pdf/%.pdf : %.py 
 	@a2ps -q -BjR --line-numbers=1               \
