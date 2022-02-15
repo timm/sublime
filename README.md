@@ -9,6 +9,6 @@ src=https://github.com/timm/sublime/actions/workflows/main.yml/badge.svg></a>
 
 
 # Sublime
-Data miners using/used by optimizers
+S.U.B.L.I.M.E. = Sublime's unsupervised bifurcation: let's infer minimal explanations. 
 
 See [http://menzies.us/sublime](http://menzies.us/sublime).
