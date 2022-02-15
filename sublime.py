@@ -39,13 +39,12 @@ OPTIONS:
 :: [repo](https://github.com/timm/sublime)
 :: [view source](https://github.com/timm/sublime/blob/main/docs/pdf)
 
+<a href=https://github.com/timm/sublime/actions/workflows/main.yml><img
+src=https://github.com/timm/sublime/actions/workflows/main.yml/badge.svg></a>
 ![](https://img.shields.io/badge/purpose-se--ai-blueviolet)
 ![](https://img.shields.io/badge/language-python3-orange)
 ![](https://img.shields.io/badge/platform-osx,linux-pink)
-<a href=https://github.com/timm/sublime/actions/workflows/main.yml><img
-src=https://github.com/timm/sublime/actions/workflows/main.yml/badge.svg></a>
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5912461.svg)](https://doi.org/10.5281/zenodo.5912461)
-
 ## Algorithm
 
 Stochastic clustering to generate tiny models.  Uses random projections

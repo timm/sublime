@@ -17,7 +17,7 @@ demo: ## run demo $t; e.g. t=all make demo
 hi: ## start work (update all files)
 	git pull
 
-pep8s: sublime-pep8.py 
+pep8s: sublime-pep8.py ; mv $< docs
 pdoc: docs/sublime.html   ## generate docs (html)
 pdfs: docs/pdf/sublime.pdf docs/pdf/sublime-pep8.pdf ## generate docs (pdf)
 
