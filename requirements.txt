@@ -1,4 +1,4 @@
-# python3 >= 3.10
+# python3 >= 3.10 #
 pdoc >= 9.0.0
 pycodestyle >=  2.8.0
 autopep8 >= 1.6.0 
