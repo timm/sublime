@@ -1,31 +1,5 @@
-#!/usr/bin/env python3.10
+#!/usr/bin/env python3
 # vim: ts=2 sw=2 sts=2 et :
-#
-#     dew   ~~~~~~~~~~~~~~~~~~~~~~~\\W~~~~~~~~~~~~\|/~~
-#               ~~~w/w~"~~,\` `:/,-(~`"~~~~~~~~"~o~\~/~w|/~
-#                    )  ___/#\::`/ (O "==._____   O, (O  /`
-#                   O       |:::/{ }  |                  (o
-#                           |:::(\    |
-#                           |::.\  \ `.
-#          .                |::.    {\
-#                        . (|::.     ,`                  .
-#                           /:. _/ ,  |
-#                .           ):_(:;   \           .
-#        .                 `.:.  /:'  }      .
-#                         \::.  :\/:'  /              +
-#     .               ":._:`\____  /:'  /      .           .
-#                   \:  `  X` _| _,\/'   .-'
-#        `.   (    \: \,-._` ` + '\, ,"   _,--._,---":.__/
-#       .      ,=':  \    ` `/` ' , , ,:' `'--".--"---._/`7
-#            .    /:+- - + +- : :- + + -:'  /(o-) \)     .
-#     .           \/:/`-' , ,\ '` ` `   ): , /_  -o
-#         .      ., ,-=-.  ,\, +#./`   \:.  / /           .
-#                           ,    `./  \:. `.   )==-'  .
-#       `                 \   _|`"=:_::.`.);  \ __/ /
-#      ((        .    (_:#::_.:::. `-._   /:, /-._, `._,
-#       ,              /;-._,-.____        ,-----.__
-#          .            _        .                    .
-#                 .        +          .      .          .
 """
 ./sublime.py [OPTIONS]  
 (c)2022 Tim Menzies <timm@ieee.org>, BSD license     
@@ -52,12 +26,12 @@ OPTIONS:
 :: [repo](https://github.com/timm/sublime)
 :: [view source](https://github.com/timm/sublime/blob/main/docs/pdf)
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5912461.svg)](https://doi.org/10.5281/zenodo.5912461)
 ![](https://img.shields.io/badge/purpose-se--ai-blueviolet)
 ![](https://img.shields.io/badge/language-python3-orange)
 ![](https://img.shields.io/badge/platform-osx,linux-pink)
 <a href=https://github.com/timm/sublime/actions/workflows/main.yml><img
 src=https://github.com/timm/sublime/actions/workflows/main.yml/badge.svg></a>
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5912461.svg)](https://doi.org/10.5281/zenodo.5912461)
 
 ## Algorithm
 
@@ -145,7 +119,12 @@ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-import traceback, random, math, sys, re
+import traceback
+import random
+import copy
+import math
+import sys
+import re
 from random import random as r
 from typing import Any
 #  ___              __
@@ -156,9 +135,11 @@ from typing import Any
 #    /\____\  \ \_\   \ \_,__/
 #    \/____/   \/_/    \/___/
 
+
 def any(a: list) -> Any:
   "Return a random item."
   return a[anywhere(a)]
+
 
 def anywhere(a: list) -> int:
   "Return a random index of list `a`."
@@ -167,10 +148,11 @@ def anywhere(a: list) -> int:
 
 big = sys.maxsize
 
+
 def atom(x):
   "Return a number or trimmed string."
   x = x.strip()
-  if x == "True" :
+  if x == "True":
     return True
   elif x == "False":
     return False
@@ -182,6 +164,7 @@ def atom(x):
         return float(x)
       except:
         return x.strip()
+
 
 def demo(do, all):
   "Maybe run a demo, if we want it, resetting random seed first."
@@ -198,12 +181,13 @@ def demo(do, all):
         print("PASS:", doc)
       except Exception as e:
         all.fails += 0
-        if the.cautious :
+        if the.cautious:
           traceback.print_exc()
           exit(1)
-        else :
+        else:
           print("FAIL:", doc, e)
   exit(all.fails)
+
 
 def file(f):
   "Iterator. Returns one row at a time, as cells."
@@ -211,11 +195,13 @@ def file(f):
     for line in fp:
       line = re.sub(r'([\n\t\r"\' ]|#.*)', '', line)
       if line:
-        yield [atom(cell.strip()) for cell in line.split(",")]
+        yield [cell.strip() for cell in line.split(",")]
+
 
 def first(a: list) -> Any:
   "Return first item."
   return a[0]
+
 
 def merge(b4: list) -> list:
   "While we can find similar adjacent things, merge them."
@@ -231,14 +217,16 @@ def merge(b4: list) -> list:
   # if `now` is same size as `b4`, look for any other merges.
   return b4 if len(now) == len(b4) else merge(now)
 
+
 class o(object):
   "Class that can pretty print its slots, with fast inits."
   def __init__(i, **d): i.__dict__.update(**d)
 
   def __repr__(i):
     pre = i.__class__.__name__ if isinstance(i, o) else ""
-    return pre+str(
-        {k: v for k, v in sorted(i.__dict__.items()) if str(k)[0] != "_"})
+    return pre+'{'+(' '.join([f":{k} {v}" for k, v in
+                              sorted(i.__dict__.items()) if str(k)[0] != "_"]))+'?'
+
 
 def options(doc: str) -> o:
   """Convert `doc` to options dictionary using command line args.
@@ -259,17 +247,21 @@ def options(doc: str) -> o:
     exit(print(re.sub(r'\n#.*', "", doc, flags=re.S)))
   return o(**d)
 
+
 def r() -> float:
   "Return random number 0..1"
   return random.random()
+
 
 def rn(x: float, n=3) -> float:
   "Round a number to three decimals."
   return round(x, n)
 
+
 def rN(a: list, n=3) -> list:
   "Round a list of numbers to three decimals."
   return [rn(x, n=n) for x in a]
+
 
 def second(a: list) -> Any:
   "Return second item."
@@ -287,11 +279,12 @@ def second(a: list) -> Any:
 #  /__/ | .__/ \__,_| |_||_|
 #       |_|
 
+
 class Span(o):
   """Given two `Sample`s and some `x` range `lo..hi`,
      a `Span` holds often that range appears in each `Sample`."""
   def __init__(i, col, lo, hi, ys=None,):
-    i.col, i.lo, i.hi, i.ys = col, lo, hi, ys or Sym()
+    i.col, i.lo, i.hi, i.ys = col, lo, hi,  ys or Sym()
 
   def add(i, x: float, y: Any, inc=1) -> None:
     "`y` is a label identifying, one `Sample` or another."
@@ -321,7 +314,7 @@ class Span(o):
         return f"{txt} < {i.hi}"
       elif i.hi == big:
         return f"{txt} >= {i.lo}"
-      else :
+      else:
         return f"{i.lo} <= {txt} < {i.hi}"
     else:
       if i.lo == i.hi:
@@ -330,7 +323,7 @@ class Span(o):
         return f"{txt} >= {i.hi}"
       elif i.hi == big:
         return f"{txt} < {i.lo}"
-      else :
+      else:
         return f"{txt} < {i.lo} or {txt} >= {i.hi}"
 
   def support(i) -> float:
@@ -338,14 +331,14 @@ class Span(o):
     return i.ys.n / i.col.n
 
   @staticmethod
-  def sort(spans : list) -> list:
+  def sort(spans: list) -> list:
     "Good spans have large support and low diversity."
-    divs, supports = Num(), Num()
-    def sn(s): return supports.norm( s.support())
-    def dn(s): return divs.norm(     s.ys.div())
+    divs, supports = Num(512), Num(512)
+    def sn(s): return supports.norm(s.support())
+    def dn(s): return divs.norm(s.ys.div())
     def f(s): return ((1 - sn(s))**2 + dn(s)**2)**.5/2**.5
     for s in spans:
-      divs.add(    s.ys.div())
+      divs.add(s.ys.div())
       supports.add(s.support())
     return sorted(spans, key=f)
 
@@ -353,6 +346,7 @@ class Span(o):
 #   __   ___  | |
 #  / _| / _ \ | |
 #  \__| \___/ |_|
+
 
 class Col(o):
   "Summarize columns."
@@ -366,6 +360,7 @@ class Col(o):
 #  (_-< | || | | '  \
 #  /__/  \_, | |_|_|_|
 #        |__/
+
 
 class Sym(Col):
   "Summarize symbolic columns."
@@ -389,7 +384,7 @@ class Sym(Col):
   def div(i):
     "Return diversity of this distribution (using entropy)."
     def p(x): return x / (1E-31 + i.n)
-    return sum( -p(x)*math.log(p(x), 2) for x in i.has.values() )
+    return sum(-p(x)*math.log(p(x), 2) for x in i.has.values())
 
   def merge(i, j):
     "Merge two `Sym`s."
@@ -400,11 +395,15 @@ class Sym(Col):
       k.add(x, n)
     return k
 
-  def mid(i):
-    "Return central tendancy of this distribution (using mode)."
+  def mid(i) -> Any:
+    "Return central tendency of this distribution (using mode)."
     return i.mode
 
-  def spans(i, j, out):
+  def prep(i, x) -> Any:
+    "Return `x` as anything at all."
+    return x
+
+  def spans(i, j, _bins, out):
     """For each symbol in `i` and `j`, count the 
     number of times we see it on either side."""
     xys = [(x, "this", n) for x, n in i.has.items()] + [
@@ -417,25 +416,26 @@ class Sym(Col):
         one = Span(i, x, x)
         all += [one]
       one.add(x, y, n)
-    if len(all) > 1 :
+    if len(all) > 1:
       out += all
 #   _ _    _  _   _ __
 #  | ' \  | || | | '  \
 #  |_||_|  \_,_| |_|_|_|
 
+
 class Num(Col):
   "Summarize numeric columns."
-  def __init__(i, **kw):
+  def __init__(i, size, **kw):
     super().__init__(**kw)
-    i._all, i.lo, i.hi, i.max, i.ok = [], 1E32, -1E32, the.Max, False
+    i._all, i.lo, i.hi, i.max, i.ok = [], 1E32, -1E32, size, False
 
-  def add(i, x: float , inc=1):
+  def add(i, x: float, inc=1):
     "Reservoir sampler. If `_all` is full, sometimes replace an item at random."
     if x != "?":
       i.n += inc
       i.lo = min(x, i.lo)
       i.hi = max(x, i.hi)
-      if len(i._all) < i.max    :
+      if len(i._all) < i.max:
         i.ok = False
         i._all += [x]
       elif r() < i.max/i.n:
@@ -457,7 +457,7 @@ class Num(Col):
     elif y == "?":
       x = i.norm(x)
       y = (1 if x < .5 else 0)
-    else :
+    else:
       x, y = i.norm(x), i.norm(y)
     return abs(x-y)
 
@@ -469,7 +469,7 @@ class Num(Col):
 
   def merge(i, j):
     "Return two `Num`s."
-    k = Num(at=i.at, txt=i.txt)
+    k = Num(i.max, at=i.at, txt=i.txt)
     for x in i._all:
       k.add(x)
     for x in j._all:
@@ -487,15 +487,19 @@ class Num(Col):
   def per(i, p: float = .5) -> float:
     "Return the p-th ranked item."
     a = i.all()
-    return a[ int(p*len(a)) ]
+    return a[int(p*len(a))]
 
-  def spans(i, j, out):
+  def prep(i, x):
+    "Return `x` as a float."
+    return x if x == "?" else float(x)
+
+  def spans(i, j, bins, out):
     """Divide the whole space `lo` to `hi` into, say, `xsmall`=16 bin,
     then count the number of times we the bin on other side.
     Then merge similar adjacent bins."""
     lo = min(i.lo, j.lo)
     hi = max(i.hi, j.hi)
-    gap = (hi-lo) / (6/the.xsmall)
+    gap = (hi-lo) / bins
     xys = [(x, "this", 1) for x in i._all] + [
         (x, "that", 1) for x in j._all]
     one = Span(i, lo, lo)
@@ -506,7 +510,7 @@ class Num(Col):
         all += [one]
       one.add(x, y, n)
     all = merge(all)
-    all[ 0].lo = -big
+    all[0].lo = -big
     all[-1].hi = big
     if len(all) > 1:
       out += all
@@ -515,6 +519,7 @@ class Num(Col):
 #  / -_) \ \ / | '_ \ | | / _` | | | | ' \
 #  \___| /_\_\ | .__/ |_| \__,_| |_| |_||_|
 #              |_|
+
 
 class Explain(o):
   "Tree with `yes`,`no` branches for samples that do/do not match a `span`."
@@ -541,6 +546,8 @@ class Explain(o):
 #  / _| | | | || | (_-< |  _| / -_) | '_|
 #  \__| |_|  \_,_| /__/  \__| \___| |_|
 #
+
+
 class Cluster(o):
   "Tree with `left`,`right` samples, broken at median between far points."
   def __init__(i, here, x=None, y=None, c=None, mid=None):
@@ -558,33 +565,43 @@ class Cluster(o):
 #  /__/ \__,_| |_|_|_| | .__/ |_| \___|
 #                      |_|
 
+
 class Sample(o):
   "Load, then manage, a set of examples."
-  def __init__(i, inits=[]):
+
+  def __init__(i, the, inits=[]):
+    i.the = the
     i.rows, i.cols, i.x, i.y, i.klass = [], [], [], [], None
     if str == type(inits):
-      [i.add(row) for row in file(inits)]
+      [i.add(row, True) for row in file(inits)]
     if list == type(inits):
       [i.add(row) for row in inits]
 
-  def add(i, a):
+  def add(i, a, raw=False):
+    def pre(a, c): return c.prep(a[c.at]) if raw else a[c.at]
+    def nump(x): return x[0].isupper()
+    def skipp(x): return x[-1] == ":"
+    def klassp(x): return "!" in x
+    def goalp(x): return "+" in x or "-" in x or klassp(x)
+    # ---------------
+
     def col(at, txt):
-      what = Num if txt[0].isupper() else Sym
-      now = what(at=at, txt=txt)
-      where = i.y if "+" in txt or "-" in txt or "!" in txt else i.x
-      if txt[-1] != ":":
+      now = Num(i.the.Max, at=at, txt=txt) if nump(
+          txt) else Sym(at=at, txt=txt)
+      where = i.y if goalp(txt) else i.x
+      if not skipp(txt):
         where += [now]
-        if "!" in txt:
+        if klassp(txt):
           i.klass = now
       return now
     # -----------
     if i.cols:
-      i.rows += [[col.add(a[col.at]) for col in i.cols]]
+      i.rows += [[col.add(pre(a, col)) for col in i.cols]]
     else:
       i.cols = [col(at, txt) for at, txt in enumerate(a)]
 
   def clone(i, inits=[]):
-    out = Sample()
+    out = Sample(i.the)
     out.add([col.txt for col in i.cols])
     [out.add(x) for x in inits]
     return out
@@ -594,7 +611,7 @@ class Sample(o):
     separates the data. Divide data on that span."""
     here = Cluster(i)
     top = top or i
-    if len(i.rows) >= 2*(len(top.rows)**the.enough):
+    if len(i.rows) >= 2*(len(top.rows)**i.the.enough):
       left, right, x, y, c, mid = i.half(top)
       if len(left.rows) < len(i.rows):
         here = Cluster(i, x, y, c, mid)
@@ -603,20 +620,20 @@ class Sample(o):
     return here
 
   def dist(i, x, y):
-    d = sum( col.dist(x[col.at], y[col.at])**the.p for col in i.x )
-    return (d/len(i.x)) ** (1/the.p)
+    d = sum(col.dist(x[col.at], y[col.at])**i.the.p for col in i.x)
+    return (d/len(i.x)) ** (1/i.the.p)
 
   def div(i, cols=None):
     return [col.div() for col in (cols or i.all)]
 
   def far(i, x, rows=None):
     tmp = sorted([(i.dist(x, y), y) for y in (rows or i.rows)], key=first)
-    return tmp[ int(len(tmp)*the.far) ]
+    return tmp[int(len(tmp)*i.the.far)]
 
   def half(i, top=None):
     "Using two faraway points `x,y` break data at median distance."
     some = i.rows if len(
-        i.rows) < the.Some else random.choices(i.rows, k=the.Some)
+        i.rows) < i.the.Some else random.choices(i.rows, k=the.Some)
     top = top or i
     w = any(some)
     _, x = top.far(w, some)
@@ -640,18 +657,19 @@ class Sample(o):
     separates the data. Divide data on that span."""
     here = Explain(i)
     top = top or i
-    tiny = len(top.rows)**the.enough
+    tiny = len(top.rows)**i.the.enough
     if len(i.rows) >= 2*tiny:
       left, right, *_ = i.half(top)
       spans = []
-      [lcol.spans(rcol, spans) for lcol, rcol in zip(left.x, right.x)]
+      [lcol.spans(rcol, 6/i.the.xsmall, spans) for lcol, rcol
+       in zip(left.x, right.x)]
       if len(spans) > 0:
         here.span = Span.sort(spans)[0]
         yes, no = i.clone(), i.clone()
         [(yes if here.span.selects(row) else no).add(row) for row in i.rows]
         if tiny <= len(yes.rows) < len(i.rows):
           here.yes = yes.xplain(top=top)
-        if tiny <= len(no.rows ) < len(i.rows):
+        if tiny <= len(no.rows) < len(i.rows):
           here.no = no.xplain(top=top)
     return here
 #    _
@@ -662,13 +680,14 @@ class Sample(o):
 # \ \___,_\\ \____\\ \_\ \_\ \_\\ \____/\/\____/
 #  \/__,_ / \/____/ \/_/\/_/\/_/ \/___/  \/___/
 
+
 class Demos:
   "Possible start-up actions."
   fails = 0
 
   def opt():
     "show the config."
-    [print(f"{k:>10} = {v}") for k, v in the.__dict__.items()]
+    print(the)
 
   def seed():
     "seed"
@@ -676,7 +695,7 @@ class Demos:
 
   def num():
     "check `Num`."
-    n = Num()
+    n = Num(512)
     for _ in range(100):
       n.add(r())
     assert .30 <= n.div() <= .31, "in range"
@@ -695,25 +714,26 @@ class Demos:
 
   def sample():
     "sampling."
-    s = Sample(the.data)
-    assert 398 == len(s.rows), "length of rows"
-    assert 249 == s.x[-1].has[1], "symbol counts"
+    s = Sample(the, the.data)
+    print(the.data, len(s.rows))
+    assert 398 == len(s.rows),    "length of rows"
+    assert 249 == s.x[-1].has['1'], "symbol counts"
 
   def dist():
     "distance between rows"
-    s = Sample(the.data)
+    s = Sample(the, the.data)
     assert .84 <= s.dist(s.rows[1], s.rows[-1]) <= .842
 
   def far():
     "distant items"
-    s = Sample(the.data)
+    s = Sample(the, the.data)
     for _ in range(32):
       a, _ = s.far(any(s.rows))
       assert a > .5, "large?"
 
   def clone():
     "cloning"
-    s = Sample(the.data)
+    s = Sample(the, the.data)
     s1 = s.clone(s.rows)
     d1, d2 = s.x[0].__dict__, s1.x[0].__dict__
     for k, v in d1.items():
@@ -721,20 +741,20 @@ class Demos:
 
   def half():
     "divide data in two"
-    s = Sample(the.data)
+    s = Sample(the, the.data)
     s1, s2, *_ = s.half()
     print(s1.mid(s1.y))
     print(s2.mid(s2.y))
 
   def cluster():
     "divide data in two"
-    s = Sample(the.data)
+    s = Sample(the, the.data)
     s.cluster().show()
     print("")
 
   def xplain():
     "divide data in two"
-    s = Sample(the.data)
+    s = Sample(the, the.data)
     s.xplain().show()
     print("")
 
@@ -745,6 +765,5 @@ if __name__ == "__main__":
   demo(the.todo, Demos)
 
 """
-all config local to Sample
 Example class
 """
