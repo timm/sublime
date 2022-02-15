@@ -19,7 +19,7 @@
 S.U.B.L.I.M.E. =    
 Sublime's unsupervised bifurcation: let's infer minimal explanations. 
 
-OPTIONS:    
+OPTIONS:          
 
     -Max       max numbers to keep           : 512  
     -Some      find `far` in this many egs   : 512  
@@ -669,11 +669,11 @@ class Sample(o):
     separates the data. Divide data on that span."""
     here = Explain(i)
     top = top or i
-    tiny = len(top.rows)**i.the.enough
+    tiny = len(top.rows)**top.the.enough
     if len(i.rows) >= 2*tiny:
       left, right, *_ = i.half(top)
       spans = []
-      [lcol.spans(rcol, 6/i.the.xsmall, spans) for lcol, rcol
+      [lcol.spans(rcol, 6/top.the.xsmall, spans) for lcol, rcol
        in zip(left.x, right.x)]
       if len(spans) > 0:
         here.span = Span.sort(spans)[0]

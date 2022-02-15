@@ -333,11 +333,11 @@
 sublime    </h1>
 
                         <div class="docstring"><p>./<a href="#py">sublime.py</a> [OPTIONS] <br />
-(c)2022 Tim Menzies <a href="&#109;&#x61;&#x69;&#x6c;&#116;o&#58;&#116;&#105;&#109;&#109;&#64;&#105;&#101;&#x65;&#x65;&#x2e;&#111;&#114;&#x67;">&#116;&#105;&#109;&#109;&#64;&#105;&#101;&#x65;&#x65;&#x2e;&#111;&#114;&#x67;</a>, BSD license <br />
+(c)2022 Tim Menzies <a href="&#x6d;&#97;&#105;l&#x74;&#x6f;&#x3a;&#x74;&#105;&#109;&#109;&#x40;i&#x65;&#101;e&#46;&#111;&#114;&#x67;">&#x74;&#105;&#109;&#109;&#x40;i&#x65;&#101;e&#46;&#111;&#114;&#x67;</a>, BSD license <br />
 S.U.B.L.I.M.E. = <br />
 Sublime's unsupervised bifurcation: let's infer minimal explanations. </p>
 
-<p>OPTIONS:    </p>
+<p>OPTIONS:          </p>
 
 <pre><code>-Max       max numbers to keep           : 512  
 -Some      find `far` in this many egs   : 512  
@@ -477,7 +477,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
 <span class="sd">S.U.B.L.I.M.E. =    </span>
 <span class="sd">Sublime&#39;s unsupervised bifurcation: let&#39;s infer minimal explanations. </span>
 
-<span class="sd">OPTIONS:    </span>
+<span class="sd">OPTIONS:          </span>
 
 <span class="sd">    -Max       max numbers to keep           : 512  </span>
 <span class="sd">    -Some      find `far` in this many egs   : 512  </span>
@@ -1051,11 +1051,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
 <span class="sd">    separates the data. Divide data on that span.&quot;&quot;&quot;</span>
     <span class="n">here</span> <span class="o">=</span> <span class="n">Explain</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
     <span class="n">top</span> <span class="o">=</span> <span class="n">top</span> <span class="ow">or</span> <span class="n">i</span>
-    <span class="n">tiny</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">top</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span><span class="o">**</span><span class="n">i</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">enough</span>
+    <span class="n">tiny</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">top</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span><span class="o">**</span><span class="n">top</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">enough</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="o">*</span><span class="n">tiny</span><span class="p">:</span>
       <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span><span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">half</span><span class="p">(</span><span class="n">top</span><span class="p">)</span>
       <span class="n">spans</span> <span class="o">=</span> <span class="p">[]</span>
-      <span class="p">[</span><span class="n">lcol</span><span class="o">.</span><span class="n">spans</span><span class="p">(</span><span class="n">rcol</span><span class="p">,</span><span class="mi">6</span><span class="o">/</span><span class="n">i</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">xsmall</span><span class="p">,</span><span class="n">spans</span><span class="p">)</span> <span class="k">for</span> <span class="n">lcol</span><span class="p">,</span><span class="n">rcol</span>
+      <span class="p">[</span><span class="n">lcol</span><span class="o">.</span><span class="n">spans</span><span class="p">(</span><span class="n">rcol</span><span class="p">,</span><span class="mi">6</span><span class="o">/</span><span class="n">top</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">xsmall</span><span class="p">,</span><span class="n">spans</span><span class="p">)</span> <span class="k">for</span> <span class="n">lcol</span><span class="p">,</span><span class="n">rcol</span>
                                             <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">left</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">right</span><span class="o">.</span><span class="n">x</span><span class="p">)]</span>
       <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">spans</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">here</span><span class="o">.</span><span class="n">span</span> <span class="o">=</span> <span class="n">Span</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">spans</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
@@ -1141,7 +1141,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
 
   <span class="k">def</span> <span class="nf">xplain</span><span class="p">():</span>
     <span class="s2">&quot;divide data in two&quot;</span>
-    <span class="n">s</span> <span class="o">=</span> <span class="n">Sample</span><span class="p">(</span><span class="n">the</span><span class="p">,</span> <span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">Sample</span><span class="p">(</span><span class="n">the</span><span class="p">,</span> <span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">);</span> 
     <span class="n">s</span><span class="o">.</span><span class="n">xplain</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">();</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 
 <span class="c1">#---------------------------------------------------</span>
@@ -2720,11 +2720,11 @@ Then merge similar adjacent bins.</p>
 <span class="sd">    separates the data. Divide data on that span.&quot;&quot;&quot;</span>
     <span class="n">here</span> <span class="o">=</span> <span class="n">Explain</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
     <span class="n">top</span> <span class="o">=</span> <span class="n">top</span> <span class="ow">or</span> <span class="n">i</span>
-    <span class="n">tiny</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">top</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span><span class="o">**</span><span class="n">i</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">enough</span>
+    <span class="n">tiny</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">top</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span><span class="o">**</span><span class="n">top</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">enough</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="o">*</span><span class="n">tiny</span><span class="p">:</span>
       <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span><span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">half</span><span class="p">(</span><span class="n">top</span><span class="p">)</span>
       <span class="n">spans</span> <span class="o">=</span> <span class="p">[]</span>
-      <span class="p">[</span><span class="n">lcol</span><span class="o">.</span><span class="n">spans</span><span class="p">(</span><span class="n">rcol</span><span class="p">,</span><span class="mi">6</span><span class="o">/</span><span class="n">i</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">xsmall</span><span class="p">,</span><span class="n">spans</span><span class="p">)</span> <span class="k">for</span> <span class="n">lcol</span><span class="p">,</span><span class="n">rcol</span>
+      <span class="p">[</span><span class="n">lcol</span><span class="o">.</span><span class="n">spans</span><span class="p">(</span><span class="n">rcol</span><span class="p">,</span><span class="mi">6</span><span class="o">/</span><span class="n">top</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">xsmall</span><span class="p">,</span><span class="n">spans</span><span class="p">)</span> <span class="k">for</span> <span class="n">lcol</span><span class="p">,</span><span class="n">rcol</span>
                                             <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">left</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">right</span><span class="o">.</span><span class="n">x</span><span class="p">)]</span>
       <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">spans</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">here</span><span class="o">.</span><span class="n">span</span> <span class="o">=</span> <span class="n">Span</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">spans</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
@@ -2997,11 +2997,11 @@ separates the data. Divide data on that span.</p>
 <span class="sd">    separates the data. Divide data on that span.&quot;&quot;&quot;</span>
     <span class="n">here</span> <span class="o">=</span> <span class="n">Explain</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
     <span class="n">top</span> <span class="o">=</span> <span class="n">top</span> <span class="ow">or</span> <span class="n">i</span>
-    <span class="n">tiny</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">top</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span><span class="o">**</span><span class="n">i</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">enough</span>
+    <span class="n">tiny</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">top</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span><span class="o">**</span><span class="n">top</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">enough</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="o">*</span><span class="n">tiny</span><span class="p">:</span>
       <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span><span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">half</span><span class="p">(</span><span class="n">top</span><span class="p">)</span>
       <span class="n">spans</span> <span class="o">=</span> <span class="p">[]</span>
-      <span class="p">[</span><span class="n">lcol</span><span class="o">.</span><span class="n">spans</span><span class="p">(</span><span class="n">rcol</span><span class="p">,</span><span class="mi">6</span><span class="o">/</span><span class="n">i</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">xsmall</span><span class="p">,</span><span class="n">spans</span><span class="p">)</span> <span class="k">for</span> <span class="n">lcol</span><span class="p">,</span><span class="n">rcol</span>
+      <span class="p">[</span><span class="n">lcol</span><span class="o">.</span><span class="n">spans</span><span class="p">(</span><span class="n">rcol</span><span class="p">,</span><span class="mi">6</span><span class="o">/</span><span class="n">top</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">xsmall</span><span class="p">,</span><span class="n">spans</span><span class="p">)</span> <span class="k">for</span> <span class="n">lcol</span><span class="p">,</span><span class="n">rcol</span>
                                             <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">left</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">right</span><span class="o">.</span><span class="n">x</span><span class="p">)]</span>
       <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">spans</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">here</span><span class="o">.</span><span class="n">span</span> <span class="o">=</span> <span class="n">Span</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">spans</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
@@ -3101,7 +3101,7 @@ separates the data. Divide data on that span.</p>
 
   <span class="k">def</span> <span class="nf">xplain</span><span class="p">():</span>
     <span class="s2">&quot;divide data in two&quot;</span>
-    <span class="n">s</span> <span class="o">=</span> <span class="n">Sample</span><span class="p">(</span><span class="n">the</span><span class="p">,</span> <span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">Sample</span><span class="p">(</span><span class="n">the</span><span class="p">,</span> <span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">);</span> 
     <span class="n">s</span><span class="o">.</span><span class="n">xplain</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">();</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 
@@ -3405,7 +3405,7 @@ separates the data. Divide data on that span.</p>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="nf">xplain</span><span class="p">():</span>
     <span class="s2">&quot;divide data in two&quot;</span>
-    <span class="n">s</span> <span class="o">=</span> <span class="n">Sample</span><span class="p">(</span><span class="n">the</span><span class="p">,</span> <span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">Sample</span><span class="p">(</span><span class="n">the</span><span class="p">,</span> <span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">);</span> 
     <span class="n">s</span><span class="o">.</span><span class="n">xplain</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">();</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 
