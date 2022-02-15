@@ -28,10 +28,9 @@
 #                 .        +          .      .          .
 """
 ./sublime.py [OPTIONS]  
-(c)2022 Tim Menzies <timm@ieee.org>,  BSD 2-clause license     
+(c)2022 Tim Menzies <timm@ieee.org>, BSD license     
 S.U.B.L.I.M.E. =    
-Sublime's unsupervised bifurcation:  
-let's infer minimal explanations. 
+Sublime's unsupervised bifurcation: let's infer minimal explanations. 
 
 OPTIONS:    
 
