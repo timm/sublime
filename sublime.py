@@ -1,5 +1,18 @@
 #!/usr/bin/env python3
 # vim: ts=2 sw=2 sts=2 et :
+#                                 _.
+#                         _.-----'' `\
+#             __..-----'''            `.
+#            <            `\.           '\
+#            :.              `.           `\
+#             `:.            I  `.           `-.
+#               `:\ P  a      O  `.            `+.
+#                `:. L  i  a    ns`.   __.===::::;)
+# .         I  L E   `: n   t   ___.__>'::::::a:f/'
+#      i          X   `.  _,===:::=-'-=-"""''
+#  m      n  a         '-/:::''
+#                        ''
+#           m
 """
 ./sublime.py [OPTIONS]  
 (c)2022 Tim Menzies <timm@ieee.org>, BSD license     
