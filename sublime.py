@@ -201,8 +201,8 @@ class o(object):
   def __init__(i, **d): i.__dict__.update(**d)
   def __repr__(i): 
     pre = i.__class__.__name__ if isinstance(i,o) else ""
-    return pre+str(
-      {k: v for k, v in sorted(i.__dict__.items()) if str(k)[0] != "_"})
+    return pre+'{'+(' '.join([f":{k} {v}" for k, v in 
+                          sorted(i.__dict__.items()) if str(k)[0] != "_"]))+'?'
 
 def options(doc:str) ->o:
   """Convert `doc` to options dictionary using command line args.
@@ -501,7 +501,7 @@ class Cluster(o):
 class Sample(o):
   "Load, then manage, a set of examples."
 
-  def __init__(i,the,inits=[]): 
+  def __init__(i, the, inits=[]): 
     i.the = the
     i.rows, i.cols, i.x, i.y, i.klass = [], [], [], [],None
     if str ==type(inits): [i.add(row, True) for row in file(inits)]
@@ -512,11 +512,11 @@ class Sample(o):
     nump   = lambda x  : x[0].isupper()
     skipp  = lambda x  : x[-1]==":"
     klassp = lambda x  : "!" in x
-    goalp  = lambda x  : "+" in x or "-" or x or klassp(x)
+    goalp  = lambda x  : "+" in x or "-" in x or klassp(x)
     #---------------
     def col(at,txt): 
-      now   = Num(i.the.max,at=at,txt=txt) if nump(txt) else Sym(at=at,txt=txt)
-      where = i.y if goalp(txt) else i.x
+      now  = Num(i.the.Max,at=at,txt=txt) if nump(txt) else Sym(at=at,txt=txt)
+      where= i.y if goalp(txt) else i.x
       if not skipp(txt):
         where += [now]
         if klassp(txt): i.klass = now
@@ -632,26 +632,26 @@ class Demos:
 
   def sample(): 
     "sampling."
-    s = Sample(the.data)
+    s = Sample(the, the.data)
     print(the.data, len(s.rows))
     assert 398 == len(s.rows),    "length of rows"
-    assert 249 == s.x[-1].has[1], "symbol counts"
+    assert 249 == s.x[-1].has['1'], "symbol counts"
 
   def dist(): 
     "distance between rows"
-    s = Sample(the.data)
+    s = Sample(the, the.data)
     assert .84 <= s.dist(s.rows[1], s.rows[-1]) <= .842
 
   def far():
     "distant items"
-    s = Sample(the.data)
+    s = Sample(the, the.data)
     for _ in range(32):
       a,_ = s.far(any(s.rows))
       assert a>.5, "large?"
 
   def clone():
     "cloning"
-    s = Sample(the.data)
+    s = Sample(the, the.data)
     s1 = s.clone(s.rows)
     d1,d2 = s.x[0].__dict__, s1.x[0].__dict__
     for k,v in d1.items(): 
@@ -659,19 +659,19 @@ class Demos:
 
   def half():
     "divide data in two"
-    s = Sample(the.data)
+    s = Sample(the, the.data)
     s1,s2,*_ = s.half()
     print(s1.mid(s1.y))
     print(s2.mid(s2.y))
 
   def cluster():
     "divide data in two"
-    s = Sample(the.data)
+    s = Sample(the, the.data)
     s.cluster().show(); print("")
 
   def xplain():
     "divide data in two"
-    s = Sample(the.data)
+    s = Sample(the, the.data)
     s.xplain().show(); print("")
 
 #---------------------------------------------------
