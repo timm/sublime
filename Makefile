@@ -19,7 +19,7 @@ hi: ## start work (update all files)
 
 pep8s: sublime-pep8.py ; mv $< docs
 pdoc: docs/sublime.html   ## generate docs (html)
-pdfs: docs/pdf/sublime.pdf docs/pdf/sublime-pep8.pdf ## generate docs (pdf)
+pdfs: docs/pdf/sublime.pdf  ## generate docs (pdf)
 
 #----------------------------------------------------
 ok:
