@@ -1,6 +1,6 @@
 
 
-<img  align=right width=500  src="https://fossa.com/blog/content/images/2021/01/choosing-a-license-1.png">
+<img  align=right width=500  src="/etc/img/license.png">
 
 
 
