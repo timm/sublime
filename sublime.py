@@ -534,6 +534,10 @@ class Cluster(o):
 #  (_-< / _` | | '  \  | '_ \ | | / -_)
 #  /__/ \__,_| |_|_|_| | .__/ |_| \___|
 #                      |_|             
+def is_num(x):   return x[0].isupper()
+def is_skip(x):  return x[-1]==":"
+def is_klass(x): return "!" in x
+def is_goal(x):  return "+" in x or "-" in x or is_klass(x)
 
 class Sample(o):
   "Load, then manage, a set of examples."
@@ -545,20 +549,15 @@ class Sample(o):
     if list==type(inits): [i.add(row) for row in inits]
 
   def add(i, a, raw=False):
-    pre    = lambda a,c: c.prep(a[c.at]) if raw else a[c.at]
-    nump   = lambda x  : x[0].isupper()
-    skipp  = lambda x  : x[-1]==":"
-    klassp = lambda x  : "!" in x
-    goalp  = lambda x  : "+" in x or "-" in x or klassp(x)
-    #---------------
     def col(at,txt): 
-      now  = Num(i.the.Max,at=at,txt=txt) if nump(txt) else Sym(at=at,txt=txt)
-      where= i.y if goalp(txt) else i.x
-      if not skipp(txt):
+      now  = Num(i.the.Max,at=at,txt=txt) if is_num(txt) else Sym(at=at,txt=txt)
+      where= i.y if is_goal(txt) else i.x
+      if not is_skip(txt):
         where += [now]
-        if klassp(txt): i.klass = now
+        if is_klass(txt): i.klass = now
       return now
     #----------- 
+    pre = lambda a,c: c.prep(a[c.at]) if raw else a[c.at]
     if i.cols: i.rows += [Example([col.add(pre(a,col)) for col in i.cols])]
     else:      i.cols  = [col(at,txt) for at,txt in enumerate(a)]
 
