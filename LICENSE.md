@@ -1,4 +1,7 @@
-BSD 2-Clause License
+# BSD 2-Clause License
+
+<img align=right width=400 src="https://cdn.arstechnica.net/wp-content/uploads/2020/02/foss-mascots.png">
+
 
 Copyright (c) 2022, Tim Menzies
 All rights reserved.
