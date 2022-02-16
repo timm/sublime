@@ -15,7 +15,7 @@
 #           m
 """
 ./sublime.py [OPTIONS]  
-(c)2022 Tim Menzies <timm@ieee.org>, BSD license     
+(c)2022 Tim Menzies <timm@ieee.org>   
 S.U.B.L.I.M.E. =    
 Sublime's unsupervised bifurcation: let's infer minimal explanations. 
 
@@ -110,6 +110,7 @@ Lbs < 198 or Lbs >= 454                  :   231 : [2290, 16,   30] <== best
 
 ## License
 
+**BSD 2-clause license:**
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
 1. Redistributions of source code must retain the above copyright notice, this
@@ -463,6 +464,30 @@ class Num(Col):
     all[ 0].lo = -big
     all[-1].hi =  big
     if len(all) > 1: out += all
+
+#   ___                               _       
+#  | __| __ __  __ _   _ __    _ __  | |  ___ 
+#  | _|  \ \ / / _` | | '  \  | '_ \ | | / -_)
+#  |___| /_\_\ \__,_| |_|_|_| | .__/ |_| \___|
+#                             |_|             
+
+class Example(o):
+  def __init__(i,cells)  : i.cells=cells
+  def __getitem__(i,k)   : return i.cells[k]
+
+  def dist(i,j, sample):
+    cols, p = sample.x, sample.the.p
+    d = sum(col.dist(i[col.at], j[col.at])**p for col in cols)
+    return (d/len(cols)) ** (1/p)
+
+  def better(i,j, sample):
+    n = len(cols)
+    for col in cols:
+      a,b = col.norm( i[col.at] ), col.norm( j[col.at] )
+      s1 -= math.e**(col.w*(a-b)/n)
+      s2 -= math.e**(col.w*(b-a)/n)
+    return s1/n < s2/n
+
 #                      _          _        
 #   ___  __ __  _ __  | |  __ _  (_)  _ _  
 #  / -_) \ \ / | '_ \ | | / _` | | | | ' \ 
@@ -534,7 +559,7 @@ class Sample(o):
         if klassp(txt): i.klass = now
       return now
     #----------- 
-    if i.cols: i.rows += [[col.add(pre(a,col)) for col in i.cols]]
+    if i.cols: i.rows += [Example([col.add(pre(a,col)) for col in i.cols])]
     else:      i.cols  = [col(at,txt) for at,txt in enumerate(a)]
 
   def clone(i,inits=[]):
@@ -556,17 +581,10 @@ class Sample(o):
         here.right = right.cluster(top)
     return here
 
-  def dist(i,x,y):
-    d = sum( col.dist(x[col.at], y[col.at])**i.the.p for col in i.x )
-    return (d/len(i.x)) ** (1/i.the.p)
-
-  def div(i,cols=None): 
-    return [col.div() for col in (cols or i.all)]
-
-  def far(i, x, rows=None):
-    tmp= sorted([(i.dist(x,y),y) for y in (rows or i.rows)],key=first)
+  def far(i,x,rows):
+    tmp= sorted([(x.dist(y,i),y) for y in (rows or i.rows)],key=first)
     return tmp[ int(len(tmp)*i.the.far) ]
-
+   
   def half(i, top=None):
     "Using two faraway points `x,y` break data at median distance."
     some= i.rows if len(i.rows)<i.the.Some else random.choices(i.rows, k=the.Some)
@@ -584,8 +602,8 @@ class Sample(o):
 
   def proj(i,row,x,y,c):
     "Find the distance of a `row` on a line between `x` and `y`."
-    a = i.dist(row,x)
-    b = i.dist(row,y)
+    a = row.dist(x,i)
+    b = row.dist(y,i)
     return (a**2 + c**2 - b**2) / (2*c) 
 
   def xplain(i,top=None):
@@ -646,20 +664,14 @@ class Demos:
     "sampling."
     s = Sample(the, the.data)
     print(the.data, len(s.rows))
+    print(s.x[3], s.rows[-1])
     assert 398 == len(s.rows),    "length of rows"
     assert 249 == s.x[-1].has['1'], "symbol counts"
 
   def dist(): 
     "distance between rows"
     s = Sample(the, the.data)
-    assert .84 <= s.dist(s.rows[1], s.rows[-1]) <= .842
-
-  def far():
-    "distant items"
-    s = Sample(the, the.data)
-    for _ in range(32):
-      a,_ = s.far(any(s.rows))
-      assert a>.5, "large?"
+    assert .84 <= s.rows[1].dist(s.rows[-1],s) <= .842
 
   def clone():
     "cloning"
@@ -667,6 +679,7 @@ class Demos:
     s1 = s.clone(s.rows)
     d1,d2 = s.x[0].__dict__, s1.x[0].__dict__
     for k,v in d1.items(): 
+      print(d2[k],v)
       assert d2[k] == v, "clone test"
 
   def half():
