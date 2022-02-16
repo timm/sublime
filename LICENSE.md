@@ -1,6 +1,6 @@
 
 
-<img  align=right width=500  src="/etc/img/license.png">
+<img  align=right width=550  src="/etc/img/license.png">
 
 
 
