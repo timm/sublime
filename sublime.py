@@ -107,7 +107,23 @@ distinguish sibling clusters.
 |.. |.. |.. |.. Lbs >= 302               :    35 : [4054, 13.2, 20]
 Lbs < 198 or Lbs >= 454                  :   231 : [2290, 16,   30] <== best
 ```
-
+
+## Theory
+
+Take your time, think a lot   
+Why, think of everything you've got   
+For you will still be here tomorrow   
+But your dreams may not
+
+
+This code has many sources. Semi-supervised learning.  abduction. active
+learning.  sequential model-based optimization random projections.
+multi-objective optimization and search-based SE (and duo). the
+JTMS vs ATMS debate (and the curious omission of dekleer from showing
+that world thrashing is common-- which is something i saw as well).
+case based reasoning (people don't thing, they remember).  requirements
+engineering. Intersectionality
+
 ## License
 
 **BSD 2-clause license:**
@@ -329,6 +345,18 @@ class Col(o):
 
   def dist(i,x:Any, y:Any) -> float: 
     return 1 if x=="?" and y=="?" else i.dist1(x,y)
+#        _     _        
+#   ___ | |__ (_)  _ __ 
+#  (_-< | / / | | | '_ \
+#  /__/ |_\_\ |_| | .__/
+#                 |_|   
+
+class Skip(Col):
+  "Ignore data in this column."
+  def add(i,x)    : return x   # never add anything
+  def dist1(i,x,y): return 0   # never distinguish anything from anything else
+  def mid(i)      : return "?" # never know your middle value
+  def prep(i,x)   : return x   # don't bother prepping anything
 #   ___  _  _   _ __  
 #  (_-< | || | | '  \ 
 #  /__/  \_, | |_|_|_|
@@ -510,7 +538,7 @@ class Explain(o):
       spans = []
       bins = 6/top.the.xsmall
       [lcol.spans(rcol, bins, spans) for lcol,rcol in zip(left.x,right.x)]
-      if len(spans) > 0:
+      if len(spans) > 1:
         i.span  = Span.sort(spans)[0]
         yes, no = sample.clone(), sample.clone()
         [(yes if i.span.selects(row) else no).add(row) for row in sample.rows]
@@ -572,21 +600,11 @@ class Sample(o):
   def add(i, a, raw=False):
     """If we have no `cols`, this `a` is the first row with the column names.
     Otherwise `a` is another row of data."""
-    def pre(a,c)    : return c.prep(a[c.at]) if raw else a[c.at]
-    def is_num(x)   : return x[0].isupper()
-    def is_skip(x)  : return x[-1]==":"
-    def is_klass(x) : return "!" in x
-    def is_goal(x)  : return "+" in x or "-" in x or is_klass(x)
-    def col(at,txt) : 
-      now = Num(i.the.Max,at=at,txt=txt) if is_num(txt) else Sym(at=at,txt=txt)
-      where= i.y if is_goal(txt) else i.x
-      if not is_skip(txt):
-        where += [now]
-        if is_klass(txt): i.klass = now
-      return now
-    #----------- 
-    if i.cols: i.rows += [Example([col.add(pre(a,col)) for col in i.cols])]
-    else:      i.cols  = [col(at,txt) for at,txt in enumerate(a)]
+    if i.cols: 
+      a = [ c.add( (c.prep(a[c.at]) if raw else a[c.at]))  for c in i.cols ]
+      i.rows += [Example(a)]
+    else:      
+      i.cols  = [i.col(at,txt) for at,txt in enumerate(a)]
 
   def clone(i,inits=[]):
     "Generate a new `Sample` with the same structure as this `Sample`."
@@ -594,6 +612,19 @@ class Sample(o):
     out.add([col.txt for col in i.cols])
     [out.add(x) for x in inits]
     return out 
+
+  def col(i,at,txt):
+    is_num   = lambda x: x[0].isupper()
+    is_skip  = lambda x: x[-1] == ":"
+    is_klass = lambda x: "!" in x
+    is_goal  = lambda x: "+" in x or "-" in x or is_klass(x)
+    if is_skip(txt):
+      return Skip(at=at,txt=txt)
+    else:
+      now = Num(i.the.Max,at=at,txt=txt) if is_num(txt) else Sym(at=at,txt=txt)
+      if is_klass(txt): i.klass = now
+      (i.y if is_goal(txt) else i.x).append( now )
+      return now
 
   def far(i,x,rows):
     "Return something `far` percent away from `x` in `rows`."
