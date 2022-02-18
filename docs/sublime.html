@@ -41,6 +41,7 @@
                     <ul>
   <li><a href="#see-also">See Also</a></li>
   <li><a href="#algorithm">Algorithm</a></li>
+  <li><a href="#theory">Theory</a></li>
   <li><a href="#license">License</a></li>
 </ul>
 
@@ -83,6 +84,9 @@
             </li>
             <li>
                     <a class="function" href="#options">options</a>
+            </li>
+            <li>
+                    <a class="function" href="#per">per</a>
             </li>
             <li>
                     <a class="function" href="#rn">rn</a>
@@ -128,6 +132,24 @@
                         </li>
                         <li>
                                 <a class="function" href="#Col.dist">dist</a>
+                        </li>
+                </ul>
+
+            </li>
+            <li>
+                    <a class="class" href="#Skip">Skip</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="function" href="#Skip.add">add</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#Skip.dist1">dist1</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#Skip.mid">mid</a>
+                        </li>
+                        <li>
+                                <a class="function" href="#Skip.prep">prep</a>
                         </li>
                 </ul>
 
@@ -253,7 +275,7 @@
                                 <a class="function" href="#Sample.clone">clone</a>
                         </li>
                         <li>
-                                <a class="function" href="#Sample.cluster">cluster</a>
+                                <a class="function" href="#Sample.col">col</a>
                         </li>
                         <li>
                                 <a class="function" href="#Sample.far">far</a>
@@ -265,10 +287,7 @@
                                 <a class="function" href="#Sample.mid">mid</a>
                         </li>
                         <li>
-                                <a class="function" href="#Sample.proj">proj</a>
-                        </li>
-                        <li>
-                                <a class="function" href="#Sample.xplain">xplain</a>
+                                <a class="function" href="#Sample.project">project</a>
                         </li>
                 </ul>
 
@@ -339,7 +358,7 @@
 sublime    </h1>
 
                         <div class="docstring"><p>./<a href="#py">sublime.py</a> [OPTIONS] <br />
-(c)2022 Tim Menzies <a href="&#109;&#97;&#x69;l&#116;&#111;:t&#105;&#x6d;&#109;&#x40;&#105;&#101;&#101;&#x65;&#x2e;&#111;&#x72;&#103;">t&#105;&#x6d;&#109;&#x40;&#105;&#101;&#101;&#x65;&#x2e;&#111;&#x72;&#103;</a> <br />
+(c)2022 Tim Menzies <a href="&#x6d;&#97;&#x69;&#x6c;&#x74;&#x6f;&#58;&#116;&#x69;&#x6d;&#x6d;&#x40;&#105;&#x65;&#x65;&#101;&#46;&#111;&#114;&#x67;">&#116;&#x69;&#x6d;&#x6d;&#x40;&#105;&#x65;&#x65;&#101;&#46;&#111;&#114;&#x67;</a> <br />
 S.U.B.L.I.M.E. = <br />
 Sublime's unsupervised bifurcation: let's infer minimal explanations. </p>
 
@@ -432,7 +451,20 @@ distinguish sibling clusters.</p>
 Lbs &lt; 198 or Lbs &gt;= 454                  :   231 : [2290, 16,   30] &lt;== best
 </code></pre>
 
-<p></p>
+<h2 id="theory">Theory</h2>
+
+<p>Take your time, think a lot <br />
+Why, think of everything you've got <br />
+For you will still be here tomorrow <br />
+But your dreams may not</p>
+
+<p>This code has many sources. Semi-supervised learning.  abduction. active
+learning.  sequential model-based optimization random projections.
+multi-objective optimization and search-based SE (and duo). the
+JTMS vs ATMS debate (and the curious omission of dekleer from showing
+that world thrashing is common-- which is something i saw as well).
+case based reasoning (people don't thing, they remember).  requirements
+engineering. Intersectionality</p>
 
 <h2 id="license">License</h2>
 
@@ -572,7 +604,23 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
 <span class="sd">|.. |.. |.. |.. Lbs &gt;= 302               :    35 : [4054, 13.2, 20]</span>
 <span class="sd">Lbs &lt; 198 or Lbs &gt;= 454                  :   231 : [2290, 16,   30] &lt;== best</span>
 <span class="sd">```</span>
-<span class="sd"></span>
+
+<span class="sd">## Theory</span>
+
+<span class="sd">Take your time, think a lot   </span>
+<span class="sd">Why, think of everything you&#39;ve got   </span>
+<span class="sd">For you will still be here tomorrow   </span>
+<span class="sd">But your dreams may not</span>
+
+
+<span class="sd">This code has many sources. Semi-supervised learning.  abduction. active</span>
+<span class="sd">learning.  sequential model-based optimization random projections.</span>
+<span class="sd">multi-objective optimization and search-based SE (and duo). the</span>
+<span class="sd">JTMS vs ATMS debate (and the curious omission of dekleer from showing</span>
+<span class="sd">that world thrashing is common-- which is something i saw as well).</span>
+<span class="sd">case based reasoning (people don&#39;t thing, they remember).  requirements</span>
+<span class="sd">engineering. Intersectionality</span>
+
 <span class="sd">## License</span>
 
 <span class="sd">**BSD 2-clause license:**</span>
@@ -699,6 +747,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
   <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s2">&quot;help&quot;</span><span class="p">]:</span> <span class="n">exit</span><span class="p">(</span><span class="nb">print</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\n#.*&#39;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">doc</span><span class="p">,</span><span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">S</span><span class="p">)))</span>
   <span class="k">return</span> <span class="n">o</span><span class="p">(</span><span class="o">**</span><span class="n">d</span><span class="p">)</span>
 
+<span class="k">def</span> <span class="nf">per</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">.5</span><span class="p">):</span>
+  <span class="s2">&quot;Return the p-th item in `a`.&quot;</span>
+  <span class="k">return</span> <span class="n">a</span><span class="p">[</span> <span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">))</span> <span class="p">]</span>
+
 <span class="k">def</span> <span class="nf">r</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span> 
   <span class="s2">&quot;Return random number 0..1&quot;</span> 
   <span class="k">return</span> <span class="n">rnd</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
@@ -790,6 +842,18 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
 
   <span class="k">def</span> <span class="nf">dist</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">x</span><span class="p">:</span><span class="n">Any</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span> 
     <span class="k">return</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">x</span><span class="o">==</span><span class="s2">&quot;?&quot;</span> <span class="ow">and</span> <span class="n">y</span><span class="o">==</span><span class="s2">&quot;?&quot;</span> <span class="k">else</span> <span class="n">i</span><span class="o">.</span><span class="n">dist1</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+<span class="c1">#        _     _        </span>
+<span class="c1">#   ___ | |__ (_)  _ __ </span>
+<span class="c1">#  (_-&lt; | / / | | | &#39;_ \</span>
+<span class="c1">#  /__/ |_\_\ |_| | .__/</span>
+<span class="c1">#                 |_|   </span>
+
+<span class="k">class</span> <span class="nc">Skip</span><span class="p">(</span><span class="n">Col</span><span class="p">):</span>
+  <span class="s2">&quot;Ignore data in this column.&quot;</span>
+  <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>    <span class="p">:</span> <span class="k">return</span> <span class="n">x</span>   <span class="c1"># never add anything</span>
+  <span class="k">def</span> <span class="nf">dist1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span> <span class="k">return</span> <span class="mi">0</span>   <span class="c1"># never distinguish anything from anything else</span>
+  <span class="k">def</span> <span class="nf">mid</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>      <span class="p">:</span> <span class="k">return</span> <span class="s2">&quot;?&quot;</span> <span class="c1"># never know your middle value</span>
+  <span class="k">def</span> <span class="nf">prep</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>   <span class="p">:</span> <span class="k">return</span> <span class="n">x</span>   <span class="c1"># don&#39;t bother prepping anything</span>
 <span class="c1">#   ___  _  _   _ __  </span>
 <span class="c1">#  (_-&lt; | || | | &#39;  \ </span>
 <span class="c1">#  /__/  \_, | |_|_|_|</span>
@@ -901,7 +965,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
 
   <span class="k">def</span> <span class="nf">per</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">p</span><span class="p">:</span><span class="nb">float</span><span class="o">=</span><span class="mf">.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="s2">&quot;Return the p-th ranked item.&quot;</span>
-    <span class="n">a</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">all</span><span class="p">();</span> <span class="k">return</span> <span class="n">a</span><span class="p">[</span> <span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">))</span> <span class="p">]</span>
+    <span class="k">return</span> <span class="n">per</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">all</span><span class="p">(),</span> <span class="n">p</span><span class="p">)</span>
 
   <span class="k">def</span> <span class="nf">prep</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">x</span><span class="p">):</span> 
     <span class="s2">&quot;Return `x` as a float.&quot;</span>
@@ -960,9 +1024,23 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
 <span class="c1">#  \___| /_\_\ | .__/ |_| \__,_| |_| |_||_|</span>
 <span class="c1">#              |_|                         </span>
 <span class="k">class</span> <span class="nc">Explain</span><span class="p">(</span><span class="n">o</span><span class="p">):</span>
-  <span class="s2">&quot;Tree with `yes`,`no` branches for samples that do/do not match a `span`.&quot;</span>
-  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">here</span><span class="p">):</span>
-    <span class="n">i</span><span class="o">.</span><span class="n">here</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">span</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">yes</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">no</span> <span class="o">=</span> <span class="n">here</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+  <span class="sd">&quot;&quot;&quot;Split the data using random projections. Find the span that most </span>
+<span class="sd">  separates the data. Divide data on that span.&quot;&quot;&quot;</span>
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">sample</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">i</span><span class="o">.</span><span class="n">here</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">span</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">yes</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">no</span> <span class="o">=</span> <span class="n">sample</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+    <span class="n">top</span>    <span class="o">=</span> <span class="n">top</span> <span class="ow">or</span> <span class="n">sample</span>
+    <span class="n">enough</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">top</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span><span class="o">**</span><span class="n">top</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">enough</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="o">*</span><span class="n">enough</span><span class="p">:</span>
+      <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span><span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">sample</span><span class="o">.</span><span class="n">half</span><span class="p">(</span><span class="n">top</span><span class="p">)</span>
+      <span class="n">spans</span> <span class="o">=</span> <span class="p">[]</span>
+      <span class="n">bins</span> <span class="o">=</span> <span class="mi">6</span><span class="o">/</span><span class="n">top</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">xsmall</span>
+      <span class="p">[</span><span class="n">lcol</span><span class="o">.</span><span class="n">spans</span><span class="p">(</span><span class="n">rcol</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">spans</span><span class="p">)</span> <span class="k">for</span> <span class="n">lcol</span><span class="p">,</span><span class="n">rcol</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">left</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">right</span><span class="o">.</span><span class="n">x</span><span class="p">)]</span>
+      <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">spans</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">i</span><span class="o">.</span><span class="n">span</span>  <span class="o">=</span> <span class="n">Span</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">spans</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">yes</span><span class="p">,</span> <span class="n">no</span> <span class="o">=</span> <span class="n">sample</span><span class="o">.</span><span class="n">clone</span><span class="p">(),</span> <span class="n">sample</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+        <span class="p">[(</span><span class="n">yes</span> <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">span</span><span class="o">.</span><span class="n">selects</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">else</span> <span class="n">no</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">sample</span><span class="o">.</span><span class="n">rows</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">enough</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">yes</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">rows</span><span class="p">):</span> <span class="n">i</span><span class="o">.</span><span class="n">yes</span><span class="o">=</span> <span class="n">Explain</span><span class="p">(</span><span class="n">yes</span><span class="p">,</span><span class="n">top</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">enough</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">no</span><span class="o">.</span><span class="n">rows</span> <span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">rows</span><span class="p">):</span> <span class="n">i</span><span class="o">.</span><span class="n">no</span> <span class="o">=</span> <span class="n">Explain</span><span class="p">(</span><span class="n">no</span><span class="p">,</span> <span class="n">top</span><span class="p">)</span>
 
   <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">pre</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
     <span class="s2">&quot;Pretty print&quot;</span>
@@ -982,10 +1060,19 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
 <span class="c1">#                                        </span>
 <span class="k">class</span> <span class="nc">Cluster</span><span class="p">(</span><span class="n">o</span><span class="p">):</span>
   <span class="s2">&quot;Tree with `left`,`right` samples, broken at median between far points.&quot;</span>
-  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">here</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">mid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="n">i</span><span class="o">.</span><span class="n">here</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">y</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">c</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">mid</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">left</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">right</span> <span class="o">=</span> <span class="n">here</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">mid</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span>
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">sample</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">i</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">c</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">mid</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span>
+    <span class="n">i</span><span class="o">.</span><span class="n">here</span> <span class="o">=</span> <span class="n">sample</span>
+    <span class="n">top</span>    <span class="o">=</span> <span class="n">top</span> <span class="ow">or</span> <span class="n">sample</span>
+    <span class="n">enough</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">top</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span><span class="o">**</span><span class="n">top</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">enough</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="o">*</span><span class="n">enough</span><span class="p">:</span>
+      <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">c</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">mid</span> <span class="o">=</span> <span class="n">sample</span><span class="o">.</span><span class="n">half</span><span class="p">(</span><span class="n">top</span><span class="p">)</span>
+      <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">left</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">rows</span><span class="p">):</span>
+        <span class="n">i</span><span class="o">.</span><span class="n">left</span>  <span class="o">=</span> <span class="n">Cluster</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">top</span><span class="p">)</span>
+        <span class="n">i</span><span class="o">.</span><span class="n">right</span> <span class="o">=</span> <span class="n">Cluster</span><span class="p">(</span><span class="n">right</span><span class="p">,</span><span class="n">top</span><span class="p">)</span>
 
   <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">pre</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+    <span class="s2">&quot;pretty print&quot;</span>
     <span class="n">s</span><span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pre</span><span class="si">:</span><span class="s2">40</span><span class="si">}</span><span class="s2"> : </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">here</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span><span class="si">:</span><span class="s2">5</span><span class="si">}</span><span class="s2">&quot;</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">left</span>  <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2">  : </span><span class="si">{</span><span class="n">i</span><span class="o">.</span><span class="n">here</span><span class="o">.</span><span class="n">mid</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">here</span><span class="o">.</span><span class="n">y</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">kid</span> <span class="ow">in</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">left</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">right</span><span class="p">]:</span> 
@@ -1010,21 +1097,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
   <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;If we have no `cols`, this `a` is the first row with the column names.</span>
 <span class="sd">    Otherwise `a` is another row of data.&quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">pre</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">c</span><span class="p">)</span>    <span class="p">:</span> <span class="k">return</span> <span class="n">c</span><span class="o">.</span><span class="n">prep</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">at</span><span class="p">])</span> <span class="k">if</span> <span class="n">raw</span> <span class="k">else</span> <span class="n">a</span><span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">at</span><span class="p">]</span>
-    <span class="k">def</span> <span class="nf">is_num</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>   <span class="p">:</span> <span class="k">return</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isupper</span><span class="p">()</span>
-    <span class="k">def</span> <span class="nf">is_skip</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="p">:</span> <span class="k">return</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;:&quot;</span>
-    <span class="k">def</span> <span class="nf">is_klass</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="s2">&quot;!&quot;</span> <span class="ow">in</span> <span class="n">x</span>
-    <span class="k">def</span> <span class="nf">is_goal</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="p">:</span> <span class="k">return</span> <span class="s2">&quot;+&quot;</span> <span class="ow">in</span> <span class="n">x</span> <span class="ow">or</span> <span class="s2">&quot;-&quot;</span> <span class="ow">in</span> <span class="n">x</span> <span class="ow">or</span> <span class="n">is_klass</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">col</span><span class="p">(</span><span class="n">at</span><span class="p">,</span><span class="n">txt</span><span class="p">)</span> <span class="p">:</span> 
-      <span class="n">now</span> <span class="o">=</span> <span class="n">Num</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">Max</span><span class="p">,</span><span class="n">at</span><span class="o">=</span><span class="n">at</span><span class="p">,</span><span class="n">txt</span><span class="o">=</span><span class="n">txt</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_num</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span> <span class="k">else</span> <span class="n">Sym</span><span class="p">(</span><span class="n">at</span><span class="o">=</span><span class="n">at</span><span class="p">,</span><span class="n">txt</span><span class="o">=</span><span class="n">txt</span><span class="p">)</span>
-      <span class="n">where</span><span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">y</span> <span class="k">if</span> <span class="n">is_goal</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span> <span class="k">else</span> <span class="n">i</span><span class="o">.</span><span class="n">x</span>
-      <span class="k">if</span> <span class="ow">not</span> <span class="n">is_skip</span><span class="p">(</span><span class="n">txt</span><span class="p">):</span>
-        <span class="n">where</span> <span class="o">+=</span> <span class="p">[</span><span class="n">now</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">is_klass</span><span class="p">(</span><span class="n">txt</span><span class="p">):</span> <span class="n">i</span><span class="o">.</span><span class="n">klass</span> <span class="o">=</span> <span class="n">now</span>
-      <span class="k">return</span> <span class="n">now</span>
-    <span class="c1">#----------- </span>
-    <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">cols</span><span class="p">:</span> <span class="n">i</span><span class="o">.</span><span class="n">rows</span> <span class="o">+=</span> <span class="p">[</span><span class="n">Example</span><span class="p">([</span><span class="n">col</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">pre</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">col</span><span class="p">))</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">i</span><span class="o">.</span><span class="n">cols</span><span class="p">])]</span>
-    <span class="k">else</span><span class="p">:</span>      <span class="n">i</span><span class="o">.</span><span class="n">cols</span>  <span class="o">=</span> <span class="p">[</span><span class="n">col</span><span class="p">(</span><span class="n">at</span><span class="p">,</span><span class="n">txt</span><span class="p">)</span> <span class="k">for</span> <span class="n">at</span><span class="p">,</span><span class="n">txt</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">a</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">cols</span><span class="p">:</span> 
+      <span class="n">a</span> <span class="o">=</span> <span class="p">[</span> <span class="n">c</span><span class="o">.</span><span class="n">add</span><span class="p">(</span> <span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">prep</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">at</span><span class="p">])</span> <span class="k">if</span> <span class="n">raw</span> <span class="k">else</span> <span class="n">a</span><span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">at</span><span class="p">]))</span>  <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">i</span><span class="o">.</span><span class="n">cols</span> <span class="p">]</span>
+      <span class="n">i</span><span class="o">.</span><span class="n">rows</span> <span class="o">+=</span> <span class="p">[</span><span class="n">Example</span><span class="p">(</span><span class="n">a</span><span class="p">)]</span>
+    <span class="k">else</span><span class="p">:</span>      
+      <span class="n">i</span><span class="o">.</span><span class="n">cols</span>  <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="n">at</span><span class="p">,</span><span class="n">txt</span><span class="p">)</span> <span class="k">for</span> <span class="n">at</span><span class="p">,</span><span class="n">txt</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">a</span><span class="p">)]</span>
 
   <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">inits</span><span class="o">=</span><span class="p">[]):</span>
     <span class="s2">&quot;Generate a new `Sample` with the same structure as this `Sample`.&quot;</span>
@@ -1033,32 +1110,32 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
     <span class="p">[</span><span class="n">out</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">inits</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">out</span> 
 
-  <span class="k">def</span> <span class="nf">cluster</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">top</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Split the data using random projections. Find the span that most </span>
-<span class="sd">    separates the data. Divide data on that span.&quot;&quot;&quot;</span>
-    <span class="n">here</span> <span class="o">=</span> <span class="n">Cluster</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-    <span class="n">top</span> <span class="o">=</span> <span class="n">top</span> <span class="ow">or</span> <span class="n">i</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">top</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span><span class="o">**</span><span class="n">i</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">enough</span><span class="p">):</span>
-      <span class="n">left</span><span class="p">,</span><span class="n">right</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">mid</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">half</span><span class="p">(</span><span class="n">top</span><span class="p">)</span>
-      <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">left</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">):</span>
-        <span class="n">here</span>       <span class="o">=</span> <span class="n">Cluster</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">mid</span><span class="p">)</span>
-        <span class="n">here</span><span class="o">.</span><span class="n">left</span>  <span class="o">=</span> <span class="n">left</span><span class="o">.</span><span class="n">cluster</span><span class="p">(</span><span class="n">top</span><span class="p">)</span>
-        <span class="n">here</span><span class="o">.</span><span class="n">right</span> <span class="o">=</span> <span class="n">right</span><span class="o">.</span><span class="n">cluster</span><span class="p">(</span><span class="n">top</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">here</span>
+  <span class="k">def</span> <span class="nf">col</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">at</span><span class="p">,</span><span class="n">txt</span><span class="p">):</span>
+    <span class="n">is_num</span>   <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isupper</span><span class="p">()</span>
+    <span class="n">is_skip</span>  <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;:&quot;</span>
+    <span class="n">is_klass</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;!&quot;</span> <span class="ow">in</span> <span class="n">x</span>
+    <span class="n">is_goal</span>  <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;+&quot;</span> <span class="ow">in</span> <span class="n">x</span> <span class="ow">or</span> <span class="s2">&quot;-&quot;</span> <span class="ow">in</span> <span class="n">x</span> <span class="ow">or</span> <span class="n">is_klass</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">is_skip</span><span class="p">(</span><span class="n">txt</span><span class="p">):</span>
+      <span class="k">return</span> <span class="n">Skip</span><span class="p">(</span><span class="n">at</span><span class="o">=</span><span class="n">at</span><span class="p">,</span><span class="n">txt</span><span class="o">=</span><span class="n">txt</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">now</span> <span class="o">=</span> <span class="n">Num</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">Max</span><span class="p">,</span><span class="n">at</span><span class="o">=</span><span class="n">at</span><span class="p">,</span><span class="n">txt</span><span class="o">=</span><span class="n">txt</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_num</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span> <span class="k">else</span> <span class="n">Sym</span><span class="p">(</span><span class="n">at</span><span class="o">=</span><span class="n">at</span><span class="p">,</span><span class="n">txt</span><span class="o">=</span><span class="n">txt</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">is_klass</span><span class="p">(</span><span class="n">txt</span><span class="p">):</span> <span class="n">i</span><span class="o">.</span><span class="n">klass</span> <span class="o">=</span> <span class="n">now</span>
+      <span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">y</span> <span class="k">if</span> <span class="n">is_goal</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span> <span class="k">else</span> <span class="n">i</span><span class="o">.</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">now</span> <span class="p">)</span>
+      <span class="k">return</span> <span class="n">now</span>
 
   <span class="k">def</span> <span class="nf">far</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">rows</span><span class="p">):</span>
-    <span class="n">tmp</span><span class="o">=</span> <span class="nb">sorted</span><span class="p">([(</span><span class="n">x</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">i</span><span class="p">),</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="p">(</span><span class="n">rows</span> <span class="ow">or</span> <span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">)],</span><span class="n">key</span><span class="o">=</span><span class="n">first</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">tmp</span><span class="p">[</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span><span class="o">*</span><span class="n">i</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">far</span><span class="p">)</span> <span class="p">]</span>
+    <span class="s2">&quot;Return something `far` percent away from `x` in `rows`.&quot;</span>
+    <span class="k">return</span> <span class="n">per</span><span class="p">(</span><span class="nb">sorted</span><span class="p">([(</span><span class="n">x</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">i</span><span class="p">),</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">],</span><span class="n">key</span><span class="o">=</span><span class="n">first</span><span class="p">),</span> <span class="n">i</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">far</span><span class="p">)</span>
    
   <span class="k">def</span> <span class="nf">half</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="s2">&quot;Using two faraway points `x,y` break data at median distance.&quot;</span>
-    <span class="n">some</span><span class="o">=</span><span class="n">i</span><span class="o">.</span><span class="n">rows</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span><span class="o">&lt;</span><span class="n">i</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">Some</span> <span class="k">else</span> <span class="n">rnd</span><span class="o">.</span><span class="n">choices</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="n">i</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">Some</span><span class="p">)</span>
-    <span class="n">top</span><span class="o">=</span> <span class="n">top</span> <span class="ow">or</span> <span class="n">i</span>
-    <span class="n">w</span>  <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="n">some</span><span class="p">)</span>
-    <span class="n">_</span><span class="p">,</span><span class="n">x</span><span class="o">=</span> <span class="n">top</span><span class="o">.</span><span class="n">far</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">some</span><span class="p">)</span>
-    <span class="n">c</span><span class="p">,</span><span class="n">y</span><span class="o">=</span> <span class="n">top</span><span class="o">.</span><span class="n">far</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">some</span><span class="p">)</span>
-    <span class="n">tmp</span><span class="o">=</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span><span class="n">r</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">([(</span><span class="n">top</span><span class="o">.</span><span class="n">proj</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">c</span><span class="p">),</span><span class="n">r</span><span class="p">)</span> 
-                               <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">],</span><span class="n">key</span><span class="o">=</span><span class="n">first</span><span class="p">)]</span>
+    <span class="n">some</span><span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">rows</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span><span class="o">&lt;</span><span class="n">i</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">Some</span> <span class="k">else</span> <span class="n">rnd</span><span class="o">.</span><span class="n">choices</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="n">i</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">Some</span><span class="p">)</span>
+    <span class="n">top</span><span class="o">=</span>  <span class="n">top</span> <span class="ow">or</span> <span class="n">i</span>
+    <span class="n">w</span>  <span class="o">=</span>  <span class="nb">any</span><span class="p">(</span><span class="n">some</span><span class="p">)</span>
+    <span class="n">_</span><span class="p">,</span><span class="n">x</span><span class="o">=</span>  <span class="n">top</span><span class="o">.</span><span class="n">far</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">some</span><span class="p">)</span>
+    <span class="n">c</span><span class="p">,</span><span class="n">y</span><span class="o">=</span>  <span class="n">top</span><span class="o">.</span><span class="n">far</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">some</span><span class="p">)</span>
+    <span class="n">tmp</span><span class="o">=</span>  <span class="p">[</span><span class="n">row</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span><span class="n">row</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">([(</span><span class="n">top</span><span class="o">.</span><span class="n">project</span><span class="p">(</span><span class="n">row</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">c</span><span class="p">),</span> <span class="n">row</span><span class="p">)</span> 
+                                    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">],</span><span class="n">key</span><span class="o">=</span><span class="n">first</span><span class="p">)]</span>
     <span class="n">mid</span><span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span>
     <span class="k">return</span> <span class="n">i</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span><span class="n">tmp</span><span class="p">[:</span><span class="n">mid</span><span class="p">]),</span> <span class="n">i</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="n">mid</span><span class="p">:]),</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">tmp</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span>
 
@@ -1066,30 +1143,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
     <span class="s2">&quot;Return a list of the mids of some columns.&quot;</span>
     <span class="k">return</span> <span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">mid</span><span class="p">()</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">(</span><span class="n">cols</span> <span class="ow">or</span> <span class="n">i</span><span class="o">.</span><span class="n">all</span><span class="p">)]</span>
 
-  <span class="k">def</span> <span class="nf">proj</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">row</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">c</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">project</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">row</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">c</span><span class="p">):</span>
     <span class="s2">&quot;Find the distance of a `row` on a line between `x` and `y`.&quot;</span>
     <span class="n">a</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
     <span class="n">b</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">a</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">c</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">b</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">c</span><span class="p">)</span> 
-
-  <span class="k">def</span> <span class="nf">xplain</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">top</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Split the data using random projections. Find the span that most </span>
-<span class="sd">    separates the data. Divide data on that span.&quot;&quot;&quot;</span>
-    <span class="n">here</span> <span class="o">=</span> <span class="n">Explain</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-    <span class="n">top</span> <span class="o">=</span> <span class="n">top</span> <span class="ow">or</span> <span class="n">i</span>
-    <span class="n">tiny</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">top</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span><span class="o">**</span><span class="n">top</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">enough</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="o">*</span><span class="n">tiny</span><span class="p">:</span>
-      <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span><span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">half</span><span class="p">(</span><span class="n">top</span><span class="p">)</span>
-      <span class="n">spans</span> <span class="o">=</span> <span class="p">[]</span>
-      <span class="p">[</span><span class="n">lcol</span><span class="o">.</span><span class="n">spans</span><span class="p">(</span><span class="n">rcol</span><span class="p">,</span><span class="mi">6</span><span class="o">/</span><span class="n">top</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">xsmall</span><span class="p">,</span><span class="n">spans</span><span class="p">)</span> <span class="k">for</span> <span class="n">lcol</span><span class="p">,</span><span class="n">rcol</span>
-                                            <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">left</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">right</span><span class="o">.</span><span class="n">x</span><span class="p">)]</span>
-      <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">spans</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">here</span><span class="o">.</span><span class="n">span</span> <span class="o">=</span> <span class="n">Span</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">spans</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">yes</span><span class="p">,</span> <span class="n">no</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">clone</span><span class="p">(),</span> <span class="n">i</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
-        <span class="p">[(</span><span class="n">yes</span> <span class="k">if</span> <span class="n">here</span><span class="o">.</span><span class="n">span</span><span class="o">.</span><span class="n">selects</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">else</span> <span class="n">no</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">tiny</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">yes</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">):</span> <span class="n">here</span><span class="o">.</span><span class="n">yes</span> <span class="o">=</span> <span class="n">yes</span><span class="o">.</span><span class="n">xplain</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="n">top</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">tiny</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">no</span><span class="o">.</span><span class="n">rows</span> <span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">):</span> <span class="n">here</span><span class="o">.</span><span class="n">no</span>  <span class="o">=</span> <span class="n">no</span><span class="o">.</span><span class="n">xplain</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="n">top</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">here</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">a</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">c</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">b</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">c</span><span class="p">)</span>
 <span class="c1">#    _</span>
 <span class="c1">#  /\ \                                         </span>
 <span class="c1">#  \_\ \      __     ___ ___      ___     ____  </span>
@@ -1159,12 +1217,12 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
   <span class="k">def</span> <span class="nf">cluster</span><span class="p">():</span>
     <span class="s2">&quot;divide data in two&quot;</span>
     <span class="n">s</span> <span class="o">=</span> <span class="n">Sample</span><span class="p">(</span><span class="n">the</span><span class="p">,</span> <span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-    <span class="n">s</span><span class="o">.</span><span class="n">cluster</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">();</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">Cluster</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">();</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 
   <span class="k">def</span> <span class="nf">xplain</span><span class="p">():</span>
     <span class="s2">&quot;divide data in two&quot;</span>
     <span class="n">s</span> <span class="o">=</span> <span class="n">Sample</span><span class="p">(</span><span class="n">the</span><span class="p">,</span> <span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">);</span> 
-    <span class="n">s</span><span class="o">.</span><span class="n">xplain</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">();</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">Explain</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">();</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 
 <span class="c1">#---------------------------------------------------</span>
 <span class="n">the</span> <span class="o">=</span> <span class="n">options</span><span class="p">(</span><span class="vm">__doc__</span><span class="p">)</span>
@@ -1467,6 +1525,28 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
 Args canuse two 'shorthands': (1) boolean flags have no arguments (and mentioning
 those on the command line means 'flip the default value'; (2) args need only
 mention the first few of a key (e.g. -s is enough to select for -seed).</p>
+</div>
+
+
+                </section>
+                <section id="per">
+                            <div class="attr function"><a class="headerlink" href="#per">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">per</span><span class="signature">(a, p=0.5)</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span><span class="k">def</span> <span class="nf">per</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">.5</span><span class="p">):</span>
+  <span class="s2">&quot;Return the p-th item in `a`.&quot;</span>
+  <span class="k">return</span> <span class="n">a</span><span class="p">[</span> <span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">))</span> <span class="p">]</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>Return the p-th item in <code>a</code>.</p>
 </div>
 
 
@@ -1848,6 +1928,114 @@ a <code><a href="#Span">Span</a></code> holds often that range appears in each <
 
                             </div>
                 </section>
+                <section id="Skip">
+                                <div class="attr class">
+        <a class="headerlink" href="#Skip">#&nbsp;&nbsp</a>
+
+        
+        <span class="def">class</span>
+        <span class="name">Skip</span><wbr>(<span class="base"><a href="#Col">Col</a></span>):
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Skip</span><span class="p">(</span><span class="n">Col</span><span class="p">):</span>
+  <span class="s2">&quot;Ignore data in this column.&quot;</span>
+  <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>    <span class="p">:</span> <span class="k">return</span> <span class="n">x</span>   <span class="c1"># never add anything</span>
+  <span class="k">def</span> <span class="nf">dist1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span> <span class="k">return</span> <span class="mi">0</span>   <span class="c1"># never distinguish anything from anything else</span>
+  <span class="k">def</span> <span class="nf">mid</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>      <span class="p">:</span> <span class="k">return</span> <span class="s2">&quot;?&quot;</span> <span class="c1"># never know your middle value</span>
+  <span class="k">def</span> <span class="nf">prep</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>   <span class="p">:</span> <span class="k">return</span> <span class="n">x</span>   <span class="c1"># don&#39;t bother prepping anything</span>
+</pre></div>
+
+        </details>
+
+            <div class="docstring"><p>Ignore data in this column.</p>
+</div>
+
+
+                            <div id="Skip.add" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Skip.add">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">add</span><span class="signature">(i, x)</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>    <span class="p">:</span> <span class="k">return</span> <span class="n">x</span>   <span class="c1"># never add anything</span>
+</pre></div>
+
+        </details>
+
+    
+
+                            </div>
+                            <div id="Skip.dist1" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Skip.dist1">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">dist1</span><span class="signature">(i, x, y)</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="nf">dist1</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span> <span class="k">return</span> <span class="mi">0</span>   <span class="c1"># never distinguish anything from anything else</span>
+</pre></div>
+
+        </details>
+
+    
+
+                            </div>
+                            <div id="Skip.mid" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Skip.mid">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">mid</span><span class="signature">(i)</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="nf">mid</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>      <span class="p">:</span> <span class="k">return</span> <span class="s2">&quot;?&quot;</span> <span class="c1"># never know your middle value</span>
+</pre></div>
+
+        </details>
+
+    
+
+                            </div>
+                            <div id="Skip.prep" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Skip.prep">#&nbsp;&nbsp</a>
+
+        
+            <span class="def">def</span>
+            <span class="name">prep</span><span class="signature">(i, x)</span>:
+    </div>
+
+                <details>
+            <summary>View Source</summary>
+            <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="nf">prep</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>   <span class="p">:</span> <span class="k">return</span> <span class="n">x</span>   <span class="c1"># don&#39;t bother prepping anything</span>
+</pre></div>
+
+        </details>
+
+    
+
+                            </div>
+                            <div class="inherited">
+                                <h5>Inherited Members</h5>
+                                <dl>
+                                    <div><dt><a href="#Col">Col</a></dt>
+                                <dd id="Skip.__init__" class="function"><a href="#Col.__init__">Col</a></dd>
+                <dd id="Skip.dist" class="function"><a href="#Col.dist">dist</a></dd>
+
+            </div>
+                                </dl>
+                            </div>
+                </section>
                 <section id="Sym">
                                 <div class="attr class">
         <a class="headerlink" href="#Sym">#&nbsp;&nbsp</a>
@@ -2174,7 +2362,7 @@ number of times we see it on either side.</p>
 
   <span class="k">def</span> <span class="nf">per</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">p</span><span class="p">:</span><span class="nb">float</span><span class="o">=</span><span class="mf">.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="s2">&quot;Return the p-th ranked item.&quot;</span>
-    <span class="n">a</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">all</span><span class="p">();</span> <span class="k">return</span> <span class="n">a</span><span class="p">[</span> <span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">))</span> <span class="p">]</span>
+    <span class="k">return</span> <span class="n">per</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">all</span><span class="p">(),</span> <span class="n">p</span><span class="p">)</span>
 
   <span class="k">def</span> <span class="nf">prep</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">x</span><span class="p">):</span> 
     <span class="s2">&quot;Return `x` as a float.&quot;</span>
@@ -2407,7 +2595,7 @@ standard deviation is (90-10)th divide by  2.4 times &sigma;.</p>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="nf">per</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">p</span><span class="p">:</span><span class="nb">float</span><span class="o">=</span><span class="mf">.5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="s2">&quot;Return the p-th ranked item.&quot;</span>
-    <span class="n">a</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">all</span><span class="p">();</span> <span class="k">return</span> <span class="n">a</span><span class="p">[</span> <span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">))</span> <span class="p">]</span>
+    <span class="k">return</span> <span class="n">per</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">all</span><span class="p">(),</span> <span class="n">p</span><span class="p">)</span>
 </pre></div>
 
         </details>
@@ -2616,9 +2804,23 @@ Then merge similar adjacent bins.</p>
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Explain</span><span class="p">(</span><span class="n">o</span><span class="p">):</span>
-  <span class="s2">&quot;Tree with `yes`,`no` branches for samples that do/do not match a `span`.&quot;</span>
-  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">here</span><span class="p">):</span>
-    <span class="n">i</span><span class="o">.</span><span class="n">here</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">span</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">yes</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">no</span> <span class="o">=</span> <span class="n">here</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+  <span class="sd">&quot;&quot;&quot;Split the data using random projections. Find the span that most </span>
+<span class="sd">  separates the data. Divide data on that span.&quot;&quot;&quot;</span>
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">sample</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">i</span><span class="o">.</span><span class="n">here</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">span</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">yes</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">no</span> <span class="o">=</span> <span class="n">sample</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+    <span class="n">top</span>    <span class="o">=</span> <span class="n">top</span> <span class="ow">or</span> <span class="n">sample</span>
+    <span class="n">enough</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">top</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span><span class="o">**</span><span class="n">top</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">enough</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="o">*</span><span class="n">enough</span><span class="p">:</span>
+      <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span><span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">sample</span><span class="o">.</span><span class="n">half</span><span class="p">(</span><span class="n">top</span><span class="p">)</span>
+      <span class="n">spans</span> <span class="o">=</span> <span class="p">[]</span>
+      <span class="n">bins</span> <span class="o">=</span> <span class="mi">6</span><span class="o">/</span><span class="n">top</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">xsmall</span>
+      <span class="p">[</span><span class="n">lcol</span><span class="o">.</span><span class="n">spans</span><span class="p">(</span><span class="n">rcol</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">spans</span><span class="p">)</span> <span class="k">for</span> <span class="n">lcol</span><span class="p">,</span><span class="n">rcol</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">left</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">right</span><span class="o">.</span><span class="n">x</span><span class="p">)]</span>
+      <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">spans</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">i</span><span class="o">.</span><span class="n">span</span>  <span class="o">=</span> <span class="n">Span</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">spans</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">yes</span><span class="p">,</span> <span class="n">no</span> <span class="o">=</span> <span class="n">sample</span><span class="o">.</span><span class="n">clone</span><span class="p">(),</span> <span class="n">sample</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+        <span class="p">[(</span><span class="n">yes</span> <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">span</span><span class="o">.</span><span class="n">selects</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">else</span> <span class="n">no</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">sample</span><span class="o">.</span><span class="n">rows</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">enough</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">yes</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">rows</span><span class="p">):</span> <span class="n">i</span><span class="o">.</span><span class="n">yes</span><span class="o">=</span> <span class="n">Explain</span><span class="p">(</span><span class="n">yes</span><span class="p">,</span><span class="n">top</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">enough</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">no</span><span class="o">.</span><span class="n">rows</span> <span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">rows</span><span class="p">):</span> <span class="n">i</span><span class="o">.</span><span class="n">no</span> <span class="o">=</span> <span class="n">Explain</span><span class="p">(</span><span class="n">no</span><span class="p">,</span> <span class="n">top</span><span class="p">)</span>
 
   <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">pre</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
     <span class="s2">&quot;Pretty print&quot;</span>
@@ -2635,7 +2837,8 @@ Then merge similar adjacent bins.</p>
 
         </details>
 
-            <div class="docstring"><p>Tree with <code>yes</code>,<code>no</code> branches for samples that do/do not match a <code>span</code>.</p>
+            <div class="docstring"><p>Split the data using random projections. Find the span that most 
+separates the data. Divide data on that span.</p>
 </div>
 
 
@@ -2643,13 +2846,26 @@ Then merge similar adjacent bins.</p>
                                         <div class="attr function"><a class="headerlink" href="#Explain.__init__">#&nbsp;&nbsp</a>
 
         
-            <span class="name">Explain</span><span class="signature">(here)</span>
+            <span class="name">Explain</span><span class="signature">(sample, top=None)</span>
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">here</span><span class="p">):</span>
-    <span class="n">i</span><span class="o">.</span><span class="n">here</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">span</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">yes</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">no</span> <span class="o">=</span> <span class="n">here</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+            <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">sample</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">i</span><span class="o">.</span><span class="n">here</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">span</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">yes</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">no</span> <span class="o">=</span> <span class="n">sample</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+    <span class="n">top</span>    <span class="o">=</span> <span class="n">top</span> <span class="ow">or</span> <span class="n">sample</span>
+    <span class="n">enough</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">top</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span><span class="o">**</span><span class="n">top</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">enough</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="o">*</span><span class="n">enough</span><span class="p">:</span>
+      <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span><span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">sample</span><span class="o">.</span><span class="n">half</span><span class="p">(</span><span class="n">top</span><span class="p">)</span>
+      <span class="n">spans</span> <span class="o">=</span> <span class="p">[]</span>
+      <span class="n">bins</span> <span class="o">=</span> <span class="mi">6</span><span class="o">/</span><span class="n">top</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">xsmall</span>
+      <span class="p">[</span><span class="n">lcol</span><span class="o">.</span><span class="n">spans</span><span class="p">(</span><span class="n">rcol</span><span class="p">,</span> <span class="n">bins</span><span class="p">,</span> <span class="n">spans</span><span class="p">)</span> <span class="k">for</span> <span class="n">lcol</span><span class="p">,</span><span class="n">rcol</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">left</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">right</span><span class="o">.</span><span class="n">x</span><span class="p">)]</span>
+      <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">spans</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">i</span><span class="o">.</span><span class="n">span</span>  <span class="o">=</span> <span class="n">Span</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">spans</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">yes</span><span class="p">,</span> <span class="n">no</span> <span class="o">=</span> <span class="n">sample</span><span class="o">.</span><span class="n">clone</span><span class="p">(),</span> <span class="n">sample</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
+        <span class="p">[(</span><span class="n">yes</span> <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">span</span><span class="o">.</span><span class="n">selects</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">else</span> <span class="n">no</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">sample</span><span class="o">.</span><span class="n">rows</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">enough</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">yes</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">rows</span><span class="p">):</span> <span class="n">i</span><span class="o">.</span><span class="n">yes</span><span class="o">=</span> <span class="n">Explain</span><span class="p">(</span><span class="n">yes</span><span class="p">,</span><span class="n">top</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">enough</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">no</span><span class="o">.</span><span class="n">rows</span> <span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">rows</span><span class="p">):</span> <span class="n">i</span><span class="o">.</span><span class="n">no</span> <span class="o">=</span> <span class="n">Explain</span><span class="p">(</span><span class="n">no</span><span class="p">,</span> <span class="n">top</span><span class="p">)</span>
 </pre></div>
 
         </details>
@@ -2701,10 +2917,19 @@ Then merge similar adjacent bins.</p>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span><span class="k">class</span> <span class="nc">Cluster</span><span class="p">(</span><span class="n">o</span><span class="p">):</span>
   <span class="s2">&quot;Tree with `left`,`right` samples, broken at median between far points.&quot;</span>
-  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">here</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">mid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="n">i</span><span class="o">.</span><span class="n">here</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">y</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">c</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">mid</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">left</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">right</span> <span class="o">=</span> <span class="n">here</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">mid</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span>
+  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">sample</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">i</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">c</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">mid</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span>
+    <span class="n">i</span><span class="o">.</span><span class="n">here</span> <span class="o">=</span> <span class="n">sample</span>
+    <span class="n">top</span>    <span class="o">=</span> <span class="n">top</span> <span class="ow">or</span> <span class="n">sample</span>
+    <span class="n">enough</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">top</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span><span class="o">**</span><span class="n">top</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">enough</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="o">*</span><span class="n">enough</span><span class="p">:</span>
+      <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">c</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">mid</span> <span class="o">=</span> <span class="n">sample</span><span class="o">.</span><span class="n">half</span><span class="p">(</span><span class="n">top</span><span class="p">)</span>
+      <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">left</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">rows</span><span class="p">):</span>
+        <span class="n">i</span><span class="o">.</span><span class="n">left</span>  <span class="o">=</span> <span class="n">Cluster</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">top</span><span class="p">)</span>
+        <span class="n">i</span><span class="o">.</span><span class="n">right</span> <span class="o">=</span> <span class="n">Cluster</span><span class="p">(</span><span class="n">right</span><span class="p">,</span><span class="n">top</span><span class="p">)</span>
 
   <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">pre</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+    <span class="s2">&quot;pretty print&quot;</span>
     <span class="n">s</span><span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pre</span><span class="si">:</span><span class="s2">40</span><span class="si">}</span><span class="s2"> : </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">here</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span><span class="si">:</span><span class="s2">5</span><span class="si">}</span><span class="s2">&quot;</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">left</span>  <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2">  : </span><span class="si">{</span><span class="n">i</span><span class="o">.</span><span class="n">here</span><span class="o">.</span><span class="n">mid</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">here</span><span class="o">.</span><span class="n">y</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">kid</span> <span class="ow">in</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">left</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">right</span><span class="p">]:</span> 
@@ -2721,13 +2946,21 @@ Then merge similar adjacent bins.</p>
                                         <div class="attr function"><a class="headerlink" href="#Cluster.__init__">#&nbsp;&nbsp</a>
 
         
-            <span class="name">Cluster</span><span class="signature">(here, x=None, y=None, c=None, mid=None)</span>
+            <span class="name">Cluster</span><span class="signature">(sample, top=None)</span>
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">here</span><span class="p">,</span><span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">c</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">mid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="n">i</span><span class="o">.</span><span class="n">here</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">x</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">y</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">c</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">mid</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">left</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">right</span> <span class="o">=</span> <span class="n">here</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">mid</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span>
+            <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">sample</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">i</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">c</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">mid</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span><span class="p">,</span><span class="kc">None</span>
+    <span class="n">i</span><span class="o">.</span><span class="n">here</span> <span class="o">=</span> <span class="n">sample</span>
+    <span class="n">top</span>    <span class="o">=</span> <span class="n">top</span> <span class="ow">or</span> <span class="n">sample</span>
+    <span class="n">enough</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">top</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span><span class="o">**</span><span class="n">top</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">enough</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="o">*</span><span class="n">enough</span><span class="p">:</span>
+      <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">c</span><span class="p">,</span> <span class="n">i</span><span class="o">.</span><span class="n">mid</span> <span class="o">=</span> <span class="n">sample</span><span class="o">.</span><span class="n">half</span><span class="p">(</span><span class="n">top</span><span class="p">)</span>
+      <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">left</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">sample</span><span class="o">.</span><span class="n">rows</span><span class="p">):</span>
+        <span class="n">i</span><span class="o">.</span><span class="n">left</span>  <span class="o">=</span> <span class="n">Cluster</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">top</span><span class="p">)</span>
+        <span class="n">i</span><span class="o">.</span><span class="n">right</span> <span class="o">=</span> <span class="n">Cluster</span><span class="p">(</span><span class="n">right</span><span class="p">,</span><span class="n">top</span><span class="p">)</span>
 </pre></div>
 
         </details>
@@ -2746,6 +2979,7 @@ Then merge similar adjacent bins.</p>
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">pre</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+    <span class="s2">&quot;pretty print&quot;</span>
     <span class="n">s</span><span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pre</span><span class="si">:</span><span class="s2">40</span><span class="si">}</span><span class="s2"> : </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">here</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span><span class="si">:</span><span class="s2">5</span><span class="si">}</span><span class="s2">&quot;</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">left</span>  <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2">  : </span><span class="si">{</span><span class="n">i</span><span class="o">.</span><span class="n">here</span><span class="o">.</span><span class="n">mid</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">here</span><span class="o">.</span><span class="n">y</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">kid</span> <span class="ow">in</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">left</span><span class="p">,</span><span class="n">i</span><span class="o">.</span><span class="n">right</span><span class="p">]:</span> 
@@ -2754,7 +2988,9 @@ Then merge similar adjacent bins.</p>
 
         </details>
 
-    
+            <div class="docstring"><p>pretty print</p>
+</div>
+
 
                             </div>
                 </section>
@@ -2784,21 +3020,11 @@ Then merge similar adjacent bins.</p>
   <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;If we have no `cols`, this `a` is the first row with the column names.</span>
 <span class="sd">    Otherwise `a` is another row of data.&quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">pre</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">c</span><span class="p">)</span>    <span class="p">:</span> <span class="k">return</span> <span class="n">c</span><span class="o">.</span><span class="n">prep</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">at</span><span class="p">])</span> <span class="k">if</span> <span class="n">raw</span> <span class="k">else</span> <span class="n">a</span><span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">at</span><span class="p">]</span>
-    <span class="k">def</span> <span class="nf">is_num</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>   <span class="p">:</span> <span class="k">return</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isupper</span><span class="p">()</span>
-    <span class="k">def</span> <span class="nf">is_skip</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="p">:</span> <span class="k">return</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;:&quot;</span>
-    <span class="k">def</span> <span class="nf">is_klass</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="s2">&quot;!&quot;</span> <span class="ow">in</span> <span class="n">x</span>
-    <span class="k">def</span> <span class="nf">is_goal</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="p">:</span> <span class="k">return</span> <span class="s2">&quot;+&quot;</span> <span class="ow">in</span> <span class="n">x</span> <span class="ow">or</span> <span class="s2">&quot;-&quot;</span> <span class="ow">in</span> <span class="n">x</span> <span class="ow">or</span> <span class="n">is_klass</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">col</span><span class="p">(</span><span class="n">at</span><span class="p">,</span><span class="n">txt</span><span class="p">)</span> <span class="p">:</span> 
-      <span class="n">now</span> <span class="o">=</span> <span class="n">Num</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">Max</span><span class="p">,</span><span class="n">at</span><span class="o">=</span><span class="n">at</span><span class="p">,</span><span class="n">txt</span><span class="o">=</span><span class="n">txt</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_num</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span> <span class="k">else</span> <span class="n">Sym</span><span class="p">(</span><span class="n">at</span><span class="o">=</span><span class="n">at</span><span class="p">,</span><span class="n">txt</span><span class="o">=</span><span class="n">txt</span><span class="p">)</span>
-      <span class="n">where</span><span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">y</span> <span class="k">if</span> <span class="n">is_goal</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span> <span class="k">else</span> <span class="n">i</span><span class="o">.</span><span class="n">x</span>
-      <span class="k">if</span> <span class="ow">not</span> <span class="n">is_skip</span><span class="p">(</span><span class="n">txt</span><span class="p">):</span>
-        <span class="n">where</span> <span class="o">+=</span> <span class="p">[</span><span class="n">now</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">is_klass</span><span class="p">(</span><span class="n">txt</span><span class="p">):</span> <span class="n">i</span><span class="o">.</span><span class="n">klass</span> <span class="o">=</span> <span class="n">now</span>
-      <span class="k">return</span> <span class="n">now</span>
-    <span class="c1">#----------- </span>
-    <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">cols</span><span class="p">:</span> <span class="n">i</span><span class="o">.</span><span class="n">rows</span> <span class="o">+=</span> <span class="p">[</span><span class="n">Example</span><span class="p">([</span><span class="n">col</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">pre</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">col</span><span class="p">))</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">i</span><span class="o">.</span><span class="n">cols</span><span class="p">])]</span>
-    <span class="k">else</span><span class="p">:</span>      <span class="n">i</span><span class="o">.</span><span class="n">cols</span>  <span class="o">=</span> <span class="p">[</span><span class="n">col</span><span class="p">(</span><span class="n">at</span><span class="p">,</span><span class="n">txt</span><span class="p">)</span> <span class="k">for</span> <span class="n">at</span><span class="p">,</span><span class="n">txt</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">a</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">cols</span><span class="p">:</span> 
+      <span class="n">a</span> <span class="o">=</span> <span class="p">[</span> <span class="n">c</span><span class="o">.</span><span class="n">add</span><span class="p">(</span> <span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">prep</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">at</span><span class="p">])</span> <span class="k">if</span> <span class="n">raw</span> <span class="k">else</span> <span class="n">a</span><span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">at</span><span class="p">]))</span>  <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">i</span><span class="o">.</span><span class="n">cols</span> <span class="p">]</span>
+      <span class="n">i</span><span class="o">.</span><span class="n">rows</span> <span class="o">+=</span> <span class="p">[</span><span class="n">Example</span><span class="p">(</span><span class="n">a</span><span class="p">)]</span>
+    <span class="k">else</span><span class="p">:</span>      
+      <span class="n">i</span><span class="o">.</span><span class="n">cols</span>  <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="n">at</span><span class="p">,</span><span class="n">txt</span><span class="p">)</span> <span class="k">for</span> <span class="n">at</span><span class="p">,</span><span class="n">txt</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">a</span><span class="p">)]</span>
 
   <span class="k">def</span> <span class="nf">clone</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">inits</span><span class="o">=</span><span class="p">[]):</span>
     <span class="s2">&quot;Generate a new `Sample` with the same structure as this `Sample`.&quot;</span>
@@ -2807,32 +3033,32 @@ Then merge similar adjacent bins.</p>
     <span class="p">[</span><span class="n">out</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">inits</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">out</span> 
 
-  <span class="k">def</span> <span class="nf">cluster</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">top</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Split the data using random projections. Find the span that most </span>
-<span class="sd">    separates the data. Divide data on that span.&quot;&quot;&quot;</span>
-    <span class="n">here</span> <span class="o">=</span> <span class="n">Cluster</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-    <span class="n">top</span> <span class="o">=</span> <span class="n">top</span> <span class="ow">or</span> <span class="n">i</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">top</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span><span class="o">**</span><span class="n">i</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">enough</span><span class="p">):</span>
-      <span class="n">left</span><span class="p">,</span><span class="n">right</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">mid</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">half</span><span class="p">(</span><span class="n">top</span><span class="p">)</span>
-      <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">left</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">):</span>
-        <span class="n">here</span>       <span class="o">=</span> <span class="n">Cluster</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">mid</span><span class="p">)</span>
-        <span class="n">here</span><span class="o">.</span><span class="n">left</span>  <span class="o">=</span> <span class="n">left</span><span class="o">.</span><span class="n">cluster</span><span class="p">(</span><span class="n">top</span><span class="p">)</span>
-        <span class="n">here</span><span class="o">.</span><span class="n">right</span> <span class="o">=</span> <span class="n">right</span><span class="o">.</span><span class="n">cluster</span><span class="p">(</span><span class="n">top</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">here</span>
+  <span class="k">def</span> <span class="nf">col</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">at</span><span class="p">,</span><span class="n">txt</span><span class="p">):</span>
+    <span class="n">is_num</span>   <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isupper</span><span class="p">()</span>
+    <span class="n">is_skip</span>  <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;:&quot;</span>
+    <span class="n">is_klass</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;!&quot;</span> <span class="ow">in</span> <span class="n">x</span>
+    <span class="n">is_goal</span>  <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;+&quot;</span> <span class="ow">in</span> <span class="n">x</span> <span class="ow">or</span> <span class="s2">&quot;-&quot;</span> <span class="ow">in</span> <span class="n">x</span> <span class="ow">or</span> <span class="n">is_klass</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">is_skip</span><span class="p">(</span><span class="n">txt</span><span class="p">):</span>
+      <span class="k">return</span> <span class="n">Skip</span><span class="p">(</span><span class="n">at</span><span class="o">=</span><span class="n">at</span><span class="p">,</span><span class="n">txt</span><span class="o">=</span><span class="n">txt</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">now</span> <span class="o">=</span> <span class="n">Num</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">Max</span><span class="p">,</span><span class="n">at</span><span class="o">=</span><span class="n">at</span><span class="p">,</span><span class="n">txt</span><span class="o">=</span><span class="n">txt</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_num</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span> <span class="k">else</span> <span class="n">Sym</span><span class="p">(</span><span class="n">at</span><span class="o">=</span><span class="n">at</span><span class="p">,</span><span class="n">txt</span><span class="o">=</span><span class="n">txt</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">is_klass</span><span class="p">(</span><span class="n">txt</span><span class="p">):</span> <span class="n">i</span><span class="o">.</span><span class="n">klass</span> <span class="o">=</span> <span class="n">now</span>
+      <span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">y</span> <span class="k">if</span> <span class="n">is_goal</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span> <span class="k">else</span> <span class="n">i</span><span class="o">.</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">now</span> <span class="p">)</span>
+      <span class="k">return</span> <span class="n">now</span>
 
   <span class="k">def</span> <span class="nf">far</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">rows</span><span class="p">):</span>
-    <span class="n">tmp</span><span class="o">=</span> <span class="nb">sorted</span><span class="p">([(</span><span class="n">x</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">i</span><span class="p">),</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="p">(</span><span class="n">rows</span> <span class="ow">or</span> <span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">)],</span><span class="n">key</span><span class="o">=</span><span class="n">first</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">tmp</span><span class="p">[</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span><span class="o">*</span><span class="n">i</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">far</span><span class="p">)</span> <span class="p">]</span>
+    <span class="s2">&quot;Return something `far` percent away from `x` in `rows`.&quot;</span>
+    <span class="k">return</span> <span class="n">per</span><span class="p">(</span><span class="nb">sorted</span><span class="p">([(</span><span class="n">x</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">i</span><span class="p">),</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">],</span><span class="n">key</span><span class="o">=</span><span class="n">first</span><span class="p">),</span> <span class="n">i</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">far</span><span class="p">)</span>
    
   <span class="k">def</span> <span class="nf">half</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="s2">&quot;Using two faraway points `x,y` break data at median distance.&quot;</span>
-    <span class="n">some</span><span class="o">=</span><span class="n">i</span><span class="o">.</span><span class="n">rows</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span><span class="o">&lt;</span><span class="n">i</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">Some</span> <span class="k">else</span> <span class="n">rnd</span><span class="o">.</span><span class="n">choices</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="n">i</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">Some</span><span class="p">)</span>
-    <span class="n">top</span><span class="o">=</span> <span class="n">top</span> <span class="ow">or</span> <span class="n">i</span>
-    <span class="n">w</span>  <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="n">some</span><span class="p">)</span>
-    <span class="n">_</span><span class="p">,</span><span class="n">x</span><span class="o">=</span> <span class="n">top</span><span class="o">.</span><span class="n">far</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">some</span><span class="p">)</span>
-    <span class="n">c</span><span class="p">,</span><span class="n">y</span><span class="o">=</span> <span class="n">top</span><span class="o">.</span><span class="n">far</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">some</span><span class="p">)</span>
-    <span class="n">tmp</span><span class="o">=</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span><span class="n">r</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">([(</span><span class="n">top</span><span class="o">.</span><span class="n">proj</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">c</span><span class="p">),</span><span class="n">r</span><span class="p">)</span> 
-                               <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">],</span><span class="n">key</span><span class="o">=</span><span class="n">first</span><span class="p">)]</span>
+    <span class="n">some</span><span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">rows</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span><span class="o">&lt;</span><span class="n">i</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">Some</span> <span class="k">else</span> <span class="n">rnd</span><span class="o">.</span><span class="n">choices</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="n">i</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">Some</span><span class="p">)</span>
+    <span class="n">top</span><span class="o">=</span>  <span class="n">top</span> <span class="ow">or</span> <span class="n">i</span>
+    <span class="n">w</span>  <span class="o">=</span>  <span class="nb">any</span><span class="p">(</span><span class="n">some</span><span class="p">)</span>
+    <span class="n">_</span><span class="p">,</span><span class="n">x</span><span class="o">=</span>  <span class="n">top</span><span class="o">.</span><span class="n">far</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">some</span><span class="p">)</span>
+    <span class="n">c</span><span class="p">,</span><span class="n">y</span><span class="o">=</span>  <span class="n">top</span><span class="o">.</span><span class="n">far</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">some</span><span class="p">)</span>
+    <span class="n">tmp</span><span class="o">=</span>  <span class="p">[</span><span class="n">row</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span><span class="n">row</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">([(</span><span class="n">top</span><span class="o">.</span><span class="n">project</span><span class="p">(</span><span class="n">row</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">c</span><span class="p">),</span> <span class="n">row</span><span class="p">)</span> 
+                                    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">],</span><span class="n">key</span><span class="o">=</span><span class="n">first</span><span class="p">)]</span>
     <span class="n">mid</span><span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span>
     <span class="k">return</span> <span class="n">i</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span><span class="n">tmp</span><span class="p">[:</span><span class="n">mid</span><span class="p">]),</span> <span class="n">i</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="n">mid</span><span class="p">:]),</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">tmp</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span>
 
@@ -2840,30 +3066,11 @@ Then merge similar adjacent bins.</p>
     <span class="s2">&quot;Return a list of the mids of some columns.&quot;</span>
     <span class="k">return</span> <span class="p">[</span><span class="n">col</span><span class="o">.</span><span class="n">mid</span><span class="p">()</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="p">(</span><span class="n">cols</span> <span class="ow">or</span> <span class="n">i</span><span class="o">.</span><span class="n">all</span><span class="p">)]</span>
 
-  <span class="k">def</span> <span class="nf">proj</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">row</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">c</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">project</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">row</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">c</span><span class="p">):</span>
     <span class="s2">&quot;Find the distance of a `row` on a line between `x` and `y`.&quot;</span>
     <span class="n">a</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
     <span class="n">b</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">a</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">c</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">b</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">c</span><span class="p">)</span> 
-
-  <span class="k">def</span> <span class="nf">xplain</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">top</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Split the data using random projections. Find the span that most </span>
-<span class="sd">    separates the data. Divide data on that span.&quot;&quot;&quot;</span>
-    <span class="n">here</span> <span class="o">=</span> <span class="n">Explain</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-    <span class="n">top</span> <span class="o">=</span> <span class="n">top</span> <span class="ow">or</span> <span class="n">i</span>
-    <span class="n">tiny</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">top</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span><span class="o">**</span><span class="n">top</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">enough</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="o">*</span><span class="n">tiny</span><span class="p">:</span>
-      <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span><span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">half</span><span class="p">(</span><span class="n">top</span><span class="p">)</span>
-      <span class="n">spans</span> <span class="o">=</span> <span class="p">[]</span>
-      <span class="p">[</span><span class="n">lcol</span><span class="o">.</span><span class="n">spans</span><span class="p">(</span><span class="n">rcol</span><span class="p">,</span><span class="mi">6</span><span class="o">/</span><span class="n">top</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">xsmall</span><span class="p">,</span><span class="n">spans</span><span class="p">)</span> <span class="k">for</span> <span class="n">lcol</span><span class="p">,</span><span class="n">rcol</span>
-                                            <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">left</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">right</span><span class="o">.</span><span class="n">x</span><span class="p">)]</span>
-      <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">spans</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">here</span><span class="o">.</span><span class="n">span</span> <span class="o">=</span> <span class="n">Span</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">spans</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">yes</span><span class="p">,</span> <span class="n">no</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">clone</span><span class="p">(),</span> <span class="n">i</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
-        <span class="p">[(</span><span class="n">yes</span> <span class="k">if</span> <span class="n">here</span><span class="o">.</span><span class="n">span</span><span class="o">.</span><span class="n">selects</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">else</span> <span class="n">no</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">tiny</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">yes</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">):</span> <span class="n">here</span><span class="o">.</span><span class="n">yes</span> <span class="o">=</span> <span class="n">yes</span><span class="o">.</span><span class="n">xplain</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="n">top</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">tiny</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">no</span><span class="o">.</span><span class="n">rows</span> <span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">):</span> <span class="n">here</span><span class="o">.</span><span class="n">no</span>  <span class="o">=</span> <span class="n">no</span><span class="o">.</span><span class="n">xplain</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="n">top</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">here</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">a</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">c</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">b</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">c</span><span class="p">)</span>
 </pre></div>
 
         </details>
@@ -2893,7 +3100,7 @@ Then merge similar adjacent bins.</p>
 
         </details>
 
-            <div class="docstring"><p>Samples hold <code>rows</code>, summarized in <code>col</code>umns. The non-skipped columns
+            <div class="docstring"><p>Samples hold <code>rows</code>, summarized in <code><a href="#Sample.col">col</a></code>umns. The non-skipped columns
 are stored in <code>x,y</code> lists for independent and dependent columns. Also
 stored is the <code>klass</code> column and <code><a href="#the">the</a></code> configuration options.</p>
 </div>
@@ -2913,21 +3120,11 @@ stored is the <code>klass</code> column and <code><a href="#the">the</a></code> 
             <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;If we have no `cols`, this `a` is the first row with the column names.</span>
 <span class="sd">    Otherwise `a` is another row of data.&quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">pre</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">c</span><span class="p">)</span>    <span class="p">:</span> <span class="k">return</span> <span class="n">c</span><span class="o">.</span><span class="n">prep</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">at</span><span class="p">])</span> <span class="k">if</span> <span class="n">raw</span> <span class="k">else</span> <span class="n">a</span><span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">at</span><span class="p">]</span>
-    <span class="k">def</span> <span class="nf">is_num</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>   <span class="p">:</span> <span class="k">return</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isupper</span><span class="p">()</span>
-    <span class="k">def</span> <span class="nf">is_skip</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="p">:</span> <span class="k">return</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">==</span><span class="s2">&quot;:&quot;</span>
-    <span class="k">def</span> <span class="nf">is_klass</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="s2">&quot;!&quot;</span> <span class="ow">in</span> <span class="n">x</span>
-    <span class="k">def</span> <span class="nf">is_goal</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="p">:</span> <span class="k">return</span> <span class="s2">&quot;+&quot;</span> <span class="ow">in</span> <span class="n">x</span> <span class="ow">or</span> <span class="s2">&quot;-&quot;</span> <span class="ow">in</span> <span class="n">x</span> <span class="ow">or</span> <span class="n">is_klass</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">col</span><span class="p">(</span><span class="n">at</span><span class="p">,</span><span class="n">txt</span><span class="p">)</span> <span class="p">:</span> 
-      <span class="n">now</span> <span class="o">=</span> <span class="n">Num</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">Max</span><span class="p">,</span><span class="n">at</span><span class="o">=</span><span class="n">at</span><span class="p">,</span><span class="n">txt</span><span class="o">=</span><span class="n">txt</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_num</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span> <span class="k">else</span> <span class="n">Sym</span><span class="p">(</span><span class="n">at</span><span class="o">=</span><span class="n">at</span><span class="p">,</span><span class="n">txt</span><span class="o">=</span><span class="n">txt</span><span class="p">)</span>
-      <span class="n">where</span><span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">y</span> <span class="k">if</span> <span class="n">is_goal</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span> <span class="k">else</span> <span class="n">i</span><span class="o">.</span><span class="n">x</span>
-      <span class="k">if</span> <span class="ow">not</span> <span class="n">is_skip</span><span class="p">(</span><span class="n">txt</span><span class="p">):</span>
-        <span class="n">where</span> <span class="o">+=</span> <span class="p">[</span><span class="n">now</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">is_klass</span><span class="p">(</span><span class="n">txt</span><span class="p">):</span> <span class="n">i</span><span class="o">.</span><span class="n">klass</span> <span class="o">=</span> <span class="n">now</span>
-      <span class="k">return</span> <span class="n">now</span>
-    <span class="c1">#----------- </span>
-    <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">cols</span><span class="p">:</span> <span class="n">i</span><span class="o">.</span><span class="n">rows</span> <span class="o">+=</span> <span class="p">[</span><span class="n">Example</span><span class="p">([</span><span class="n">col</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">pre</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">col</span><span class="p">))</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">i</span><span class="o">.</span><span class="n">cols</span><span class="p">])]</span>
-    <span class="k">else</span><span class="p">:</span>      <span class="n">i</span><span class="o">.</span><span class="n">cols</span>  <span class="o">=</span> <span class="p">[</span><span class="n">col</span><span class="p">(</span><span class="n">at</span><span class="p">,</span><span class="n">txt</span><span class="p">)</span> <span class="k">for</span> <span class="n">at</span><span class="p">,</span><span class="n">txt</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">a</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="n">i</span><span class="o">.</span><span class="n">cols</span><span class="p">:</span> 
+      <span class="n">a</span> <span class="o">=</span> <span class="p">[</span> <span class="n">c</span><span class="o">.</span><span class="n">add</span><span class="p">(</span> <span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">prep</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">at</span><span class="p">])</span> <span class="k">if</span> <span class="n">raw</span> <span class="k">else</span> <span class="n">a</span><span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">at</span><span class="p">]))</span>  <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">i</span><span class="o">.</span><span class="n">cols</span> <span class="p">]</span>
+      <span class="n">i</span><span class="o">.</span><span class="n">rows</span> <span class="o">+=</span> <span class="p">[</span><span class="n">Example</span><span class="p">(</span><span class="n">a</span><span class="p">)]</span>
+    <span class="k">else</span><span class="p">:</span>      
+      <span class="n">i</span><span class="o">.</span><span class="n">cols</span>  <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="n">at</span><span class="p">,</span><span class="n">txt</span><span class="p">)</span> <span class="k">for</span> <span class="n">at</span><span class="p">,</span><span class="n">txt</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">a</span><span class="p">)]</span>
 </pre></div>
 
         </details>
@@ -2963,36 +3160,33 @@ Otherwise <code>a</code> is another row of data.</p>
 
 
                             </div>
-                            <div id="Sample.cluster" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#Sample.cluster">#&nbsp;&nbsp</a>
+                            <div id="Sample.col" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Sample.col">#&nbsp;&nbsp</a>
 
         
             <span class="def">def</span>
-            <span class="name">cluster</span><span class="signature">(i, top=None)</span>:
+            <span class="name">col</span><span class="signature">(i, at, txt)</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="nf">cluster</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">top</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Split the data using random projections. Find the span that most </span>
-<span class="sd">    separates the data. Divide data on that span.&quot;&quot;&quot;</span>
-    <span class="n">here</span> <span class="o">=</span> <span class="n">Cluster</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-    <span class="n">top</span> <span class="o">=</span> <span class="n">top</span> <span class="ow">or</span> <span class="n">i</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">top</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span><span class="o">**</span><span class="n">i</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">enough</span><span class="p">):</span>
-      <span class="n">left</span><span class="p">,</span><span class="n">right</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">mid</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">half</span><span class="p">(</span><span class="n">top</span><span class="p">)</span>
-      <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">left</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">):</span>
-        <span class="n">here</span>       <span class="o">=</span> <span class="n">Cluster</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">mid</span><span class="p">)</span>
-        <span class="n">here</span><span class="o">.</span><span class="n">left</span>  <span class="o">=</span> <span class="n">left</span><span class="o">.</span><span class="n">cluster</span><span class="p">(</span><span class="n">top</span><span class="p">)</span>
-        <span class="n">here</span><span class="o">.</span><span class="n">right</span> <span class="o">=</span> <span class="n">right</span><span class="o">.</span><span class="n">cluster</span><span class="p">(</span><span class="n">top</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">here</span>
+            <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="nf">col</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">at</span><span class="p">,</span><span class="n">txt</span><span class="p">):</span>
+    <span class="n">is_num</span>   <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isupper</span><span class="p">()</span>
+    <span class="n">is_skip</span>  <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;:&quot;</span>
+    <span class="n">is_klass</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;!&quot;</span> <span class="ow">in</span> <span class="n">x</span>
+    <span class="n">is_goal</span>  <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s2">&quot;+&quot;</span> <span class="ow">in</span> <span class="n">x</span> <span class="ow">or</span> <span class="s2">&quot;-&quot;</span> <span class="ow">in</span> <span class="n">x</span> <span class="ow">or</span> <span class="n">is_klass</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">is_skip</span><span class="p">(</span><span class="n">txt</span><span class="p">):</span>
+      <span class="k">return</span> <span class="n">Skip</span><span class="p">(</span><span class="n">at</span><span class="o">=</span><span class="n">at</span><span class="p">,</span><span class="n">txt</span><span class="o">=</span><span class="n">txt</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">now</span> <span class="o">=</span> <span class="n">Num</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">Max</span><span class="p">,</span><span class="n">at</span><span class="o">=</span><span class="n">at</span><span class="p">,</span><span class="n">txt</span><span class="o">=</span><span class="n">txt</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_num</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span> <span class="k">else</span> <span class="n">Sym</span><span class="p">(</span><span class="n">at</span><span class="o">=</span><span class="n">at</span><span class="p">,</span><span class="n">txt</span><span class="o">=</span><span class="n">txt</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">is_klass</span><span class="p">(</span><span class="n">txt</span><span class="p">):</span> <span class="n">i</span><span class="o">.</span><span class="n">klass</span> <span class="o">=</span> <span class="n">now</span>
+      <span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">y</span> <span class="k">if</span> <span class="n">is_goal</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span> <span class="k">else</span> <span class="n">i</span><span class="o">.</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">now</span> <span class="p">)</span>
+      <span class="k">return</span> <span class="n">now</span>
 </pre></div>
 
         </details>
 
-            <div class="docstring"><p>Split the data using random projections. Find the span that most 
-separates the data. Divide data on that span.</p>
-</div>
-
+    
 
                             </div>
                             <div id="Sample.far" class="classattr">
@@ -3006,13 +3200,15 @@ separates the data. Divide data on that span.</p>
                 <details>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="nf">far</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">rows</span><span class="p">):</span>
-    <span class="n">tmp</span><span class="o">=</span> <span class="nb">sorted</span><span class="p">([(</span><span class="n">x</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">i</span><span class="p">),</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="p">(</span><span class="n">rows</span> <span class="ow">or</span> <span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">)],</span><span class="n">key</span><span class="o">=</span><span class="n">first</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">tmp</span><span class="p">[</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span><span class="o">*</span><span class="n">i</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">far</span><span class="p">)</span> <span class="p">]</span>
+    <span class="s2">&quot;Return something `far` percent away from `x` in `rows`.&quot;</span>
+    <span class="k">return</span> <span class="n">per</span><span class="p">(</span><span class="nb">sorted</span><span class="p">([(</span><span class="n">x</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">i</span><span class="p">),</span><span class="n">y</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">],</span><span class="n">key</span><span class="o">=</span><span class="n">first</span><span class="p">),</span> <span class="n">i</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">far</span><span class="p">)</span>
 </pre></div>
 
         </details>
 
-    
+            <div class="docstring"><p>Return something <code><a href="#Sample.far">far</a></code> percent away from <code>x</code> in <code>rows</code>.</p>
+</div>
+
 
                             </div>
                             <div id="Sample.half" class="classattr">
@@ -3027,13 +3223,13 @@ separates the data. Divide data on that span.</p>
             <summary>View Source</summary>
             <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="nf">half</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="s2">&quot;Using two faraway points `x,y` break data at median distance.&quot;</span>
-    <span class="n">some</span><span class="o">=</span><span class="n">i</span><span class="o">.</span><span class="n">rows</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span><span class="o">&lt;</span><span class="n">i</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">Some</span> <span class="k">else</span> <span class="n">rnd</span><span class="o">.</span><span class="n">choices</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="n">i</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">Some</span><span class="p">)</span>
-    <span class="n">top</span><span class="o">=</span> <span class="n">top</span> <span class="ow">or</span> <span class="n">i</span>
-    <span class="n">w</span>  <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="n">some</span><span class="p">)</span>
-    <span class="n">_</span><span class="p">,</span><span class="n">x</span><span class="o">=</span> <span class="n">top</span><span class="o">.</span><span class="n">far</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">some</span><span class="p">)</span>
-    <span class="n">c</span><span class="p">,</span><span class="n">y</span><span class="o">=</span> <span class="n">top</span><span class="o">.</span><span class="n">far</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">some</span><span class="p">)</span>
-    <span class="n">tmp</span><span class="o">=</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span><span class="n">r</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">([(</span><span class="n">top</span><span class="o">.</span><span class="n">proj</span><span class="p">(</span><span class="n">r</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">c</span><span class="p">),</span><span class="n">r</span><span class="p">)</span> 
-                               <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">],</span><span class="n">key</span><span class="o">=</span><span class="n">first</span><span class="p">)]</span>
+    <span class="n">some</span><span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">rows</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span><span class="o">&lt;</span><span class="n">i</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">Some</span> <span class="k">else</span> <span class="n">rnd</span><span class="o">.</span><span class="n">choices</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="n">i</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">Some</span><span class="p">)</span>
+    <span class="n">top</span><span class="o">=</span>  <span class="n">top</span> <span class="ow">or</span> <span class="n">i</span>
+    <span class="n">w</span>  <span class="o">=</span>  <span class="nb">any</span><span class="p">(</span><span class="n">some</span><span class="p">)</span>
+    <span class="n">_</span><span class="p">,</span><span class="n">x</span><span class="o">=</span>  <span class="n">top</span><span class="o">.</span><span class="n">far</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">some</span><span class="p">)</span>
+    <span class="n">c</span><span class="p">,</span><span class="n">y</span><span class="o">=</span>  <span class="n">top</span><span class="o">.</span><span class="n">far</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">some</span><span class="p">)</span>
+    <span class="n">tmp</span><span class="o">=</span>  <span class="p">[</span><span class="n">row</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span><span class="n">row</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">([(</span><span class="n">top</span><span class="o">.</span><span class="n">project</span><span class="p">(</span><span class="n">row</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">c</span><span class="p">),</span> <span class="n">row</span><span class="p">)</span> 
+                                    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">],</span><span class="n">key</span><span class="o">=</span><span class="n">first</span><span class="p">)]</span>
     <span class="n">mid</span><span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span>
     <span class="k">return</span> <span class="n">i</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span><span class="n">tmp</span><span class="p">[:</span><span class="n">mid</span><span class="p">]),</span> <span class="n">i</span><span class="o">.</span><span class="n">clone</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="n">mid</span><span class="p">:]),</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">tmp</span><span class="p">[</span><span class="n">mid</span><span class="p">]</span>
 </pre></div>
@@ -3067,64 +3263,26 @@ separates the data. Divide data on that span.</p>
 
 
                             </div>
-                            <div id="Sample.proj" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#Sample.proj">#&nbsp;&nbsp</a>
+                            <div id="Sample.project" class="classattr">
+                                        <div class="attr function"><a class="headerlink" href="#Sample.project">#&nbsp;&nbsp</a>
 
         
             <span class="def">def</span>
-            <span class="name">proj</span><span class="signature">(i, row, x, y, c)</span>:
+            <span class="name">project</span><span class="signature">(i, row, x, y, c)</span>:
     </div>
 
                 <details>
             <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="nf">proj</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">row</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">c</span><span class="p">):</span>
+            <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="nf">project</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">row</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="n">c</span><span class="p">):</span>
     <span class="s2">&quot;Find the distance of a `row` on a line between `x` and `y`.&quot;</span>
     <span class="n">a</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
     <span class="n">b</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">dist</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">a</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">c</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">b</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">c</span><span class="p">)</span> 
+    <span class="k">return</span> <span class="p">(</span><span class="n">a</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">c</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">b</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">c</span><span class="p">)</span>
 </pre></div>
 
         </details>
 
             <div class="docstring"><p>Find the distance of a <code>row</code> on a line between <code>x</code> and <code>y</code>.</p>
-</div>
-
-
-                            </div>
-                            <div id="Sample.xplain" class="classattr">
-                                        <div class="attr function"><a class="headerlink" href="#Sample.xplain">#&nbsp;&nbsp</a>
-
-        
-            <span class="def">def</span>
-            <span class="name">xplain</span><span class="signature">(i, top=None)</span>:
-    </div>
-
-                <details>
-            <summary>View Source</summary>
-            <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="nf">xplain</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">top</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Split the data using random projections. Find the span that most </span>
-<span class="sd">    separates the data. Divide data on that span.&quot;&quot;&quot;</span>
-    <span class="n">here</span> <span class="o">=</span> <span class="n">Explain</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-    <span class="n">top</span> <span class="o">=</span> <span class="n">top</span> <span class="ow">or</span> <span class="n">i</span>
-    <span class="n">tiny</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">top</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span><span class="o">**</span><span class="n">top</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">enough</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="o">*</span><span class="n">tiny</span><span class="p">:</span>
-      <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span><span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">half</span><span class="p">(</span><span class="n">top</span><span class="p">)</span>
-      <span class="n">spans</span> <span class="o">=</span> <span class="p">[]</span>
-      <span class="p">[</span><span class="n">lcol</span><span class="o">.</span><span class="n">spans</span><span class="p">(</span><span class="n">rcol</span><span class="p">,</span><span class="mi">6</span><span class="o">/</span><span class="n">top</span><span class="o">.</span><span class="n">the</span><span class="o">.</span><span class="n">xsmall</span><span class="p">,</span><span class="n">spans</span><span class="p">)</span> <span class="k">for</span> <span class="n">lcol</span><span class="p">,</span><span class="n">rcol</span>
-                                            <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">left</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">right</span><span class="o">.</span><span class="n">x</span><span class="p">)]</span>
-      <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">spans</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">here</span><span class="o">.</span><span class="n">span</span> <span class="o">=</span> <span class="n">Span</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">spans</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">yes</span><span class="p">,</span> <span class="n">no</span> <span class="o">=</span> <span class="n">i</span><span class="o">.</span><span class="n">clone</span><span class="p">(),</span> <span class="n">i</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
-        <span class="p">[(</span><span class="n">yes</span> <span class="k">if</span> <span class="n">here</span><span class="o">.</span><span class="n">span</span><span class="o">.</span><span class="n">selects</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">else</span> <span class="n">no</span><span class="p">)</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">tiny</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">yes</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">):</span> <span class="n">here</span><span class="o">.</span><span class="n">yes</span> <span class="o">=</span> <span class="n">yes</span><span class="o">.</span><span class="n">xplain</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="n">top</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">tiny</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">no</span><span class="o">.</span><span class="n">rows</span> <span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">rows</span><span class="p">):</span> <span class="n">here</span><span class="o">.</span><span class="n">no</span>  <span class="o">=</span> <span class="n">no</span><span class="o">.</span><span class="n">xplain</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="n">top</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">here</span>
-</pre></div>
-
-        </details>
-
-            <div class="docstring"><p>Split the data using random projections. Find the span that most 
-separates the data. Divide data on that span.</p>
 </div>
 
 
@@ -3202,12 +3360,12 @@ separates the data. Divide data on that span.</p>
   <span class="k">def</span> <span class="nf">cluster</span><span class="p">():</span>
     <span class="s2">&quot;divide data in two&quot;</span>
     <span class="n">s</span> <span class="o">=</span> <span class="n">Sample</span><span class="p">(</span><span class="n">the</span><span class="p">,</span> <span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-    <span class="n">s</span><span class="o">.</span><span class="n">cluster</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">();</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">Cluster</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">();</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 
   <span class="k">def</span> <span class="nf">xplain</span><span class="p">():</span>
     <span class="s2">&quot;divide data in two&quot;</span>
     <span class="n">s</span> <span class="o">=</span> <span class="n">Sample</span><span class="p">(</span><span class="n">the</span><span class="p">,</span> <span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">);</span> 
-    <span class="n">s</span><span class="o">.</span><span class="n">xplain</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">();</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">Explain</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">();</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 
         </details>
@@ -3467,7 +3625,7 @@ separates the data. Divide data on that span.</p>
             <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="nf">cluster</span><span class="p">():</span>
     <span class="s2">&quot;divide data in two&quot;</span>
     <span class="n">s</span> <span class="o">=</span> <span class="n">Sample</span><span class="p">(</span><span class="n">the</span><span class="p">,</span> <span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-    <span class="n">s</span><span class="o">.</span><span class="n">cluster</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">();</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">Cluster</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">();</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 
         </details>
@@ -3490,7 +3648,7 @@ separates the data. Divide data on that span.</p>
             <div class="codehilite"><pre><span></span>  <span class="k">def</span> <span class="nf">xplain</span><span class="p">():</span>
     <span class="s2">&quot;divide data in two&quot;</span>
     <span class="n">s</span> <span class="o">=</span> <span class="n">Sample</span><span class="p">(</span><span class="n">the</span><span class="p">,</span> <span class="n">the</span><span class="o">.</span><span class="n">data</span><span class="p">);</span> 
-    <span class="n">s</span><span class="o">.</span><span class="n">xplain</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">();</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">Explain</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">show</span><span class="p">();</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 
         </details>
