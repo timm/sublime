@@ -116,6 +116,7 @@ For you will still be here tomorrow
 But your dreams may not
 
 
+
 This code has many sources. Semi-supervised learning.  abduction. active
 learning.  sequential model-based optimization random projections.
 multi-objective optimization and search-based SE (and duo). the
@@ -232,7 +233,7 @@ class o(object):
   def __repr__(i): 
     pre = i.__class__.__name__ if isinstance(i,o) else ""
     return pre+'{'+(' '.join([f":{k} {v}" for k, v in 
-                          sorted(i.__dict__.items()) if str(k)[0] != "_"]))+'?'
+                          sorted(i.__dict__.items()) if str(k)[0] != "_"]))+"}"
 
 def options(doc:str) ->o:
   """Convert `doc` to options dictionary using command line args.
@@ -585,6 +586,10 @@ class Cluster(o):
 #  (_-< / _` | | '  \  | '_ \ | | / -_)
 #  /__/ \__,_| |_|_|_| | .__/ |_| \___|
 #                      |_|             
+def sample0(the):
+  "Idioms for initializing top-level sample."
+  return Sample(copy.deepcopy(the), the.data)
+
 class Sample(o):
   "Load, then manage, a set of examples."
 
@@ -690,7 +695,7 @@ class Demos:
 
   def sample(): 
     "sampling."
-    s = Sample(the, the.data)
+    s = sample0(the)
     print(the.data, len(s.rows))
     print(s.x[3], s.rows[-1])
     assert 398 == len(s.rows),    "length of rows"
@@ -698,12 +703,13 @@ class Demos:
 
   def dist(): 
     "distance between rows"
-    s = Sample(the, the.data)
+    s = sample0(the)
     assert .84 <= s.rows[1].dist(s.rows[-1],s) <= .842
 
   def clone():
     "cloning"
-    s = Sample(the, the.data)
+    s = sample0(the)
+    dd(copy.deepcopy(the), the.data)
     s1 = s.clone(s.rows)
     d1,d2 = s.x[0].__dict__, s1.x[0].__dict__
     for k,v in d1.items(): 
@@ -712,21 +718,20 @@ class Demos:
 
   def half():
     "divide data in two"
-    s = Sample(the, the.data)
+    s = sample0(the)
     s1,s2,*_ = s.half()
     print(s1.mid(s1.y))
     print(s2.mid(s2.y))
 
   def cluster():
     "divide data in two"
-    s = Sample(the, the.data)
+    s = sample0(the)
     Cluster(s).show(); print("")
 
   def xplain():
     "divide data in two"
-    s = Sample(the, the.data); 
+    s = sample0(the)
     Explain(s).show(); print("")
-
 #---------------------------------------------------
 the = options(__doc__)
 if __name__ == "__main__": demo(the.todo,Demos)
