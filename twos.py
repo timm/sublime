@@ -14,9 +14,15 @@ lessp  = lambda x: x[-1] =="-"
 usep   = lambda x: not skipp(x)
 skipp  = lambda x: x[-1] == ":"
 nump   = lambda x: x[0].isupper()
+xnump  = lambda x: nump(x) and indep(x)
+xindep = lambda x: symp(x) and indep(x)
 symp   = lambda x: not nump(x)
 goalp  = lambda x: "+" in x or "-" in x or klassp(x)
 indep  = lambda x: not goalp(x)
+
+first  = lambda a: a[0]
+per    = lambda a,p=.5: a[ int(len(a)*p) ]
+any    = random.choose
 rint   = random.randint
 r      = random.random
 
@@ -28,15 +34,31 @@ class o(object):
             sorted(i.__dict__.items()) if str(k)[0] != "_"]))+"}"
 
 class Some(o):
-  def __init__(i,max): i.ok,i.max,i._all = 0,max,[]
+  def __init__(i,max): i.max,i._all = max,[]
   def add(i,x): 
     i.n += 1
-    if   len(i._all) < i.max     : i.ok=0; i._all += [x]
-    elif r()         < i.max/i.n : i.ok=0; i._all[rint(1,len(i._all))] = x 
-    return x
-  def sort(i, f=lambda x:x):
-    if i.ok==0: sort(i._all, key=f); i.ok=1
-    return i._all
+    if   len(i._all) < i.max     : i._all += [x]
+    elif r()         < i.max/i.n : i._all[rint(1,len(i._all))] = x 
+
+def jiggle(outer,inner,src):
+  def shuffle(a):  random.shuffle(a); return a
+  tmp=[]
+  for n,x in enumerate(src):
+    if n==0: yield row1
+    else:    
+      tmp += [x]
+      if len(tmp) > outer:
+        for y in shuffle(tmp): yield y
+        tmp=[]
+  for y in shuffle(tmp): yield y
+
+def ranges(src,first=1):
+  for row in src:
+    if first: 
+      first=0
+      xnums = {c:(big,-big) for c,s in enumerate(raw) if xnump(s)}
+      xsyms = {c for c,s in enumerate(raw) if xsymp(s)}
+    else:
 
 class Poles(o):
   def __init__(i,meta):
@@ -129,6 +151,62 @@ def jiggle(outer,inner,src):
         chunk=[]
   for chunk in chunks(inner,cache): yield chunk
 
+class Some(o):
+  def __init__(i,max): i.max,i.has = max,[]
+  def add(i,x): 
+    i.n += 1
+    if   len(i.has) < i.max    : i.has += [x]
+    elif r()        < i.max/i.n: i.has[rint(1,len(i.has))] = x 
+  def __len__(self): return len(self.has)
+
+
+class Poles(o):
+  def __init__(i,max,num,sym):
+    i.num, i.sym, i.has = [],[],Some(max)
+  def add(i,row):
+    i.has.add(row)
+    if len(i.has)> i.has.max:
+        c,i.left,i.right = i.far(i.some.has,some,far)
+
+    if i.left != None: i.left=row
+    
+  def far(i,rows,some,far):
+    def sample():
+      for _ in range(some):
+        r1,r2 = any(rows), any(rows)
+        if id(r1) != id(r2): yield i.dist(r1,r2),r1,r2 
+    return per(sorted(sample(rows,some),key=first),far)
+
+  def dist(i,xs,ys,p):
+    d=0
+    for col in i.num:
+      x,y = xs.row[col], ys.row[col]
+      if   x=="?" and y=="?": x,y = 1,0
+      elif x=="?"           : x = 1 if y < .5 else 0
+      elif y=="?"           : y = 1 if x < .5 else 0
+      d += abs(x - y)**p
+    for col in i.sym:
+      x,y = xs.row[col], ys.row[col]
+      d += (1 if x=="?" and y=="?" else (0 if x==y else 1))
+    return (d/(len(i.num)+len(i.sym)))**(1/p)
+
+
+
+def dist(i,x,y):
+   
+def two(rows,poles=None):
+  n = lambda x,lo,hi: x if x=="?" else (0 if hi-lo<1E-9 else (x-lo)/(hi-lo)) 
+  for raw in src:
+    if not poles:
+      xnums = [c for c,s in enumerate(raw) if xnump(s)]
+      xsyms = [c for c,s in enumerate(raw) if xsymp(s)]
+      poles = poles(xnums,xsyms)
+      lo    = {c: big for c in nums}
+      hi    = {c:-big for c in nums})
+    else:
+      row=o(raw=row,
+            row=[(n(x,lo[c],hi[c])if c in lo else x) for c,x in enumerate(row)])
+      
 def far(rows)
 def rows(src,some,meta=None):
   for n,raw in enumerate(src):
