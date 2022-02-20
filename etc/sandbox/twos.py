@@ -17,45 +17,123 @@ nump   = lambda x: x[0].isupper()
 symp   = lambda x: not nump(x)
 goalp  = lambda x: "+" in x or "-" in x or klassp(x)
 indep  = lambda x: not goalp(x)
+rint   = random.randint
+r      = random.random
 
-def p(s,*lst): return all([f(s) for f in lst])
+class o(object):
+  def __init__(i, **d): i.__dict__.update(**d)
+  def __repr__(i): 
+    pre = i.__class__.__name__ if isinstance(i,o) else ""
+    return pre+'{'+(' '.join([f":{k} {v}" for k, v in 
+            sorted(i.__dict__.items()) if str(k)[0] != "_"]))+"}"
 
-def atom(x):
-  try:    return float(x)
-  except: return x
+class Some(o):
+  def __init__(i,max): i.ok,i.max,i._all = 0,max,[]
+  def add(i,x): 
+    i.n += 1
+    if   len(i._all) < i.max     : i.ok=0; i._all += [x]
+    elif r()         < i.max/i.n : i.ok=0; i._all[rint(1,len(i._all))] = x 
+    return x
+  def sort(i, f=lambda x:x):
+    if i.ok==0: sort(i._all, key=f); i.ok=1
+    return i._all
 
-def rows(f):
+class Poles(o):
+  def __init__(i,meta):
+    i.meta,i.xs,i.left,i.right,i.c = meta, Num(), None,None,0
+  def add(i,row):
+    out = 0
+    if not i.left   : i.left  = row
+    elif not i.right: 
+      i.right = row
+      i.c = i.meta.dist(i.left,i.right)
+    if i.left and i.right:
+      a = i.meta.dist(row,i.left)
+      b = i.meta.dist(row,i.right)
+      if a>b and a>i.c : i.left, a,i.c = row,0,i.meta.dist(i.left,i.right)
+      if b>a and b>i.c : i.right,b,i.c = row,0,i.meta.dist(i.left,i.right)
+      x= (a**2 + c**2 - b**2)/(2*c)
+      i.xs.add(x)
+      out = -1 if x < xs.mu else 1
+    return out
+        
+class Meta(o):
+  def __init__(i,some,cols):
+    i.rows, i.all, i.x, i,y, i.some = [],[],[],[],Some(some)
+    i.all = [i.col(at,txt) for at,txt in enumerate(cols)]
+  def col(i,at,txt):
+    if skipp(txt): return Skip(at,txt)
+    now = (Num if nump(txt) else Sym)(at,txt)
+    (i.y if goalp(txt) else i.x).append(now)
+    return now
+  def add(i,lst):
+    [col.add(x) for col,x in zip(i.all,lst)]
+    return i.some.add(Row(i,lst))
+
+def Row(o):
+  def __init__(i,lst): i.cells = meta,lst
+  def __getitem__(i,k)  : return i.cells[k]
+  def __setitem__(i,k,v): i.cells[k] = v
+  def dist(i,j,cols,p):
+    d = sum(col.dist(i[col.at], j[col.at])**p for col in cols)
+    return (d/len(cols)) ** (1/p)
+
+def far(rows,cols,p):
+class Col(o):
+  def __init__(i,at=0,txt=""): i.n,i.at,i.txt = 0,at,txt
+  def dist(i,x,y): return 1 if x=="?" and y=="?" else i.dist1(x,y)
+  def add(i,x,inc=1):
+    if x!="?": i.n += inc; i.add1(x,inc)
+    return x
+
+class Skip(o): ...
+
+class Sym(o):
+  def __init__(i,**kw): super().__init__(**kw); i.has = {}
+  def add1(i,x): i.has[x] = inc + i.has.get(x,0)
+  def dist1(i,x,y): return 0 if x==y else 1
+
+class Num(o):
+  def __init__(i,**kw): super().__init__(**kw); i.hi, i.lo,i,mu = -big, big,0
+  def add1(i,x): i.lo,i.hi=min(x,i.lo),max(x,i.hi); i.mu += (x - i.mu)/i.n 
+  def dist1(i,x,y):
+    if   x=="?" : y = i.norm(y); x = 1 if y < .5 else 0
+    elif y=="?" : x = i.norm(x); y = 1 if x < .5 else 0
+    else        : x,y = i.norm(x), i.norm(y)
+    return abs(x - y)
+  def norm(i,x):
+    return x if x=="?" else (0 if i.hi-i.lo<1E-0 else (x-i.lo)/(i.hi-i.lo))
+
+def csv(f):
+  def atom(x):
+    try:    return float(x)
+    except: return x
   with open(f) as fp:
     for line in fp: 
       line = re.sub(r'([\n\t\r"\' ]|#.*)', '', line)
       if line: yield [atom(cell.strip()) for cell in line.split(",")]
 
-def shuffle(lst): random.shuffle(lst); return lst
+def cbunks(size,lst):
+  random.shuffle(lst)
+  for chunk in [lst[j:j + size] for j in range(0, len(lst), size)]:
+    yield lst
 
-def jiggle(most,src):
-  cache = []
+def jiggle(outer,inner,src):
+  cache=[]
   for n,row1 in enumerate(src):
     if n==0: yield row1
-    else:
+    else:    
       cache += [row1]
-      if len(cache) > most:
-        for row2 in shuffle(cache): yield row2
-        cache = []
-  for row2 in shuffle(cache): yield row2
+      if len(cache) > outer:
+        for chunk in chunks(inner,cache): yield chunk
+        chunk=[]
+  for chunk in chunks(inner,cache): yield chunk
 
-def norm(src):
+def far(rows)
+def rows(src,some,meta=None):
   for n,raw in enumerate(src):
-    if n==0:
-      num= {c:(-big,big) for c,s in enumerate(raw) if nump(s) and usep(s)}
-      header = raw
-    else:
-      cooked = [x for x in raw]
-      for c in lo: 
-        v = raw[c]; 
-        if v != "?":
-          lo,hi = num[c]; lo,hi = min(v, lo), max(v, hi)
-          cooked[c] = 0 if hi-lo<1E-9 else (v-lo)/(hi-lo)
-      yield header, raw,  cooked
+    if not meta: meta=Meta(some,raw)
+    else       : yield meta.add(row)
 
 def two(src):
   num,syn = [],[]
